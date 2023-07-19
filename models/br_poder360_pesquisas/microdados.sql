@@ -24,3 +24,4 @@ SAFE_CAST(sigla_partido AS STRING) sigla_partido,
 SAFE_CAST(condicao AS INT64) condicao,
 SAFE_CAST(percentual AS FLOAT64) percentual
 FROM basedosdados-dev.br_poder360_pesquisas_staging.microdados AS t
+WHERE DATE_DIFF(CURRENT_DATE(),SAFE_CAST(data AS DATE),month) >= 6

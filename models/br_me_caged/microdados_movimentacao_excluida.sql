@@ -41,3 +41,4 @@ SAFE_CAST(origem_informacao AS STRING) origem_informacao,
 SAFE_CAST(indicador_exclusao AS INT64) indicador_exclusao,
 SAFE_CAST(indicador_fora_prazo AS INT64) indicador_fora_prazo
 FROM basedosdados-dev.br_me_caged_staging.microdados_movimentacao_excluida AS t
+WHERE DATE_DIFF(CURRENT_DATE(),DATE(SAFE_CAST(ano AS INT64),SAFE_CAST(mes AS INT64),01),month) >= 6

@@ -22,5 +22,5 @@ SAFE_CAST(plano_contabil_balancete AS STRING) plano_contabil_balancete,
 SAFE_CAST(codigo_conta AS STRING) codigo_conta,
 SAFE_CAST(saldo_conta AS FLOAT64) saldo_conta,
 FROM basedosdados-dev.br_cvm_fi_staging.documentos_balancete AS t
-
+WHERE DATE_DIFF(CURRENT_DATE(),DATE(SAFE_CAST(ano AS INT64),SAFE_CAST(mes AS INT64),01),month) >= 6
 

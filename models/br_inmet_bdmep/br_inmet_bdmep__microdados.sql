@@ -22,3 +22,4 @@ SAFE_CAST(vento_direcao AS FLOAT64) vento_direcao,
 SAFE_CAST(vento_rajada_max AS FLOAT64) vento_rajada_max,
 SAFE_CAST(vento_velocidade AS FLOAT64) vento_velocidade
 FROM basedosdados-dev.br_inmet_bdmep_staging.microdados AS t
+WHERE DATE_DIFF(CURRENT_DATE(),SAFE_CAST(data AS DATE),month) >= 6

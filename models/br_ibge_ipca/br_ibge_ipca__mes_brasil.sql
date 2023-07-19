@@ -9,3 +9,4 @@ SAFE_CAST(variacao_semestral AS FLOAT64) variacao_semestral,
 SAFE_CAST(variacao_anual AS FLOAT64) variacao_anual,
 SAFE_CAST(variacao_doze_meses AS FLOAT64) variacao_doze_meses
 FROM basedosdados-dev.br_ibge_ipca_staging.mes_brasil AS t
+WHERE DATE_DIFF(CURRENT_DATE(),DATE(SAFE_CAST(ano AS INT64),SAFE_CAST(mes AS INT64),01),month) >= 6

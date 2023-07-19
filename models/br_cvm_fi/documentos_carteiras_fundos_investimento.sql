@@ -74,3 +74,4 @@ SAFE_CAST(descricao_ativo_exterior AS STRING) descricao_ativo_exterior,
 SAFE_CAST(REPLACE(quantidade_ativos_exterior,'.0','') AS INT64) quantidade_ativos_exterior,
 SAFE_CAST(valor_ativo_exterior AS FLOAT64) valor_ativo_exterior,
 FROM basedosdados-dev.br_cvm_fi_staging.documentos_carteiras_fundos_investimento AS t
+WHERE DATE_DIFF(CURRENT_DATE(),DATE(SAFE_CAST(ano AS INT64),SAFE_CAST(mes AS INT64),01),month) >= 6

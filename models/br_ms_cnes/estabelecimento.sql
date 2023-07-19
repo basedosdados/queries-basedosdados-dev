@@ -245,3 +245,4 @@ cnes_add_muni AS (
   SAFE_CAST(AP07CV05 AS INT64) indicador_atendimento_regulacao_plano_saude_publico,
   SAFE_CAST(AP07CV06 AS INT64) indicador_atendimento_regulacao_plano_saude_privado
   FROM cnes_add_muni AS t
+  WHERE DATE_DIFF(CURRENT_DATE(),DATE(SAFE_CAST(ano AS INT64),SAFE_CAST(mes AS INT64),01),month) >= 6

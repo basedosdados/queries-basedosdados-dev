@@ -20,3 +20,4 @@ SAFE_CAST(ddd AS STRING) ddd,
 SAFE_CAST(fone AS STRING) fone,
 SAFE_CAST(id_instalacao AS STRING) id_instalacao
 FROM basedosdados-dev.br_bcb_agencia_staging.agencia AS t
+WHERE DATE_DIFF(CURRENT_DATE(),DATE(SAFE_CAST(ano AS INT64),SAFE_CAST(mes AS INT64),01),month) >= 6

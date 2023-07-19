@@ -438,4 +438,5 @@ SAFE_CAST(V1028199 AS FLOAT64) V1028199,
 SAFE_CAST(V1028200 AS FLOAT64) V1028200,
 SAFE_CAST(habitual AS FLOAT64) habitual,
 SAFE_CAST(efetivo AS FLOAT64) efetivo
-FROM basedosdados-dev.br_ibge_pnadc_staging.microdados AS t
+FROM basedosdados-staging.br_ibge_pnadc_staging.microdados AS t
+WHERE DATE_DIFF(CURRENT_DATE(),DATE(SAFE_CAST(ano AS INT64),SAFE_CAST(trimestre*3 AS INT64),01),month) >= 6

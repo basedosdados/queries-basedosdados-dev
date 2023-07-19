@@ -53,3 +53,4 @@ SAFE_CAST(HORAOUTR AS INT64) carga_horaria_outros,
 SAFE_CAST(HORAHOSP AS INT64) carga_horaria_hospitalar,
 SAFE_CAST(HORA_AMB AS INT64) carga_horaria_ambulatorial
 FROM raw_cnes_profissional_dir 
+WHERE DATE_DIFF(CURRENT_DATE(),DATE(SAFE_CAST(ano AS INT64),SAFE_CAST(mes AS INT64),01),month) >= 6
