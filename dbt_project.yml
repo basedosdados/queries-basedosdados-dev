@@ -136,7 +136,10 @@ models:
       +schema: br_inmet_bdmep
     br_inpe_queimadas: 
       +materialized: table 
-      +schema: br_inpe_queimadas 
+      +schema: br_inpe_queimadas
+    br_inpe_sisam: 
+      +materialized: table 
+      +schema: br_inpe_sisam  
     br_poder360_pesquisas:
       +materialized: table
       +schema: br_poder360_pesquisas
