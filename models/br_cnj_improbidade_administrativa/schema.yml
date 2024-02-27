@@ -1,28 +1,28 @@
+---
 version: 2
-
 models:
-  - name: br_cnj_improbidade_administrativa__condenacao
-    description: Insert `condenacao` table description here
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-            combination_of_columns:
-              - insert unique keys here
-      - not_null_proportion_multiple_columns:
-            at_least: 0.05
+  - name: condenacao
+    description: Informações sobre processos já julgados, como nome da pessoa/empresa, data da pena, duração da pena, valor da multa.
     columns:
       - name: nome
         description: Nome da pessoa, CPF ou CNPJ
       - name: numero_processo
         description: Número do processo
+        tests:
+          - not_null
       - name: id_condenacao
         description: ID da condenaçao
+        tests:
+          - not_null
       - name: id_processo
         description: ID do processo
+        tests:
+          - not_null
       - name: tipo_pessoa
         description: Tipo da pessoa, física ou jurídica
       - name: id_pessoa
         description: ID interno da pessoa. É utilizado para buscar informações da
-            pessoa
+          pessoa
       - name: sexo
         description: Sexo
       - name: funcionario_publico
@@ -37,8 +37,8 @@ models:
         description: Sigla UF
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_nacional__uf')
-                field: sigla
+              to: ref('br_bd_diretorios_nacional__uf')
+              field: sigla
       - name: cod
         description: Código interno da pessoa
       - name: instancia
@@ -53,14 +53,14 @@ models:
         description: Data da propositura da ação
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: data_cadastro
         description: Data de cadastro da informação
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: esfera_gabinete_desembargador
         description: Esfera do gabinete do desembargador
       - name: gabinete_desembargador
@@ -83,8 +83,8 @@ models:
         description: Data da pena
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: teve_inelegivel
         description: Teve inelegível
       - name: teve_multa
@@ -97,92 +97,92 @@ models:
         description: Data de inicio da pena
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: fim_pena
         description: Data final da pena
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: teve_perda_bens
         description: Teve perda de bens
       - name: valor_perda_bens
         description: Valor da perda de bens ou valores acrescidos ilicitamente ao
-            patrimônio
+          patrimônio
       - name: teve_perda_cargo
         description: Teve perda de Emprego/Cargo/Função Pública
       - name: proibica
         description: Proibição de Contratar com o Poder Público ou receber incentivos
-            fiscais ou creditícios, direta ou indiretamente, ainda que por intermédio
-            de pessoa jurídica da qual seja sócio majoritário
+          fiscais ou creditícios, direta ou indiretamente, ainda que por intermédio
+          de pessoa jurídica da qual seja sócio majoritário
       - name: inicio_proibicao
         description: Data de início da proibição de contratar com o Poder Público
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: fim_proibicao
         description: Data fim da proibição de contratar com o Poder Público
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: proibicao_contratar_poder_publico
         description: Proibição de Contratar com o Poder Público, direta ou indiretamente,
-            ainda que por intermédio de pessoa jurídica da qual seja sócio majoritário?
+          ainda que por intermédio de pessoa jurídica da qual seja sócio majoritário?
       - name: inicio_proibicao_contratar_poder_publico
         description: Início da Proibição de Contratar com o Poder Público, direta
-            ou indiretamente, ainda que por intermédio de pessoa jurídica da qual
-            seja sócio majoritário
+          ou indiretamente, ainda que por intermédio de pessoa jurídica da qual seja
+          sócio majoritário
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: fim_proibicao_contratar_poder_publico
         description: Fim da Proibição de Contratar com o Poder Público, direta ou
-            indiretamente, ainda que por intermédio de pessoa jurídica da qual seja
-            sócio majoritário
+          indiretamente, ainda que por intermédio de pessoa jurídica da qual seja
+          sócio majoritário
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: proibicao_receber_incentivos_fiscais
         description: Proibição de receber incentivos fiscais, direta ou indiretamente,
-            ainda que por intermédio de pessoa jurídica da qual seja sócio majoritário?
+          ainda que por intermédio de pessoa jurídica da qual seja sócio majoritário?
       - name: inicio_proibicao_receber_incentivos_fiscais
         description: Início Proibição de receber incentivos fiscais, direta ou indiretamente,
-            ainda que por intermédio de pessoa jurídica da qual seja sócio majoritário
+          ainda que por intermédio de pessoa jurídica da qual seja sócio majoritário
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: fim_proibicao_receber_incentivos_fiscais
         description: Fim Proibição de receber incentivos fiscais, direta ou indiretamente,
-            ainda que por intermédio de pessoa jurídica da qual seja sócio majoritário
+          ainda que por intermédio de pessoa jurídica da qual seja sócio majoritário
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: proibicao_receber_incentivos_crediticios
         description: Proibição de receber incentivos creditícios, direta ou indiretamente,
-            ainda que por intermédio de pessoa jurídica da qual seja sócio majoritário?
+          ainda que por intermédio de pessoa jurídica da qual seja sócio majoritário?
       - name: inicio_proibicao_receber_incentivos_crediticios
         description: Iniício da Proibição de receber incentivos creditícios, direta
-            ou indiretamente, ainda que por intermédio de pessoa jurídica da qual
-            seja sócio majoritário
+          ou indiretamente, ainda que por intermédio de pessoa jurídica da qual seja
+          sócio majoritário
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: fim_proibicao_receber_incentivos_crediticios
         description: Fim da Proibição de receber incentivos creditícios, direta ou
-            indiretamente, ainda que por intermédio de pessoa jurídica da qual seja
-            sócio majoritário
+          indiretamente, ainda que por intermédio de pessoa jurídica da qual seja
+          sócio majoritário
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: teve_ressarcimento
         description: Teve ressarcimento integral do dano
       - name: valor_ressarcimento
@@ -193,14 +193,14 @@ models:
         description: Data de início da suspensão
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: fim_suspensao
         description: Data fim da suspensão
         tests:
           - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: comunicado_tse
         description: A suspensão foi comunicada ao TSE
       - name: situacao

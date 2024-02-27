@@ -27,7 +27,7 @@ select
     safe_cast(esfera_pessoa as string) esfera_funcionario,
     safe_cast(orgao as string) orgao,
     safe_cast(cargo as string) cargo,
-    safe_cast(uf as string) sigla_uf,
+    safe_cast(if(length(uf) = 2, uf, null) as string) sigla_uf,
     safe_cast(cod as string) cod,
     -- safe_cast(instancia as string) instancia,
     case
