@@ -840,7 +840,10 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
             combination_of_columns:
-              - insert unique keys here
+              - ano
+              - id_municipio
+              - tipo_esgotamento_sanitario
+              - tipo_quantidade_banheiro
       - not_null_proportion_multiple_columns:
             at_least: 0.05
     columns:
@@ -869,7 +872,9 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
             combination_of_columns:
-              - insert unique keys here
+              - ano
+              - id_municipio
+              - tipo_esgotamento_sanitario
       - not_null_proportion_multiple_columns:
             at_least: 0.05
     columns:
@@ -895,7 +900,10 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
             combination_of_columns:
-              - insert unique keys here
+              - ano
+              - id_municipio
+              - tipo_abastecimento_agua
+              - tipo_canalizacao_agua
       - not_null_proportion_multiple_columns:
             at_least: 0.05
     columns:
@@ -919,7 +927,9 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
             combination_of_columns:
-              - insert unique keys here
+              - ano
+              - id_municipio
+              - tipo_ligacao_rede_geral
       - not_null_proportion_multiple_columns:
             at_least: 0.05
     columns:
@@ -945,7 +955,9 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
             combination_of_columns:
-              - insert unique keys here
+              - ano
+              - id_municipio
+              - tipo_domicilio
       - not_null_proportion_multiple_columns:
             at_least: 0.05
     columns:
@@ -971,7 +983,11 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
             combination_of_columns:
-              - insert unique keys here
+              - ano
+              - id_municipio
+              - tipo_esgotamento_sanitario
+              - grupo_idade
+              - cor_raca
       - not_null_proportion_multiple_columns:
             at_least: 0.05
     columns:
@@ -995,13 +1011,17 @@ models:
         description: Cor ou Raça
       - name: moradores
         description: 'Moradores em domicílios particulares permanentes ocupados        '
-  - name: br_ibge_censo_2022__morador_cor_racao_tipo_domicilio_municipio
-    description: Insert `morador_cor_racao_tipo_domicilio_municipio` table description
+  - name: br_ibge_censo_2022__morador_cor_raca_tipo_domicilio_municipio
+    description: Insert `morador_cor_raca_tipo_domicilio_municipio` table description
         here
     tests:
       - dbt_utils.unique_combination_of_columns:
             combination_of_columns:
-              - insert unique keys here
+              - ano
+              - id_municipio
+              - tipo_domicilio
+              - grupo_idade
+              - cor_raca
       - not_null_proportion_multiple_columns:
             at_least: 0.05
     columns:
@@ -1030,7 +1050,9 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
             combination_of_columns:
-              - insert unique keys here
+              - ano
+              - id_municipio
+              - tipo_destino_lixo
       - not_null_proportion_multiple_columns:
             at_least: 0.05
     columns:
@@ -1056,7 +1078,11 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
             combination_of_columns:
-              - insert unique keys here
+              - ano
+              - id_municipio
+              - tipo_ligacao_rede_geral
+              - grupo_idade
+              - cor_raca
       - not_null_proportion_multiple_columns:
             at_least: 0.05
     columns:
@@ -1087,7 +1113,11 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
             combination_of_columns:
-              - insert unique keys here
+              - ano
+              - id_municipio
+              - tipo_destino_lixo
+              - grupo_idade
+              - cor_raca
       - not_null_proportion_multiple_columns:
             at_least: 0.05
     columns:
