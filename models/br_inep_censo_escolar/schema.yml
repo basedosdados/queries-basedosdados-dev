@@ -2,7 +2,7 @@
 version: 2
 models:
   - name: br_inep_censo_escolar__escola
-    description: A tabela contém dados do Censo Escolar ao nível de cada escola. Os
+    description: A tabela traz dados do Censo Escolar ao nível de cada escola. Os
       dados são organizados em mais de 400 variáveis que traçam um perfil completo
       da escola, caracterizando desde a infraestrutura física disponível, a equipe
       pedagógica, a infraestrutura pedagógica, marcas do período letivo como seu começo
