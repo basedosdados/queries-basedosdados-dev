@@ -39,8 +39,6 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_nacional__uf')
               field: sigla
-      - name: cod
-        description: Código interno da pessoa
       - name: instancia
         description: Instância
       - name: tribunal

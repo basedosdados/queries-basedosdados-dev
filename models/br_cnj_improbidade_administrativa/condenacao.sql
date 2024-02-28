@@ -25,11 +25,20 @@ select
     case
         when publico = "S" then true when publico = "N" then false else null
     end as funcionario_publico,
-    safe_cast(esfera_pessoa as string) esfera_funcionario,
+    case
+        when esfera_pessoa = "F"
+        then "Federal"
+        when esfera_pessoa = "D"
+        then "Distrital"
+        when esfera_pessoa = "E"
+        then "Estadual"
+        when esfera_pessoa = "M"
+        then "Municipal"
+        else null
+    end as esfera_funcionario,
     safe_cast(orgao as string) orgao,
     safe_cast(cargo as string) cargo,
     safe_cast(if(length(uf) = 2, uf, null) as string) sigla_uf,
-    safe_cast(cod as string) cod,
     case
         when
             coalesce(`1o_grau___justica_estadual`, `1o_grau___justica_federal`)
