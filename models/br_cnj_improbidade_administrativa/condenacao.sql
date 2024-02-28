@@ -1,6 +1,7 @@
 {{
     config(
         schema="br_cnj_improbidade_administrativa",
+        alias="condenacao",
         materialized="table",
     )
 }}
@@ -29,7 +30,6 @@ select
     safe_cast(cargo as string) cargo,
     safe_cast(if(length(uf) = 2, uf, null) as string) sigla_uf,
     safe_cast(cod as string) cod,
-    -- safe_cast(instancia as string) instancia,
     case
         when
             coalesce(`1o_grau___justica_estadual`, `1o_grau___justica_federal`)
@@ -43,7 +43,6 @@ select
         then "Militar"
         else null
     end as instancia,
-    -- safe_cast(tribunal as string) tribunal,
     safe_cast(
         coalesce(
             tribunal_de_justica_estadual,
@@ -53,10 +52,10 @@ select
     ) as tribunal,
     safe_cast(esfera as string) esfera_processo,
     safe_cast(comarca as string) comarca,
-    -- safe_cast(data_propositura as date) data_propositura,
-    parse_datetime('%d/%m/%Y %H:%M:%S', data_cadastro) as data_cadastro,
-    -- TODO: adicionar data_propositura
-    -- safe_cast(esfera_gabinete_desembargador as string) esfera_gabinete_desembargador,
+    safe_cast(parse_datetime('%d/%m/%Y', data_propositura) as date) data_propositura,
+    safe_cast(
+        parse_datetime('%d/%m/%Y %H:%M:%S', data_cadastro) as date
+    ) as data_cadastro,
     case
         when gabinete_de_desembargador_estadual is not null
         then "Estadual"
@@ -64,18 +63,14 @@ select
         then "Federal"
         else null
     end as esfera_gabinete_desembargador,
-    -- safe_cast(gabinete_desembargador as string) gabinete_desembargador,
     safe_cast(
         coalesce(
             gabinete_de_desembargador_estadual, gabinete_de_desembargador_federal
         ) as string
     ) as gabinete_desembargador,
     safe_cast(secao_judiciaria as string) secao_judiciaria,
-    -- safe_cast(subsecao_1 as string) subsecao_1,
-    -- safe_cast(subsecao_2 as string) subsecao_2,
     safe_cast(coalesce(subsecao, subsecao_1) as string) as subsecao_1,
     safe_cast(subsecao_2 as string) as subsecao_2,
-    -- safe_cast(esfera_vara_juizado as string) esfera_vara_juizado,
     case
         when
             coalesce(
@@ -95,24 +90,20 @@ select
         then "Estadual"
         else null
     end as esfera_vara_juizado,
-    -- safe_cast(vara_juizados_1 as string) vara_juizados_1,
     coalesce(
         varas_e_juizados_federais,
         varas_e_juizados_federais_1,
         varas_e_juizados_estaduais,
         varas_e_juizados_estaduais_1
     ) as vara_juizados_1,
-    -- safe_cast(vara_juizados_2 as string) vara_juizados_2,
     coalesce(
         varas_e_juizados_federais_2, varas_e_juizados_estaduais_2
     ) as vara_juizados_2,
     safe_cast(auditoria_militar as string) auditoria_militar,
-    -- safe_cast(data_pena as date) data_pena,
     safe_cast(
         parse_datetime('%d/%m/%Y', data_do_transito_em_julgado) as date
     ) as data_pena,
     safe_cast(if(inelegibilidade = "SIM", true, false) as bool) teve_inelegivel,
-    -- safe_cast(teve_multa as bool) teve_multa,
     safe_cast(
         if(
             pagamento_de_multa is not null,
@@ -120,7 +111,6 @@ select
             false
         ) as bool
     ) as teve_multa,
-    -- safe_cast(valor_multa as float64) valor_multa,
     safe_cast(
         replace(
             replace(substr(pagamento_de_multa, length("SIM Valor R$ ")), ".", ""),
@@ -128,7 +118,6 @@ select
             "."
         ) as float64
     ) as valor_multa,
-    -- safe_cast(teve_pena as bool) teve_pena
     safe_cast(
         if(
             pena_privativa_de_liberdade is not null,
@@ -136,7 +125,6 @@ select
             false
         ) as bool
     ) teve_pena,
-    -- safe_cast(inicio_pena as date) inicio_pena,
     safe_cast(
         parse_datetime(
             "%d/%m/%Y",
@@ -145,7 +133,6 @@ select
             )
         ) as date
     ) as inicio_pena,
-    -- safe_cast(fim_pena as date) fim_pena,
     safe_cast(
         parse_datetime(
             "%d/%m/%Y",
@@ -154,13 +141,11 @@ select
             )
         ) as date
     ) as fim_pena,
-    -- TODO: nova coluna
     safe_cast(
         regexp_extract(
             pena_privativa_de_liberdade, r'Anos: [^ ]+ Meses: [^ ]+ Dias: [^ ]+'
         ) as string
     ) as duracao_pena,
-    -- safe_cast(teve_perda_bens as bool) teve_perda_bens,
     safe_cast(
         if(
             perda_de_bens_ou_valores_acrescidos_ilicitamente_ao_patrimonio is not null,
@@ -170,7 +155,6 @@ select
             false
         ) as bool
     ) teve_perda_bens,
-    -- safe_cast(valor_perda_bens as float64) valor_perda_bens,
     safe_cast(
         replace(
             replace(
@@ -185,11 +169,9 @@ select
             "."
         ) as float64
     ) as valor_perda_bens,
-    -- safe_cast(teve_perda_cargo as bool) teve_perda_cargo,
     safe_cast(
         if(perda_de_emprego_cargo_funcao_publica = "SIM", true, false) as bool
     ) teve_perda_cargo,
-    -- safe_cast(teve_proibicao as bool) teve_proibicao,
     safe_cast(
         if(
             proibicao_de_contratar_com_o_poder_publico_ou_receber_incentivos_fiscais_ou_crediticios__direta_ou_indiretamente__ainda_que_por_intermedio_de_pessoa_juridica_da_qual_seja_socio_majoritario
@@ -207,7 +189,6 @@ select
             )
         ) as date
     ) as inicio_proibicao,
-    -- safe_cast(fim_pena as date) fim_pena,
     safe_cast(
         parse_datetime(
             "%d/%m/%Y",
@@ -263,7 +244,6 @@ select
             )
         ) as date
     ) as inicio_proibicao_receber_incentivos_fiscais,
-    -- safe_cast(fim_pena as date) fim_pena,
     safe_cast(
         parse_datetime(
             "%d/%m/%Y",
@@ -291,7 +271,6 @@ select
             )
         ) as date
     ) as inicio_proibicao_receber_incentivos_crediticios,
-    -- safe_cast(fim_pena as date) fim_pena,
     safe_cast(
         parse_datetime(
             "%d/%m/%Y",
@@ -302,11 +281,9 @@ select
         ) as date
     ) as fim_proibicao_receber_incentivos_crediticios,
 
-    -- safe_cast(teve_ressarcimento as bool) teve_ressarcimento,
     safe_cast(
         contains_substr(ressarcimento_integral_do_dano, "SIM") as bool
     ) teve_ressarcimento,
-    -- safe_cast(valor_ressarcimento as float64) valor_ressarcimento,
     safe_cast(
         replace(
             replace(
@@ -316,7 +293,6 @@ select
             "."
         ) as float64
     ) as valor_ressarcimento,
-    -- safe_cast(teve_suspensao as bool) teve_suspensao,
     safe_cast(
         if(
             ressarcimento_integral_do_dano is not null,
@@ -324,7 +300,6 @@ select
             false
         ) as bool
     ) teve_suspensao,
-    -- safe_cast(inicio_suspensao as date) inicio_suspensao,
     safe_cast(
         parse_datetime(
             "%d/%m/%Y",
@@ -333,7 +308,6 @@ select
             )
         ) as date
     ) as inicio_suspensao,
-    -- safe_cast(fim_suspensao as date) fim_suspensao,
     safe_cast(
         parse_datetime(
             "%d/%m/%Y",
@@ -342,7 +316,6 @@ select
             )
         ) as date
     ) as fim_suspensao,
-    -- safe_cast(comunicacao_tse as bool) comunicado_tse,
     safe_cast(
         if(
             suspensao_dos_direitos_politicos is not null,
@@ -356,11 +329,10 @@ select
     safe_cast(
         if(tipo_julgamento = "J", "Trânsito em julgado", "Órgão colegiado") as string
     ) tipo_julgamento,
-    -- safe_cast(visualizacao_pena as string) visualizacao_pena,
-    -- safe_cast(assunto_cod_1 as string) assunto_cod_1,
     safe_cast(assunto_1 as string) assunto_1,
     safe_cast(assunto_2 as string) assunto_2,
     safe_cast(assunto_3 as string) assunto_3,
     safe_cast(assunto_4 as string) assunto_4,
     safe_cast(assunto_5 as string) assunto_5,
 from `basedosdados-dev.br_cnj_improbidade_administrativa_staging.condenacao`
+
