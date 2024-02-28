@@ -344,4 +344,3 @@ select
     safe_cast(assunto_4 as string) assunto_4,
     safe_cast(assunto_5 as string) assunto_5,
 from `basedosdados-dev.br_cnj_improbidade_administrativa_staging.condenacao`
-
