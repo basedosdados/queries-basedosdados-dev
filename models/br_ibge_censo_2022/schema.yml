@@ -1140,4 +1140,4 @@ models:
       - name: cor_raca
         description: Cor ou Raça
       - name: moradores
-        description: 'Moradores em domicílios particulares permanentes ocupados
+        description: Moradores em domicílios particulares permanentes ocupados
