@@ -6,14 +6,14 @@
 )
 }}
 
-SELECT 
-SAFE_CAST(name AS STRING) name,
-SAFE_CAST(birth_date AS DATE) birth_date,
-SAFE_CAST(birthplace AS STRING) birthplace,
-SAFE_CAST(race_ethnicity AS STRING) race_ethnicity,
-SAFE_CAST(religion AS STRING) religion,
-SAFE_CAST(sexual_orientation AS STRING) sexual_orientation,
-SAFE_CAST(year_edition AS INT64) year_edition,
-SAFE_CAST(category AS STRING) category,
-SAFE_CAST(movie AS STRING) movie,
+SELECT DISTINCT
+safe_cast(name AS STRING) name,
+safe_cast(birth_date AS DATE) birth_date,
+safe_cast(birthplace AS STRING) birthplace,
+safe_cast(race_ethnicity AS STRING) race_ethnicity,
+safe_cast(religion AS STRING) religion,
+safe_cast(sexual_orientation AS STRING) sexual_orientation,
+safe_cast(year_edition AS INT64) year_edition,
+safe_cast(category AS STRING) category,
+safe_cast(movie AS STRING) movie,
 FROM basedosdados-dev.world_ampas_oscar_staging.winner_demographics AS t
