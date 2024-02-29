@@ -1,5 +1,6 @@
 {{ config(alias="orgao_deputado", schema="br_camara_dados_abertos") }}
 select distinct
+    regexp_extract(uriorgao, r'/orgaos/(\d+)') as id_orgao,
     safe_cast(nomeorgao as string) nome,
     safe_cast(siglaorgao as string) sigla,
     safe_cast(uriorgao as string) url,

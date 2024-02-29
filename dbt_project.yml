@@ -261,4 +261,3 @@ models:
       +schema: world_ampas_oscar
   elementary:
     +schema: elementary
-    +enabled: "{{ env_var('DBT_ELEMENTARY_ENABLED') | as_bool }}"
