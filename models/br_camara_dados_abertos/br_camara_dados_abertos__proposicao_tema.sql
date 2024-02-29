@@ -13,7 +13,7 @@
 
 select
     safe_cast(replace(ano, ".0", "") as int64) ano,
-    safe_cast(uriproposicao as string) url_proposicao,
+    regexp_extract(uriproposicao, r'/proposicoes/(\d+)') as id_proposicao,
     safe_cast(siglatipo as string) tipo_proposicao,
     safe_cast(numero as string) numero,
     safe_cast(codtema as string) tema,
