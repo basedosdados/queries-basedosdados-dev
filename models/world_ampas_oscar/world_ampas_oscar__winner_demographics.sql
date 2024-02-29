@@ -6,14 +6,14 @@
 )
 }}
 -- 
-SELECT DISTINCT
-safe_cast(name AS STRING) name,
-safe_cast(birth_date AS DATE) birth_date,
-safe_cast(birthplace AS STRING) birthplace,
-safe_cast(race_ethnicity AS STRING) race_ethnicity,
-safe_cast(religion AS STRING) religion,
-safe_cast(sexual_orientation AS STRING) sexual_orientation,
-safe_cast(year_edition AS INT64) year_edition,
-safe_cast(category AS STRING) category,
-safe_cast(movie AS STRING) movie,
-FROM basedosdados-dev.world_ampas_oscar_staging.winner_demographics AS t
+select distinct
+safe_cast(name as string) name,
+safe_cast(birth_date as date) birth_date,
+safe_cast(birthplace as string) birthplace,
+safe_cast(race_ethnicity as string) race_ethnicity,
+safe_cast(religion as string) religion,
+safe_cast(sexual_orientation as string) sexual_orientation,
+safe_cast(year_edition as int64) year_edition,
+safe_cast(category as string) category,
+safe_cast(movie as string) movie,
+from basedosdados-dev.world_ampas_oscar_staging.winner_demographics as t
