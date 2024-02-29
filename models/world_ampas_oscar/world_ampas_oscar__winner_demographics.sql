@@ -5,7 +5,7 @@
     materialized='table',
 )
 }}
-
+-- 
 SELECT DISTINCT
 safe_cast(name AS STRING) name,
 safe_cast(birth_date AS DATE) birth_date,
