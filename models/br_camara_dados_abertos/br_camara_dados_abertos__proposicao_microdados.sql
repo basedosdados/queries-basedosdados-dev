@@ -23,7 +23,7 @@ select
             format_timestamp('%Y-%m-%dT%H:%M:%E*S', timestamp(dataapresentacao)), 'T'
         )[offset(1)] as time
     ) horario,
-    safe_cast(id as string) id,
+    safe_cast(id as string) id_proposicao,
     safe_cast(uri as string) url,
     safe_cast(numero as string) numero,
     safe_cast(siglatipo as string) sigla,
