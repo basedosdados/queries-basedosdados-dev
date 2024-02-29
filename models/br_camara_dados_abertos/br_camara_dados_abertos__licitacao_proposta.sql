@@ -6,7 +6,7 @@ select distinct
     safe_cast(unidadeslicitadas as int64) quantidade_unidade_licitacao,
     safe_cast(vlrestimado as int64) valor_estimado,
     safe_cast(numproposta as string) id_proposta,
-    safe_cast(unidadesproposta as int64) unidade_proposta,
+    safe_cast(replace(unidadesproposta, ".0", "") as int64) unidade_proposta,
     safe_cast(vlrproposta as int64) valor_proposta,
     safe_cast(marcaproposta as string) marca_proposta,
     safe_cast(fornecedorcpfcnpj as string) cpf_cnpj_fornecedor,

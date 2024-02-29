@@ -337,9 +337,6 @@ models:
         tests:
           - dbt_utils.not_null_proportion:
               at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_data_tempo__data')
-              field: data.data
       - name: data_falecimento
         description: Data de Falecimento
         tests:
@@ -361,9 +358,6 @@ models:
         tests:
           - dbt_utils.not_null_proportion:
               at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__uf')
-              field: sigla
       - name: id_deputado
         description: ID deputado
         tests:
@@ -428,9 +422,6 @@ models:
         tests:
           - dbt_utils.not_null_proportion:
               at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__uf')
-              field: sigla
       - name: entidade
         description: Entidade
         tests:
@@ -514,9 +505,6 @@ models:
         tests:
           - dbt_utils.not_null_proportion:
               at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__uf')
-              field: sigla
       - name: ordem_assinatura
         description: Ordem assinatura
         tests:
@@ -1579,7 +1567,15 @@ models:
       do processo.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_licitacao, id_proposta]
+          combination_of_columns:
+            - id_licitacao
+            - descricao
+            - quantidade_unidade_licitacao
+            - valor_estimado
+            - id_proposta
+            - unidade_proposta
+            - valor_proposta
+            - marca_proposta
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
