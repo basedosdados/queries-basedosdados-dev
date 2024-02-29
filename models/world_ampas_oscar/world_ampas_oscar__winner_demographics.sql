@@ -1,11 +1,11 @@
-{{ 
-  config(
-    alias='winner_demographics',    
-    schema='world_ampas_oscar',
-    materialized='table',
-)
+{{
+    config(
+        alias="winner_demographics",
+        schema="world_ampas_oscar",
+        materialized="table",
+    )
 }}
--- 
+
 select distinct
     safe_cast(name as string) name,
     safe_cast(birth_date as date) birth_date,

@@ -262,4 +262,3 @@ models:
   elementary:
     +schema: elementary
     +enabled: "{{ env_var('DBT_ELEMENTARY_ENABLED') | as_bool }}"
-
