@@ -259,5 +259,8 @@ models:
     world_wb_mides:
       +materialized: table
       +schema: world_wb_mides
+    world_ampas_oscar:
+      +materialized: table
+      +schema: world_ampas_oscar
   elementary:
     +schema: elementary
