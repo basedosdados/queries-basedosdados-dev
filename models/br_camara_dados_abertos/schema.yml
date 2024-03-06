@@ -1632,7 +1632,6 @@ models:
             - numero_documento_fiscal
             - tipo_documento
             - data_emissao
-            - valor_documento
             - valor_retido
             - valor_liquido
             - nome_passageiro
