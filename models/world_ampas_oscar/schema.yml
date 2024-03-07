@@ -14,6 +14,12 @@ models:
       - name: name
         description: Winner name
         tests: [not_null]
+      - name: birth_year
+        description: Year of birth
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano   
       - name: birth_date
         description: Date of birth
         tests:
