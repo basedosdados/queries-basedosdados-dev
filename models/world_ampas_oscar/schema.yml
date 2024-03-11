@@ -19,7 +19,7 @@ models:
         tests:
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__ano')
-              field: ano.ano   
+              field: ano.ano
       - name: birth_date
         description: Date of birth
         tests:
