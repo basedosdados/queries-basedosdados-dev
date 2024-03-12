@@ -1,6 +1,6 @@
 {{ config(alias="evento_presenca_deputado", schema="br_camara_dados_abertos") }}
 select distinct
-    safe_cast(idevento as string) id,
+    safe_cast(idevento as string) id_evento,
     safe_cast(
         split(format_timestamp('%Y-%m-%dT%H:%M:%E*S', timestamp(datahorainicio)), 'T')[
             offset(0)
