@@ -6,7 +6,13 @@ models:
       em todo sistema de saúde nacional - público e privado.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, mes]
+          combination_of_columns:
+            - ano
+            - mes
+            - id_estabelecimento_cnes
+            - instrumento_registro
+            - id_processamento_ambulatorial
+            - id_cbo_2002
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -18,10 +24,6 @@ models:
               field: ano.ano
       - name: mes
         description: Mês
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_data_tempo__mes')
-              field: mes.mes
       - name: sigla_uf
         description: Sigla da Unidade da Federação
         tests:
@@ -41,33 +43,31 @@ models:
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__natureza_juridica')
-              field: id_natureza_juridica
-      - name: tipo_estabelecimento
+              field: natureza_juridica.id_natureza_juridica
+      - name: tipo_unidade
         description: Tipo de estabelecimento
       - name: tipo_prestador
         description: Tipo de Prestador
       - name: cnpj_estabelecimento_executante
         description: CNPJ do Estabelecimento executante
       - name: cnpj_mantenedora_estabalecimento
-        description: 'CNPJ da Mantenedora do Estabelecimento '
+        description: CNPJ da Mantenedora do Estabelecimento
       - name: cnpj_orgao
         description: CNPJ do órgão que recebeu pela produção por cessão de crédito
+      - name: tipo_mantenedor_estabelecimento
+        description: Tipo de manutenção do estabelecimento
       - name: id_gestao
         description: ID do tipo de gestão do estabelecimento
       - name: tipo_gestao
         description: Tipo de gestão do estabelecimento
       - name: tipo_regra_contratual
-        description: "Código do tipo da regra contratual do estabalecimento\t"
+        description: Código do tipo da regra contratual do estabalecimento
       - name: id_equipe
         description: Código de Identificação Nacional de Equipes10, para registrar
           a atuação das equipes na execução de ações de saúde
       - name: id_servico_especializado
         description: Código do Serviço Especializado / Classificação CBO (de acordo
           com o CNES)
-      - name: incrementos_outros
-        description: Incremento Outros
-      - name: incrementos_urgencia
-        description: Incremento Urgência
       - name: id_processamento_ambulatorial
         description: Código de Procedimento Ambulatorial
       - name: id_cns_executante
@@ -89,42 +89,74 @@ models:
         description: Código de ocorrência
       - name: tipo_financiamento_producao
         description: Tipo de Financiamento da produção
-      - name: subtipo_financiamento_produto
+      - name: subtipo_financiamento_producao
         description: Subtipo de Financiamento da produção
-      - name: data_processamento_procedimento
-        description: Data de processamento/movimento
+      - name: ano_processamento_procedimento
+        description: Ano de processamento/movimento
         tests:
           - relationships:
-              to: ref('br_bd_diretorios_data_tempo__data')
-              field: data.data
-      - name: data_realizacao_procedimento
-        description: Data da realização do procedimento/competência
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano
+      - name: mes_processamento_procedimento
+        description: Mês de processamento/movimento
+      - name: ano_realizacao_procedimento
+        description: Ano da realização do procedimento/competência
         tests:
           - relationships:
-              to: ref('br_bd_diretorios_data_tempo__data')
-              field: data.data
-      - name: cid_principal
-        description: 'Classificação Internacional de Doenças (CID10) principal da
-          Autorização de Procedimento Ambulatorial de Alta complexidade (APAC) ou
-          do Boletim de Produção Ambulatorial Individualizado (BPA-I) '
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__cid_10')
-              field: subclasse
-      - name: cid_secundario
-        description: Classificação Internacional de Doenças (CID10) secundário da
-          Autorização de Procedimento Ambulatorial de Alta complexidade (APAC)
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__cid_10')
-              field: subclasse
-      - name: cid_causas_associadas
-        description: Classificação Internacional de Doenças (CID10) causas associadas
-          a Autorização de Procedimento Ambulatorial de Alta complexidade (APAC)
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano
+      - name: mes_realizacao_procedimento
+        description: Mês da realização do procedimento/competência
+      - name: cid_principal_categoria
+        description: Identificador da categoria da Classificação Internacional de
+          Doenças (CID10) principal da Autorização de Procedimento Ambulatorial de
+          Alta complexidade (APAC) ou do Boletim de Produção Ambulatorial Individualizado
+          (BPA-I)
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__cid_10')
-              field: subclasse
+              field: categoria
+      - name: cid_principal_subcategoria
+        description: Identificador da subcategoria da Classificação Internacional
+          de Doenças (CID10) principal da Autorização de Procedimento Ambulatorial
+          de Alta complexidade (APAC) ou do Boletim de Produção Ambulatorial Individualizado
+          (BPA-I)
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__cid_10')
+              field: subcategoria
+      - name: cid_secundario_categoria
+        description: Identificador da categoria da Classificação Internacional de
+          Doenças (CID10) secundário da Autorização de Procedimento Ambulatorial de
+          Alta complexidade (APAC)
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__cid_10')
+              field: categoria
+      - name: cid_secundario_subcategoria
+        description: Identificador da subcategoria da Classificação Internacional
+          de Doenças (CID10) secundário da Autorização de Procedimento Ambulatorial
+          de Alta complexidade (APAC)
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__cid_10')
+              field: subcategoria
+      - name: cid_causas_associadas_categoria
+        description: Identificador da categoria da Classificação Internacional de
+          Doenças (CID10) causas associadas a Autorização de Procedimento Ambulatorial
+          de Alta complexidade (APAC)
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__cid_10')
+              field: categoria
+      - name: cid_causas_associadas_subcategoria
+        description: Identificador da subcategoria da Classificação Internacional
+          de Doenças (CID10) causas associadas a Autorização de Procedimento Ambulatorial
+          de Alta complexidade (APAC)
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__cid_10')
+              field: subcategoria
       - name: carater_atendimento
         description: Caráter de atendimento (APAC ou BPA-I)
       - name: id_paciente_proto
@@ -174,16 +206,18 @@ models:
         description: Valor do complemento local
       - name: valor_incremento
         description: Valor do Incremento
-      - name: motivo_saida
-        description: Motivo de saída
+      - name: motivo_saida_paciente
+        description: Motivo de saída do paciente
       - name: indicador_uf_residencia_paciente
         description: Indica se a UF de residência do paciente é diferente da UF de
           localização do estabelecimento
       - name: indicador_municipio_residencia_paciente
         description: Indica se o município de residência do paciente é diferente do
           município de localização do estabelecimento
-      - name: indicador_estabelecimento_mantido_individual
-        description: Indica Estabelecimento Mantido / Individual
+      - name: indicador_incrementos_outros
+        description: Indica a ocorrência de outros incrementos
+      - name: indicador_incrementos_urgencia
+        description: Indica a ocorrência de incrementos de urgência
       - name: indicador_obito
         description: Indicador de óbito relativo ao Procedimento Ambulatorial de Alta
           complexidade e/ou custo (APAC)
@@ -205,3 +239,16 @@ models:
         description: Tipo de erro de Quantidade Produzida
       - name: flag_erro_corpo_apac
         description: FLAG de erro de corpo da APAC
+  - name: br_ms_sia__dicionario
+    description: Dicionário
+    columns:
+      - name: id_tabela
+        description: ID Tabela
+      - name: nome_coluna
+        description: Nome da coluna
+      - name: chave
+        description: Chave
+      - name: cobertura_temporal
+        description: Cobertura temporal
+      - name: valor
+        description: Valor
