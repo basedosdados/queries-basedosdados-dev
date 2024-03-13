@@ -163,6 +163,9 @@ models:
     br_inep_censo_escolar:
       +materialized: table
       +schema: br_inep_censo_escolar
+    br_inep_indicadores_educacionais:
+      +materialized: table
+      +schema: br_inep_indicadores_educacionais
     br_inep_saeb:
       +materialized: table
       +schema: br_inep_saeb
@@ -202,6 +205,9 @@ models:
     br_ms_cnes:
       +materialized: table
       +schema: br_ms_cnes
+    br_ms_sia:
+      +materialized: table
+      +schema: br_ms_sia
     br_ms_sim:
       +materialized: table
       +schema: br_ms_sim

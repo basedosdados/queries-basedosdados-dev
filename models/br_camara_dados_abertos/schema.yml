@@ -845,11 +845,6 @@ models:
         tests:
           - dbt_utils.not_null_proportion:
               at_least: 0.05
-      - name: url_orgao
-        description: URL do orgão
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
       - name: tipo_orgao
         description: Tipo do orgão
         tests:
@@ -1186,8 +1181,8 @@ models:
         tests:
           - dbt_utils.not_null_proportion:
               at_least: 0.05
-      - name: titulo
-        description: Título
+      - name: titulo_deputado
+        description: Título do deputado
         tests:
           - dbt_utils.not_null_proportion:
               at_least: 0.05
@@ -1198,11 +1193,6 @@ models:
               at_least: 0.05
       - name: nome_deputado
         description: Nome do deputado
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: titulo_deputado
-        description: Título do deputado
         tests:
           - dbt_utils.not_null_proportion:
               at_least: 0.05
@@ -1292,8 +1282,8 @@ models:
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
-      - name: ano
-        description: Ano
+      - name: ano_licitacao
+        description: Ano da licitação
         tests:
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__ano')
@@ -1364,7 +1354,7 @@ models:
           at_least: 0.05
     columns:
       - name: ano_licitacao
-        description: Ano
+        description: Ano da licitação
         tests:
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__ano')
