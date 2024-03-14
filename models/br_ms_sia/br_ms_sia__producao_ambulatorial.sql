@@ -2,6 +2,7 @@
     config(
         alias="producao_ambulatorial",
         schema="br_ms_sia",
+        materialized="incremental",
         partition_by={
             "field": "ano",
             "data_type": "int64",
@@ -24,7 +25,6 @@ with
                 from `basedosdados-dev.br_bd_diretorios_brasil.municipio`
             ) as mun
             on producao_ambulatorial.pa_ufmun = mun.id_municipio_6
-        where sigla_uf = 'PA' and mes = '10'
     )
 
 select
@@ -33,15 +33,18 @@ select
     safe_cast(sigla_uf as string) sigla_uf,
     safe_cast(id_municipio as string) id_municipio,
     safe_cast(pa_coduni as string) id_estabelecimento_cnes,
-    safe_cast(pa_nat_jur as string) natureza_juridica_estabelecimento,
-    safe_cast(pa_tpups as string) tipo_unidade,
-    safe_cast(pa_tippre as string) tipo_prestador,
-    safe_cast(pa_cnpjcpf as string) cnpj_estabelecimento_executante,
-    safe_cast(
-        regexp_replace(pa_cnpjmnt, '0{14}', '') as string
-    ) cnpj_mantenedora_estabalecimento,
-    safe_cast(regexp_replace(pa_cnpj_cc, '0{14}', '') as string) cnpj_orgao,
-    safe_cast(pa_mn_ind as string) tipo_mantenedor_estabelecimento,
+    -- seguintes colunas foram omitidas pois podem ser obtidas ao cruzar o
+    -- id_estabelecimento_cnes
+    -- com a tabela estabelecimento do conjunto br_ms_cnes
+    -- safe_cast(pa_nat_jur as string) natureza_juridica_estabelecimento,
+    -- safe_cast(pa_tpups as string) tipo_unidade,
+    -- safe_cast(pa_tippre as string) tipo_prestador,
+    -- safe_cast(pa_cnpjcpf as string) cnpj_estabelecimento_executante,
+    -- safe_cast(
+    -- regexp_replace(pa_cnpjmnt, '0{14}', '') as string
+    -- ) cnpj_mantenedora_estabalecimento,
+    -- safe_cast(regexp_replace(pa_cnpj_cc, '0{14}', '') as string) cnpj_orgao,
+    -- safe_cast(pa_mn_ind as string) tipo_mantenedor_estabelecimento,
     safe_cast(pa_gestao as string) id_gestao,
     safe_cast(pa_condic as string) tipo_gestao,
     safe_cast(pa_regct as string) tipo_regra_contratual,
@@ -61,7 +64,6 @@ select
     safe_cast(substr(pa_mvm, 5, 2) as int64) as mes_processamento_procedimento,
     safe_cast(substr(pa_cmp, 1, 4) as int64) as ano_realizacao_procedimento,
     safe_cast(substr(pa_cmp, 5, 2) as int64) as mes_realizacao_procedimento,
-    -- safe_cast(pa_cidpri as string) cid_principal,
     safe_cast(
         trim(
             case when length(trim(pa_cidpri)) = 3 then pa_cidpri else null end
@@ -84,7 +86,6 @@ select
             end
         ) as string
     ) as cid_principal_subcategoria,
-    -- safe_cast(pa_cidsec as string) cid_secundario,
     safe_cast(
         trim(
             case when length(trim(pa_cidsec)) = 3 then pa_cidsec else null end
@@ -107,7 +108,6 @@ select
             end
         ) as string
     ) as cid_secundario_subcategoria,
-    -- safe_cast(pa_cidcas as string) cid_causas_associadas,
     safe_cast(
         trim(
             case when length(trim(pa_cidcas)) = 3 then pa_cidcas else null end
@@ -179,3 +179,8 @@ select
     safe_cast(pa_flqt as string) tipo_erro_quantidade_produzida,
     safe_cast(pa_fler as string) flag_erro_corpo_apac,
 from sia_add_municipios
+{% if is_incremental() %}
+    where
+        date(cast(ano as int64), cast(mes as int64), 1)
+        > (select max(date(cast(ano as int64), cast(mes as int64), 1)) from {{ this }})
+{% endif %}
