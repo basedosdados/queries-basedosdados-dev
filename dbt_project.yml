@@ -103,12 +103,18 @@ models:
     br_cgu_beneficios_cidadao:
       +materialized: incremental
       +schema: br_cgu_beneficios_cidadao
+    br_cgu_dados_abertos:
+      +materialized: table
+      +schema: br_cgu_dados_abertos
     br_cgu_pessoal_executivo_federal:
       +materialized: table
       +schema: br_cgu_pessoal_executivo_federal
     br_cgu_servidores_executivo_federal:
       +materialized: table
       +schema: br_cgu_servidores_executivo_federal
+    br_cnj_improbidade_administrativa:
+      +materialized: table
+      +schema: br_cnj_improbidade_administrativa
     br_cnpq_bolsas:
       +materialized: table
       +schema: br_cnpq_bolsas
@@ -157,6 +163,12 @@ models:
     br_ibge_pnadc:
       +materialized: table
       +schema: br_ibge_pnadc
+    br_inep_censo_escolar:
+      +materialized: table
+      +schema: br_inep_censo_escolar
+    br_inep_indicadores_educacionais:
+      +materialized: table
+      +schema: br_inep_indicadores_educacionais
     br_inep_saeb:
       +materialized: table
       +schema: br_inep_saeb
@@ -196,6 +208,9 @@ models:
     br_ms_cnes:
       +materialized: table
       +schema: br_ms_cnes
+    br_ms_sia:
+      +materialized: table
+      +schema: br_ms_sia
     br_ms_sim:
       +materialized: table
       +schema: br_ms_sim
@@ -253,6 +268,8 @@ models:
     world_wb_mides:
       +materialized: table
       +schema: world_wb_mides
+    world_ampas_oscar:
+      +materialized: table
+      +schema: world_ampas_oscar
   elementary:
     +schema: elementary
-    +enabled: "{{ env_var('DBT_ELEMENTARY_ENABLED') | as_bool }}"
