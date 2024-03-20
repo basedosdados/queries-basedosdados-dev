@@ -45,8 +45,8 @@ select
     -- ) cnpj_mantenedora_estabalecimento,
     -- safe_cast(regexp_replace(pa_cnpj_cc, '0{14}', '') as string) cnpj_orgao,
     -- safe_cast(pa_mn_ind as string) tipo_mantenedor_estabelecimento,
-    safe_cast(pa_gestao as string) id_gestao,
-    safe_cast(pa_condic as string) tipo_gestao,
+    -- safe_cast(pa_gestao as string) id_gestao,
+    -- safe_cast(pa_condic as string) tipo_gestao,
     safe_cast(pa_regct as string) tipo_regra_contratual,
     safe_cast(pa_ine as string) id_equipe,
     safe_cast(pa_srv_c as string) id_servico_especializado,
@@ -57,8 +57,16 @@ select
         regexp_replace(pa_autoriz, '0{13}', '') as string
     ) codigo_autorizacao_apac,
     safe_cast(pa_codoco as string) codigo_ocorrencia,
-    safe_cast(pa_tpfin as string) tipo_financiamento_producao,
-    safe_cast(pa_subfin as string) subtipo_financiamento_producao,
+    case
+        when tipo_financiamento_producao = '00'
+        then '0'  -- Trata o caso especial de "00"
+        else cast(ltrim(tipo_financiamento_producao, '0') as string)  -- Remove zeros à esquerda
+    end as tipo_financiamento_producao,
+    case
+        when subtipo_financiamento_producao = '0000'
+        then '0'  -- Trata o caso especial de "00"
+        else cast(ltrim(subtipo_financiamento_producao, '0') as string)  -- Remove zeros à esquerda
+    end as subtipo_financiamento_producao,
     -- - parse e criar ano mes data é yyyy-mm
     safe_cast(substr(pa_mvm, 1, 4) as int64) as ano_processamento_procedimento,
     safe_cast(substr(pa_mvm, 5, 2) as int64) as mes_processamento_procedimento,
@@ -130,17 +138,37 @@ select
             end
         ) as string
     ) as cid_causas_associadas_subcategoria,
-    safe_cast(pa_catend as string) carater_atendimento,
+    case
+        when carater_atendimento = '00'
+        then '0'  -- Trata o caso especial de "00"
+        else cast(ltrim(carater_atendimento, '0') as string)  -- Remove zeros à esquerda
+    end as carater_atendimento,
     safe_cast(regexp_replace(pa_munpcn, '9{6}', '') as string) id_paciente_proto,
     safe_cast(replace(pa_sexo, '0', '') as string) sexo_paciente,
     safe_cast(regexp_replace(pa_idade, '9{3}', '') as int64) idade_paciente,
-    safe_cast(pa_racacor as string) raca_cor_paciente,
+    case
+        when raca_cor_paciente = '00'
+        then '0'  -- Trata o caso especial de "00"
+        else cast(ltrim(raca_cor_paciente, '0') as string)  -- Remove zeros à esquerda
+    end as raca_cor_paciente,
     safe_cast(ltrim(pa_etnia, '0') as string) etnia_paciente,
     safe_cast(idademin as int64) idade_minima_paciente,
     safe_cast(idademax as int64) idade_maxima_paciente,
-    safe_cast(pa_flidade as string) compatibilidade_idade_procedimento,
-    safe_cast(pa_nivcpl as string) complexidade_procedimento,
-    safe_cast(pa_docorig as string) instrumento_registro,
+    case
+        when compatibilidade_idade_procedimento = '00'
+        then '0'  -- Trata o caso especial de "00"
+        else cast(ltrim(compatibilidade_idade_procedimento, '0') as string)  -- Remove zeros à esquerda
+    end as compatibilidade_idade_procedimento,
+    case
+        when complexidade_procedimento = '00'
+        then '0'  -- Trata o caso especial de "00"
+        else cast(ltrim(complexidade_procedimento, '0') as string)  -- Remove zeros à esquerda
+    end as complexidade_procedimento,
+    case
+        when instrumento_registro = '00'
+        then '0'  -- Trata o caso especial de "00"
+        else cast(ltrim(instrumento_registro, '0') as string)  -- Remove zeros à esquerda
+    end as instrumento_registro,
     safe_cast(pa_valapr as float64) valor_aprovado_procedimento,
     safe_cast(pa_qtdapr as int64) quantidade_aprovada_procedimento,
     safe_cast(pa_valpro as float64) valor_produzido_procedimento,
@@ -151,7 +179,11 @@ select
     safe_cast(pa_vl_cf as float64) valor_complemento_federal,
     safe_cast(pa_vl_cl as float64) valor_complemento_local,
     safe_cast(pa_vl_inc as float64) valor_incremento,
-    safe_cast(pa_motsai as string) motivo_saida_paciente,
+    case
+        when motivo_saida_paciente = '00'
+        then '0'  -- Trata o caso especial de "00"
+        else cast(ltrim(motivo_saida_paciente, '0') as string)  -- Remove zeros à esquerda
+    end as motivo_saida_paciente,
     -- - em uf e muicipio replace de
     safe_cast(
         regexp_replace(pa_ufdif, '9{1}', '') as int64
