@@ -1,8 +1,8 @@
 {{
     config(
-        alias="producao_ambulatorial",
-        schema="psicossocial",
-        materialized="incremental",
+        alias="psicossocial",
+        schema="br_ms_sia",
+        materialized="table",
         partition_by={
             "field": "ano",
             "data_type": "int64",
@@ -29,7 +29,7 @@ select
     safe_cast(ano as int64) ano,
     safe_cast(mes as int64) mes,
     safe_cast(sigla_uf as string) sigla_uf,
-    safe_cast(ufmun as string) id_municipio,
+    safe_cast(id_municipio as string) id_municipio,
     safe_cast(cnes_exec as string) id_estabelecimento_cnes,
     safe_cast(cnes_esf as string) id_estabelecimento_cnes_familia,
     safe_cast(gestao as string) id_gestao,
@@ -125,3 +125,8 @@ select
     safe_cast(qtdate as int64) quantidade_atendimentos,
     safe_cast(qtdpcn as string) quantidade_pacientes,
 from sia_add_municipios as t
+{% if is_incremental() %}
+    where
+        date(cast(ano as int64), cast(mes as int64), 1)
+        > (select max(date(cast(ano as int64), cast(mes as int64), 1)) from {{ this }})
+{% endif %}
