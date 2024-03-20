@@ -76,6 +76,9 @@ models:
     br_bcb_taxa_selic:
       +materialized: table
       +schema: br_bcb_taxa_selic
+    br_bd_analises:
+      +materialized: table
+      +schema: br_bd_analises
     br_bd_indicadores:
       +materialized: table
       +schema: br_bd_indicadores

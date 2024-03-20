@@ -1,0 +1,9 @@
+---
+version: 2
+models:
+  - name: br_bd_analises__search_term
+    description: Insert `search_term` table description here
+  - name: br_bd_analises__page_views
+    description: Insert `page_views` table description here
+  - name: br_bd_analises__event
+    description: Insert `event` table description here
