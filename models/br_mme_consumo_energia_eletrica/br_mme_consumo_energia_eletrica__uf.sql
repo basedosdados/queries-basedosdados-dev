@@ -12,4 +12,4 @@ select
     safe_cast(tipo_consumo as string) tipo_consumo,
     safe_cast(numero_consumidores as float64) numero_consumidores,
     safe_cast(consumo as float64) consumo
-from basedosdados - dev.br_mme_consumo_energia_eletrica_staging.uf as t
+from `basedosdados-dev.br_mme_consumo_energia_eletrica_staging.uf` as t
