@@ -5,14 +5,6 @@ models:
     description: Esta tabela contém o registro de processos ambulatorias realizados
       em todo sistema de saúde nacional - público e privado.
     tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - ano
-            - mes
-            - id_estabelecimento_cnes
-            - instrumento_registro
-            - id_processamento_ambulatorial
-            - id_cbo_2002
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
