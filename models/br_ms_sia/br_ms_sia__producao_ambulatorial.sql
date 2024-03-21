@@ -19,6 +19,7 @@ with
         from
             `basedosdados-dev.br_ms_sia_staging.producao_ambulatorial`
             as producao_ambulatorial
+
         left join
             (
                 select id_municipio, id_municipio_6,
@@ -58,14 +59,10 @@ select
     ) codigo_autorizacao_apac,
     safe_cast(pa_codoco as string) codigo_ocorrencia,
     case
-        when tipo_financiamento_producao = '00'
-        then '0'  -- Trata o caso especial de "00"
-        else cast(ltrim(tipo_financiamento_producao, '0') as string)  -- Remove zeros à esquerda
+        when pa_tpfin = '00' then '0' else cast(ltrim(pa_tpfin, '0') as string)
     end as tipo_financiamento_producao,
     case
-        when subtipo_financiamento_producao = '0000'
-        then '0'  -- Trata o caso especial de "00"
-        else cast(ltrim(subtipo_financiamento_producao, '0') as string)  -- Remove zeros à esquerda
+        when pa_subfin = '0000' then '0' else cast(ltrim(pa_subfin, '0') as string)
     end as subtipo_financiamento_producao,
     -- - parse e criar ano mes data é yyyy-mm
     safe_cast(substr(pa_mvm, 1, 4) as int64) as ano_processamento_procedimento,
@@ -139,35 +136,25 @@ select
         ) as string
     ) as cid_causas_associadas_subcategoria,
     case
-        when carater_atendimento = '00'
-        then '0'  -- Trata o caso especial de "00"
-        else cast(ltrim(carater_atendimento, '0') as string)  -- Remove zeros à esquerda
+        when pa_catend = '00' then '0' else cast(ltrim(pa_catend, '0') as string)
     end as carater_atendimento,
     safe_cast(regexp_replace(pa_munpcn, '9{6}', '') as string) id_paciente_proto,
     safe_cast(replace(pa_sexo, '0', '') as string) sexo_paciente,
     safe_cast(regexp_replace(pa_idade, '9{3}', '') as int64) idade_paciente,
     case
-        when raca_cor_paciente = '00'
-        then '0'  -- Trata o caso especial de "00"
-        else cast(ltrim(raca_cor_paciente, '0') as string)  -- Remove zeros à esquerda
+        when pa_racacor = '00' then '0' else cast(ltrim(pa_racacor, '0') as string)
     end as raca_cor_paciente,
     safe_cast(ltrim(pa_etnia, '0') as string) etnia_paciente,
     safe_cast(idademin as int64) idade_minima_paciente,
     safe_cast(idademax as int64) idade_maxima_paciente,
     case
-        when compatibilidade_idade_procedimento = '00'
-        then '0'  -- Trata o caso especial de "00"
-        else cast(ltrim(compatibilidade_idade_procedimento, '0') as string)  -- Remove zeros à esquerda
+        when pa_flidade = '00' then '0' else cast(ltrim(pa_flidade, '0') as string)
     end as compatibilidade_idade_procedimento,
     case
-        when complexidade_procedimento = '00'
-        then '0'  -- Trata o caso especial de "00"
-        else cast(ltrim(complexidade_procedimento, '0') as string)  -- Remove zeros à esquerda
+        when pa_nivcpl = '00' then '0' else cast(ltrim(pa_nivcpl, '0') as string)
     end as complexidade_procedimento,
     case
-        when instrumento_registro = '00'
-        then '0'  -- Trata o caso especial de "00"
-        else cast(ltrim(instrumento_registro, '0') as string)  -- Remove zeros à esquerda
+        when pa_docorig = '00' then '0' else cast(ltrim(pa_docorig, '0') as string)
     end as instrumento_registro,
     safe_cast(pa_valapr as float64) valor_aprovado_procedimento,
     safe_cast(pa_qtdapr as int64) quantidade_aprovada_procedimento,
@@ -180,9 +167,7 @@ select
     safe_cast(pa_vl_cl as float64) valor_complemento_local,
     safe_cast(pa_vl_inc as float64) valor_incremento,
     case
-        when motivo_saida_paciente = '00'
-        then '0'  -- Trata o caso especial de "00"
-        else cast(ltrim(motivo_saida_paciente, '0') as string)  -- Remove zeros à esquerda
+        when pa_motsai = '00' then '0' else cast(ltrim(pa_motsai, '0') as string)
     end as motivo_saida_paciente,
     -- - em uf e muicipio replace de
     safe_cast(
