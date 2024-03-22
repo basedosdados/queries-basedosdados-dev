@@ -12,4 +12,5 @@ select
     safe_cast(tipo_consumo as string) tipo_consumo,
     safe_cast(replace(numero_consumidores, ".0", '') as int64) numero_consumidores,
     safe_cast(consumo as int64) consumo
+
 from `basedosdados-dev.br_mme_consumo_energia_eletrica_staging.uf` as t
