@@ -35,3 +35,4 @@ models:
         description: Número de consumidores de energia elétrica atendidos pela rede
       - name: consumo
         description: Consumo de energia elétrica na rede (MWh)
+        tests: [not_null]
