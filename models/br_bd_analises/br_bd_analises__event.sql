@@ -87,7 +87,9 @@ select
         then 'dataset_search'
         when page_url = 'https://basedosdados.org/dataset'
         then 'dataset_page'
-        when page_url = 'https://basedosdados.org/'
+        when
+            page_url = 'https://basedosdados.org/'
+            or regexp_contains(page_url, r'https:\/\/basedosdados.org\/[\?|)].+')
         then 'home_page'
         else page_type
     end as page_type,
@@ -100,12 +102,15 @@ select
         then 'dataset_search'
         when page_referrer = 'https://basedosdados.org/dataset'
         then 'dataset_page'
-        when page_referrer = 'https://basedosdados.org/'
+        when
+            page_referrer = 'https://basedosdados.org/'
+            or regexp_contains(
+                page_referrer, r'https:\/\/basedosdados.org\/\?utm_term.+'
+            )
         then 'home_page'
-        when regexp_contains(page_referrer, r'https:\/\/basedosdados.org\/\?utm_term.+')
-        then 'home_page_campaign'
         else page_referrer_type
     end as page_referrer_type,
     page_referrer,
     search_term
 from flat_and_filtered_table
+where page_url like "https://basedosdados.org%"
