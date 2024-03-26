@@ -5,7 +5,7 @@ import os
 from typing import List
 
 
-def create_yaml_file(arq_url,
+def create_yaml_file(arch_url,
                      table_id,
                      dataset_id,
                      at_least: float = 0.05,
@@ -16,14 +16,14 @@ def create_yaml_file(arq_url,
     Creates dbt models and schema.yaml files based on the architecture table, including data quality tests automatically.
 
     Args:
-        arq_url (str or list): The URL(s) or file path(s) of the input file(s) containing the data.
+        arch_url (str or list): The URL(s) or file path(s) of the input file(s) containing the data.
         table_id (str or list): The table ID(s) or name(s) to use as the YAML model name(s).
         dataset_id (str): The ID or name of the dataset to be used in the dbt models.
         at_least (float): The proportion of non-null values accepted in the columns.
         unique_keys (list, optional): A list of column names for which the 'dbt_utils.unique_combination_of_columns' test should be applied.
                                       Defaults to ["insert unique keys here"].
         mkdir (bool, optional): If True, creates a directory for the new model(s). Defaults to True.
-        preprocessed_staging_column_names (bool, optional): If False, renames staging column names using the architecture. Defaults to True.
+        preprocessed_staging_column_names (bool, optional):  If True, builds SQL file renaming from 'original_name' to 'name' using the architecture file. Defaults to True.
 
     Raises:
         TypeError: If the table_id is not a string or a list.
@@ -35,7 +35,7 @@ def create_yaml_file(arq_url,
 
     Example:
         ```python
-        create_yaml_file(arq_url='input_data.csv', table_id='example_table', dataset_id='example_dataset')
+        create_yaml_file(arch_url='input_data.csv', table_id='example_table', dataset_id='example_dataset')
         ```
 
     """
@@ -68,13 +68,13 @@ def create_yaml_file(arq_url,
 
     if isinstance(table_id, str):
         table_id = [table_id]
-        arq_url = [arq_url]
+        arch_url = [arch_url]
 
     # If table_id is a list, assume multiple input files
-    if not isinstance(arq_url, list) or len(arq_url) != len(table_id):
+    if not isinstance(arch_url, list) or len(arch_url) != len(table_id):
         raise ValueError("The number of URLs or file paths must match the number of table IDs.")
 
-    for url, id in zip(arq_url, table_id):
+    for url, id in zip(arch_url, table_id):
 
         unique_keys_copy = unique_keys.copy()
         architecture_df = sheet_to_df(url)
