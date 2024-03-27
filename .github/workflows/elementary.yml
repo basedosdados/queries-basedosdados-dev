@@ -13,14 +13,14 @@ jobs:
         uses: actions/checkout@v3
       - name: Listar Diretórios
         run: |
-          ls  */ # Lista todos os diretórios   
+          pwd   
       - name: Listar Árvore de Arquivos
         run: |
           tree               
       - name: Run Elementary
         uses: elementary-data/run-elementary-action@v1.11
         with:
-#          project-dir: "~/"
+#         project-dir: "~/"
           #profile-target: "dev"
           warehouse-type: bigquery 
           adapter-version: 1.5.6 
