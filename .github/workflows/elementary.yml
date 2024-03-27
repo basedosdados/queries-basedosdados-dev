@@ -1,9 +1,10 @@
 name: Deploy Elementary Report
 on:
-  # Run the action when a push to the main branch of the repository is made.
   push:
     branches: [ "main", "master" ]
-    
+  pull_request:
+    branches: [ "main", "master" ]
+
   workflow_dispatch:
 jobs:
   elementary:
@@ -15,9 +16,9 @@ jobs:
       - name: Run Elementary
         uses: elementary-data/run-elementary-action@v1.11
         with:
-          warehouse-type: bigquery 
-          adapter-version: 1.5.6 
-          profiles-yml: ${{ secrets.ELEMENTARY_PROFILES_YML }} 
+          warehouse-type: bigquery
+          adapter-version: 1.5.6
+          profiles-yml: ${{ secrets.ELEMENTARY_PROFILES_YML }}
           edr-command:
             edr report
               --file-path "report.html"
@@ -28,7 +29,7 @@ jobs:
               --update-bucket-website "true"
 
           bigquery-keyfile: ${{ secrets.BIGQUERY_KEYFILE }}
-          gcs-keyfile: ${{ secrets.GCS_KEYFILE }} 
+          gcs-keyfile: ${{ secrets.GCS_KEYFILE }}
 
       - name: Upload report
         uses: actions/upload-artifact@v3
