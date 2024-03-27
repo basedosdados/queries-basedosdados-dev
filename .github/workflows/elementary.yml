@@ -14,7 +14,8 @@ jobs:
       - name: Run Elementary
         uses: elementary-data/run-elementary-action@v1.11
         with:
-          project-dir: "dbt_project.yml"
+          project-dir: '~/dbt_project.yml'
+          profile-target: "dev"
           warehouse-type: bigquery 
           adapter-version: 1.5.6 
           profiles-yml: ${{ secrets.ELEMENTARY_PROFILES_YML }} 
