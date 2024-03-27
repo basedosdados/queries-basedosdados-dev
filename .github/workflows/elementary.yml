@@ -20,7 +20,7 @@ jobs:
       - name: Run Elementary
         uses: elementary-data/run-elementary-action@v1.11
         with:
-          project-dir: "/home/runner/work/queries-basedosdados-dev/queries-queries-basedosdados-dev/"
+          project-dir: "/home/runner/work/queries-basedosdados-dev/queries-basedosdados-dev/"
           #profile-target: "dev"
           warehouse-type: bigquery 
           adapter-version: 1.5.6 
