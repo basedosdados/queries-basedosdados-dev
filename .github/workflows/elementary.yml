@@ -10,21 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout dbt project
-        uses: actions/checkout@v3
-      - name: Listar Diretórios
-        run: |
-          pwd   
-      - name: Listar Árvore de Arquivos
-        run: |
-          tree               
+        uses: actions/checkout@v3           
       - name: Run Elementary
         uses: elementary-data/run-elementary-action@v1.11
         with:
-#          project-dir: "/home/runner/work/queries-basedosdados-dev/queries-basedosdados-dev/dbt_project.yml"
-          #profile-target: "dev"
           warehouse-type: bigquery 
           adapter-version: 1.5.6 
- #         profiles-yml: ${{ secrets.ELEMENTARY_PROFILES_YML }} 
+          profiles-yml: ${{ secrets.ELEMENTARY_PROFILES_YML }} 
           edr-command:
             edr report
               --file-path "report.html"
