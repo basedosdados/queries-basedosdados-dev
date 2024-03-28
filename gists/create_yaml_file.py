@@ -40,8 +40,9 @@ def create_yaml_file(arch_url,
 
     """
     if mkdir:
-        if os.path.exists("./models"):
-            output_path = f"./models/{dataset_id}"
+        models_path = find_model_directory(os.getcwd())
+        if models_path:
+            output_path = f"{models_path}/{dataset_id}"
             os.makedirs(output_path, exist_ok=True)
         else:
             raise(ValueError("Error: Failed to find the path for the 'models' directory. Ensure that you are running the script within the 'queries-basedosdados-dev' directory."))
@@ -123,3 +124,16 @@ def create_yaml_file(arch_url,
         yaml_obj.dump(data, file)
 
     print("Files successfully created!")
+
+
+if __name__ == '__main__':
+    DATASET_ID = 'test'
+    TABLE_ID = 'test'
+    #The URL must be the browser link containing '#gid='. The edit function should be open to anyone on the internet.
+    ARCHITECTURE_URL = "https://docs.google.com/spreadsheets/d/1Y2ebUNrZTUv2x_psWpK4oTxvRxhje5K6BSKZIWBQYDM/edit?pli=0#gid=1213668070"
+
+    create_yaml_file(
+    arch_url=ARCHITECTURE_URL,
+    table_id=TABLE_ID,
+    dataset_id=DATASET_ID,
+    preprocessed_staging_column_names=True)
