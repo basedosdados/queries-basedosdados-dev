@@ -2,8 +2,6 @@ name: Deploy Elementary Report
 on:
   push:
     branches: [ "main", "master" ]
-  pull_request:
-    branches: [ "main", "master" ]  
   workflow_dispatch:
 jobs:
   elementary:
@@ -11,19 +9,11 @@ jobs:
     steps:
       - name: Checkout dbt project
         uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9.17'             
-      - name: Install PyArrow
-        run: |
-          python -m pip install --upgrade pip  &&
-          python -m pip install pyarrow==3.0.0      
       - name: Run Elementary
         uses: elementary-data/run-elementary-action@v1.12
         with:
           warehouse-type: bigquery 
-          adapter-version: 1.5.6 
+          adapter-version: 1.5.9 
           profiles-yml: ${{ secrets.ELEMENTARY_PROFILES_YML }} 
           edr-command:
             edr report
