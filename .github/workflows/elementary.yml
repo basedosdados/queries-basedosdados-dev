@@ -12,7 +12,7 @@ jobs:
       - name: Checkout dbt project
         uses: actions/checkout@v3           
       - name: Run Elementary
-        uses: elementary-data/run-elementary-action@v1.11
+        uses: elementary-data/run-elementary-action@v1.12
         with:
           warehouse-type: bigquery 
           adapter-version: 1.5.6 
