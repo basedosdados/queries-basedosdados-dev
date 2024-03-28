@@ -17,8 +17,8 @@ jobs:
           python-version: '3.9.17'             
       - name: Install PyArrow
         run: |
-          python -m pip install --upgrade pip  &&
-          python -m pip install pyarrow==3.0.0      
+          python -m pip install --upgrade pip --no-cache-dir  &&
+          python -m pip install pyarrow==3.0.0 --no-cache-dir
       - name: Run Elementary
         uses: elementary-data/run-elementary-action@v1.12
         with:
