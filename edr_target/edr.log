@@ -1,0 +1,183 @@
+2024-03-22 10:27:15 — INFO — Running with edr=0.13.2
+2024-03-22 10:27:15 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_latest_invocation", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+[31;20m2024-03-22 10:27:25 — ERROR — Unable to get the latest invocation: Failed to run dbt command.
+Encountered an error while running operation: Database Error
+  expected str, bytes or os.PathLike object, not NoneType[0m
+2024-03-22 10:27:25 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_adapter_type_and_unique_id", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:27:30 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_adapter_type_and_unique_id", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 1923
+2024-03-22 10:27:30 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_elementary_database_and_schema", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:27:35 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_elementary_database_and_schema", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 1913
+2024-03-22 10:27:35 — INFO — Elementary's database and schema: '"basedosdados-dev.elementary"'
+2024-03-22 10:27:35 — INFO — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_test_results", "macro_args": {"days_back": 7, "invocations_per_test": 720, "disable_passed_test_metrics": false}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+[31;20m2024-03-22 10:27:40 — ERROR — Could not generate the report - Error: Failed to run dbt command.
+Encountered an error while running operation: Database Error
+  expected str, bytes or os.PathLike object, not NoneType
+Please reach out to our community for help with this issue.[0m
+NoneType: None
+2024-03-22 10:29:06 — INFO — Running with edr=0.13.2
+2024-03-22 10:29:06 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_latest_invocation", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+[31;20m2024-03-22 10:29:09 — ERROR — Unable to get the latest invocation: Failed to run dbt command.
+Encountered an error:
+Runtime Error
+  Could not find profile named 'elementary'[0m
+2024-03-22 10:29:09 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_adapter_type_and_unique_id", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:29:12 — DEBUG — Could not get warehouse info.
+Traceback (most recent call last):
+  File "/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/clients/dbt/dbt_runner.py", line 82, in _run_command
+    result = subprocess.run(
+  File "/usr/local/Cellar/python@3.9/3.9.19/Frameworks/Python.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_adapter_type_and_unique_id", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' returned non-zero exit status 2.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/data_monitoring/data_monitoring.py", line 174, in _get_warehouse_info
+    self.internal_dbt_runner.run_operation(
+  File "/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/clients/dbt/dbt_runner.py", line 154, in run_operation
+    success, command_output = self._run_command(
+  File "/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/clients/dbt/dbt_runner.py", line 93, in _run_command
+    raise DbtCommandError(err, command_args, logs=logs)
+elementary.exceptions.exceptions.DbtCommandError: Failed to run dbt command.
+Encountered an error:
+Runtime Error
+  Could not find profile named 'elementary'
+2024-03-22 10:29:12 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_elementary_database_and_schema", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:29:25 — INFO — Running with edr=0.13.2
+2024-03-22 10:29:25 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_latest_invocation", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+[31;20m2024-03-22 10:29:30 — ERROR — Unable to get the latest invocation: Failed to run dbt command.
+Encountered an error while running operation: Database Error
+  expected str, bytes or os.PathLike object, not NoneType[0m
+2024-03-22 10:29:30 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_adapter_type_and_unique_id", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:29:36 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_adapter_type_and_unique_id", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 1923
+2024-03-22 10:29:36 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_elementary_database_and_schema", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:29:41 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_elementary_database_and_schema", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 1913
+2024-03-22 10:29:41 — INFO — Elementary's database and schema: '"basedosdados-dev.elementary"'
+2024-03-22 10:29:41 — INFO — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_test_results", "macro_args": {"days_back": 7, "invocations_per_test": 720, "disable_passed_test_metrics": false}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+[31;20m2024-03-22 10:29:48 — ERROR — Could not generate the report - Error: Failed to run dbt command.
+Encountered an error while running operation: Database Error
+  expected str, bytes or os.PathLike object, not NoneType
+Please reach out to our community for help with this issue.[0m
+NoneType: None
+2024-03-22 10:31:16 — INFO — Running with edr=0.13.2
+2024-03-22 10:31:16 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_latest_invocation", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+[31;20m2024-03-22 10:31:27 — ERROR — Unable to get the latest invocation: Failed to run dbt command.
+Encountered an error while running operation: Database Error
+  expected str, bytes or os.PathLike object, not NoneType[0m
+2024-03-22 10:31:27 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_adapter_type_and_unique_id", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:31:32 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_adapter_type_and_unique_id", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 1923
+2024-03-22 10:31:32 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_elementary_database_and_schema", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:31:38 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_elementary_database_and_schema", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 1913
+2024-03-22 10:31:38 — INFO — Elementary's database and schema: '"basedosdados-dev.elementary"'
+2024-03-22 10:31:38 — INFO — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_test_results", "macro_args": {"days_back": 7, "invocations_per_test": 720, "disable_passed_test_metrics": false}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+[31;20m2024-03-22 10:31:43 — ERROR — Could not generate the report - Error: Failed to run dbt command.
+Encountered an error while running operation: Database Error
+  expected str, bytes or os.PathLike object, not NoneType
+Please reach out to our community for help with this issue.[0m
+NoneType: None
+2024-03-22 10:32:05 — INFO — Running with edr=0.13.2
+2024-03-22 10:32:05 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_latest_invocation", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+[31;20m2024-03-22 10:32:09 — ERROR — Unable to get the latest invocation: Failed to run dbt command.
+Encountered an error:
+Runtime Error
+  Could not find profile named 'elementary'[0m
+2024-03-22 10:32:09 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_adapter_type_and_unique_id", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:32:12 — DEBUG — Could not get warehouse info.
+Traceback (most recent call last):
+  File "/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/clients/dbt/dbt_runner.py", line 82, in _run_command
+    result = subprocess.run(
+  File "/usr/local/Cellar/python@3.9/3.9.19/Frameworks/Python.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_adapter_type_and_unique_id", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' returned non-zero exit status 2.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/data_monitoring/data_monitoring.py", line 174, in _get_warehouse_info
+    self.internal_dbt_runner.run_operation(
+  File "/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/clients/dbt/dbt_runner.py", line 154, in run_operation
+    success, command_output = self._run_command(
+  File "/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/clients/dbt/dbt_runner.py", line 93, in _run_command
+    raise DbtCommandError(err, command_args, logs=logs)
+elementary.exceptions.exceptions.DbtCommandError: Failed to run dbt command.
+Encountered an error:
+Runtime Error
+  Could not find profile named 'elementary'
+2024-03-22 10:32:12 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_elementary_database_and_schema", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+[31;20m2024-03-22 10:32:15 — ERROR — Failed to parse Elementary's database and schema.[0m
+2024-03-22 10:32:15 — INFO — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_test_results", "macro_args": {"days_back": 7, "invocations_per_test": 720, "disable_passed_test_metrics": false}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+[31;20m2024-03-22 10:32:19 — ERROR — Could not generate the report - Error: Failed to run dbt command.
+Encountered an error:
+Runtime Error
+  Could not find profile named 'elementary'
+Please reach out to our community for help with this issue.[0m
+NoneType: None
+2024-03-22 10:32:36 — INFO — Running with edr=0.13.2
+2024-03-22 10:32:36 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_latest_invocation", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+[31;20m2024-03-22 10:32:39 — ERROR — Unable to get the latest invocation: Failed to run dbt command.
+Encountered an error:
+Runtime Error
+  Could not find profile named 'elementary'[0m
+2024-03-22 10:32:39 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_adapter_type_and_unique_id", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:32:42 — DEBUG — Could not get warehouse info.
+Traceback (most recent call last):
+  File "/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/clients/dbt/dbt_runner.py", line 82, in _run_command
+    result = subprocess.run(
+  File "/usr/local/Cellar/python@3.9/3.9.19/Frameworks/Python.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_adapter_type_and_unique_id", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' returned non-zero exit status 2.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/data_monitoring/data_monitoring.py", line 174, in _get_warehouse_info
+    self.internal_dbt_runner.run_operation(
+  File "/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/clients/dbt/dbt_runner.py", line 154, in run_operation
+    success, command_output = self._run_command(
+  File "/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/clients/dbt/dbt_runner.py", line 93, in _run_command
+    raise DbtCommandError(err, command_args, logs=logs)
+elementary.exceptions.exceptions.DbtCommandError: Failed to run dbt command.
+Encountered an error:
+Runtime Error
+  Could not find profile named 'elementary'
+2024-03-22 10:32:42 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_elementary_database_and_schema", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+[31;20m2024-03-22 10:32:46 — ERROR — Failed to parse Elementary's database and schema.[0m
+2024-03-22 10:32:46 — INFO — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_test_results", "macro_args": {"days_back": 7, "invocations_per_test": 720, "disable_passed_test_metrics": false}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+[31;20m2024-03-22 10:32:50 — ERROR — Could not generate the report - Error: Failed to run dbt command.
+Encountered an error:
+Runtime Error
+  Could not find profile named 'elementary'
+Please reach out to our community for help with this issue.[0m
+NoneType: None
+2024-03-22 10:33:22 — INFO — Running with edr=0.13.2
+2024-03-22 10:33:22 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_latest_invocation", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:33:35 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_latest_invocation", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 4542
+2024-03-22 10:33:35 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_adapter_type_and_unique_id", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:33:40 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_adapter_type_and_unique_id", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 1923
+[33;20m2024-03-22 10:33:40 — WARNING — You are using incompatible versions between edr (0.13.2) and Elementary's dbt package (0.14.1).
+ To fix please run:
+pip install --upgrade elementary-data
+[0m
+2024-03-22 10:33:40 — DEBUG — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_elementary_database_and_schema", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:33:45 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_elementary_database_and_schema", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 1913
+2024-03-22 10:33:45 — INFO — Elementary's database and schema: '"basedosdados-dev.elementary"'
+2024-03-22 10:33:45 — INFO — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_test_results", "macro_args": {"days_back": 7, "invocations_per_test": 720, "disable_passed_test_metrics": false}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:33:55 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_test_results", "macro_args": {"days_back": 7, "invocations_per_test": 720, "disable_passed_test_metrics": false}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 472807
+2024-03-22 10:33:55 — INFO — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_source_freshness_results", "macro_args": {"days_back": 7, "invocations_per_test": 720}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:34:04 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_source_freshness_results", "macro_args": {"days_back": 7, "invocations_per_test": 720}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 1855
+2024-03-22 10:34:04 — INFO — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_models", "macro_args": {"exclude_elementary": true}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:34:12 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_models", "macro_args": {"exclude_elementary": true}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 530191
+2024-03-22 10:34:12 — INFO — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_sources", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:34:20 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_sources", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 1855
+2024-03-22 10:34:20 — INFO — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_exposures", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:34:29 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_exposures", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 1855
+2024-03-22 10:34:29 — INFO — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_models_runs", "macro_args": {"days_back": 7, "exclude_elementary": true}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:34:38 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_models_runs", "macro_args": {"days_back": 7, "exclude_elementary": true}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 17795
+2024-03-22 10:34:38 — INFO — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_dbt_models_test_coverage", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:34:46 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_dbt_models_test_coverage", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 33941
+2024-03-22 10:34:46 — INFO — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_nodes_depends_on_nodes", "macro_args": {"exclude_elementary": true}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:34:53 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_nodes_depends_on_nodes", "macro_args": {"exclude_elementary": true}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 101791
+2024-03-22 10:34:53 — INFO — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_models_latest_invocation", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:35:01 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_models_latest_invocation", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 25653
+2024-03-22 10:35:01 — INFO — Running dbt --log-format json run-operation elementary.log_macro_results --args {"macro_name": "elementary_cli.get_models_latest_invocations_data", "macro_args": {}} --project-dir /Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project
+2024-03-22 10:35:09 — DEBUG — Result bytes size for command '['dbt', '--log-format', 'json', 'run-operation', 'elementary.log_macro_results', '--args', '{"macro_name": "elementary_cli.get_models_latest_invocations_data", "macro_args": {}}', '--project-dir', '/Users/apple/Documents/queries-basedosdados-dev/venv-dbt/lib/python3.9/site-packages/elementary/monitor/dbt_project']' is 42561

@@ -20,17 +20,7 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values:
-                - AUD
-                - CAD
-                - CHF
-                - DKK
-                - EUR
-                - GBP
-                - JPY
-                - NOK
-                - SEK
-                - USD
+              values: [AUD, CHF, DKK, EUR, GBP, JPY, NOK, SEK, USD]
       - name: tipo_moeda
         description: Tipo da moeda. O tipo determina a fórmula de calculo da paridade
         tests: [not_null]

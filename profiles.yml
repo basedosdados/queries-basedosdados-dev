@@ -18,3 +18,13 @@ default:
       location: US
       threads: 2
       keyfile: /credentials-prod/prod.json
+elementary:
+  target: dev
+  outputs:
+    dev:
+      type: "bigquery"
+      project: "basedosdados-dev"
+      dataset: "elementary"
+      method: "service-account"
+      keyfile: "/tmp/bigquery_keyfile.json"
+      threads: 2
