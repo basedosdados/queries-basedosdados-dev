@@ -127,10 +127,10 @@ def create_yaml_file(arch_url,
 
 
 if __name__ == '__main__':
-    DATASET_ID = 'br_bd_metadados'
-    TABLE_ID = 'storage_blobs'
+    DATASET_ID = 'test'
+    TABLE_ID = 'test'
     #The URL must be the browser link containing '#gid='. The edit function should be open to anyone on the internet.
-    ARCHITECTURE_URL = 'https://docs.google.com/spreadsheets/d/1mWNTeUVpLAufhxdnXLqcbKasv9MA3xbZ/edit#gid=1518247806'
+    ARCHITECTURE_URL = "https://docs.google.com/spreadsheets/d/1Y2ebUNrZTUv2x_psWpK4oTxvRxhje5K6BSKZIWBQYDM/edit?pli=0#gid=1213668070"
 
     create_yaml_file(
     arch_url=ARCHITECTURE_URL,
