@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout dbt project
         uses: actions/checkout@v3           
+      - name: Install PyArrow
+        run: pip install pyarrow>=3.0.0        
       - name: Run Elementary
         uses: elementary-data/run-elementary-action@v1.12
         with:
