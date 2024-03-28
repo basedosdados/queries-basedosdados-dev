@@ -19,6 +19,7 @@ default:
       threads: 2
       keyfile: /credentials-prod/prod.json
 elementary:
+  target: dev
   outputs:
     default:
       type: "bigquery"
