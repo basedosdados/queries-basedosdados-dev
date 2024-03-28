@@ -2,15 +2,15 @@ name: Deploy Elementary Report
 on:
   push:
     branches: [ "main", "master" ]
-  schedule:
-    - cron: '0 22 * * 1-5' #“At 22:00 on every day-of-week from Monday through Friday.”
+  pull_request:
+    branches: [ "main", "master" ]  
   workflow_dispatch:
 jobs:
   elementary:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout dbt project
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3           
       - name: Run Elementary
         uses: elementary-data/run-elementary-action@v1.11
         with:
