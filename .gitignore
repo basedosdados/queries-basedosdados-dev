@@ -11,4 +11,3 @@ profiles.yml
 .python-version
 gists/test.py
 gists/__pycache__/
-edr_target/
