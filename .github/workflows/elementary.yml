@@ -24,7 +24,7 @@ jobs:
         with:
           warehouse-type: bigquery 
           adapter-version: 1.5.6 
-          profiles-yml: ${{ secrets.ELEMENTARY_PROFILES_YML }} 
+#          profiles-yml: ${{ secrets.ELEMENTARY_PROFILES_YML }} 
           edr-command:
             edr report
               --file-path "report.html"
