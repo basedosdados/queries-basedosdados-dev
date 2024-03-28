@@ -49,7 +49,7 @@ with
             cast(null as string) nome_regiao_intermediaria,
             cast(null as string) id_concentracao_urbana,
             cast(null as string) nome_concentracao_urbana
-        from `basedosdados-dev.br_bd_diretorios_brasil_staging.setor_censitario`
+        from `basedosdados-dev.br_bd_diretorios_brasil.setor_censitario`
 
     )
 
