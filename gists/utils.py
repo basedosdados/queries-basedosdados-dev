@@ -3,7 +3,24 @@ import ruamel.yaml as yaml
 import requests
 from io import StringIO
 import re
+import os
 
+def find_model_directory(directory):
+    # Check if 'model' is in the current directory
+    print(f"\n\n{directory}")
+    print(f"\t\t{os.listdir(directory) =}")
+    if 'models' in os.listdir(directory):
+        return os.path.join(directory, 'models')
+
+    # Get the parent directory
+    parent_directory = os.path.dirname(directory)
+
+    # If we've reached the root directory without finding 'model', return None
+    if directory == parent_directory:
+        return None
+
+    # Otherwise, continue searching recursively in parent directories
+    return find_model_directory(parent_directory)
 
 def sheet_to_df(columns_config_url_or_path):
     """
