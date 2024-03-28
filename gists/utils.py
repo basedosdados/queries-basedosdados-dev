@@ -7,8 +7,6 @@ import os
 
 def find_model_directory(directory):
     # Check if 'model' is in the current directory
-    print(f"\n\n{directory}")
-    print(f"\t\t{os.listdir(directory) =}")
     if 'models' in os.listdir(directory):
         return os.path.join(directory, 'models')
 
