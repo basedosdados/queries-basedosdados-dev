@@ -834,3 +834,69 @@ models:
         description: Cobertura temporal
       - name: valor
         description: Valor
+  - name: br_ibge_censo_2022__domicilio_morador_setor_censitario
+    description: description
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+            combination_of_columns:
+              - id_uf
+              - id_municipio
+              - id_setor
+              - id_distrito
+              - id_subdistrito
+              - id_microrregiao
+              - id_mesorregiao
+              - id_regiao_imediata
+              - id_regiao_intermediaria
+              - id_concentracao_urbana
+      - not_null_proportion_multiple_columns:
+            at_least: 0.05
+    columns:
+      - name: id_uf
+        description: ID da Unidade da Federação
+        tests:
+          - relationships:
+                to: ref('br_bd_diretorios_brasil__uf')
+                field: id
+      - name: id_municipio
+        description: ID Município IBGE - 7 Dígitos
+        tests:
+          - relationships:
+                to: ref('br_bd_diretorios_brasil__municipio')
+                field: id_municipio
+      - name: id_setor
+        description: Geocódigo de Setor Censitário
+      - name: area_setor
+        description: Área do Setor Censitário em quilômetros quadrados
+      - name: id_distrito
+        description: Código do distrito
+      - name: id_subdistrito
+        description: Código do subdistrito
+      - name: id_microrregiao
+        description: Código da microrregião
+      - name: id_mesorregiao
+        description: Código da mesorregião
+      - name: id_regiao_imediata
+        description: Código da região geográfica imediata
+      - name: id_regiao_intermediaria
+        description: Código da região geográfica intermediária
+      - name: id_concentracao_urbana
+        description: Código da Concentração Urbana
+      - name: geometria
+        description: Polígono
+      - name: pessoas
+        description: Total de pessoas
+      - name: domicilios
+        description: Total de Domicílios (DPPO + DPPV + DPPUO + DPIO + DCCM + DCSM)
+      - name: domicilios_particulares
+        description: Total de Domicílios Particulares (DPPO + DPPV + DPPUO + DPIO)
+      - name: domicilios_coletivos
+        description: Total de Domicílios Coletivos (DCCM + DCSM)
+      - name: media_moradores_domicilios
+        description: Média de moradores em Domicílios Particulares Ocupados (Total
+            pessoas em Domicílios Particulares Ocupados / DPPO + DPIO)
+      - name: porcentagem_domicilios_imputados
+        description: Percentual de Domicílios Particulares Ocupados Imputados (Total
+            DPO imputados / Total DPO)
+      - name: domcilios_particulares_ocupados
+        description: Total de Domicílios Particulares Ocupados (DPPO + DPIO)
