@@ -19,7 +19,7 @@ select
     safe_cast(v0004 as int64) domicilios_coletivos,
     safe_cast(v0005 as float64) media_moradores_domicilios,
     safe_cast(v0006 as float64) porcentagem_domicilios_imputados,
-    safe_cast(v0007 as int64) domcilios_particulares_ocupados,
+    safe_cast(v0007 as int64) domicilios_particulares_ocupados,
 from
     `basedosdados-dev.br_ibge_censo_2022_staging.domicilio_morador_setor_censitario`
     as t

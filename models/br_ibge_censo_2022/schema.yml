@@ -877,5 +877,5 @@ models:
       - name: porcentagem_domicilios_imputados
         description: Percentual de Domicílios Particulares Ocupados Imputados (Total
             DPO imputados / Total DPO)
-      - name: domcilios_particulares_ocupados
+      - name: domicilios_particulares_ocupados
         description: Total de Domicílios Particulares Ocupados (DPPO + DPIO)
