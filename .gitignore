@@ -9,3 +9,4 @@ venv-dbt/
 dbt_packages
 profiles.yml
 gists/test.py
+.DS_Store
