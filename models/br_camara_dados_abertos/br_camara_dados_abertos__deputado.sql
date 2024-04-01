@@ -1,52 +1,72 @@
-{{ config(alias='deputado',schema='br_camara_dados_abertos') }}
-WITH
-  sql AS (
-  SELECT
-    SAFE_CAST(nome AS STRING) nome,
-    SAFE_CAST(nome_civil AS STRING) nome_civil,
-    SAFE_CAST(data_nascimento AS DATE) data_nascimento,
-    SAFE_CAST(data_falecimento AS DATE) data_falecimento,
-    REGEXP_EXTRACT(id_deputado, r'/([^/]+)$') AS id_deputado,
-    CASE
-    WHEN id_municipio_nascimento = 'SAO PAULO' THEN 'São Paulo'
-    WHEN id_municipio_nascimento = 'Moji-Mirim' THEN 'Mogi Mirim'
-    WHEN id_municipio_nascimento = "São Lourenço D'Oeste" THEN 'São Lourenço do Oeste'
-    WHEN id_municipio_nascimento = "Santa Bárbara D'Oeste" THEN "Santa Bárbara d'Oeste"
-    WHEN id_municipio_nascimento = "Araióses" THEN "Araioses"
-    WHEN id_municipio_nascimento = "Cacador" THEN "Caçador"
-    WHEN id_municipio_nascimento = "Pindaré Mirim" THEN "Pindaré-Mirim"
-    WHEN id_municipio_nascimento = "Belém de São Francisco" THEN "Belém do São Francisco"
-    WHEN id_municipio_nascimento = "Sud Menucci" THEN "Sud Mennucci"
-    WHEN id_municipio_nascimento = 'Duerê' THEN "Dueré"
-    WHEN id_municipio_nascimento = 'Santana do Livramento' THEN "Sant'Ana do Livramento"
-    WHEN id_municipio_nascimento = "Herval D'Oeste" THEN "Herval d'Oeste"
-    WHEN id_municipio_nascimento = "Guaçui" THEN "Guaçuí"
-    WHEN id_municipio_nascimento = "Lençois Paulista" THEN "Lençóis Paulista"
-    WHEN id_municipio_nascimento = "Amambaí" THEN "Amambai"
-    WHEN id_municipio_nascimento = "Santo Estevão" THEN "Santo Estêvão"
-    WHEN id_municipio_nascimento = "Poxoréu" THEN "Poxoréo"
-    WHEN id_municipio_nascimento = "Trajano de Morais" THEN "Trajano de Moraes"
-    ELSE id_municipio_nascimento
-    END
-    AS id_municipio_nascimento,
-    SAFE_CAST(sigla_uf_nascimento AS STRING) sigla_uf_nascimento,
-    REPLACE(REPLACE(SAFE_CAST(sexo AS STRING), 'M', 'Masculino'), 'F', 'Feminino') sexo,
-    SAFE_CAST(id_inicial_legislatura AS STRING) id_inicial_legislatura,
-    SAFE_CAST(id_final_legislatura AS STRING) id_final_legislatura,
-    SAFE_CAST(url_site AS STRING) url_site,
-    SAFE_CAST(url_rede_social AS STRING) url_rede_social,
-  FROM
-    basedosdados-dev.br_camara_dados_abertos_staging.deputado),
-  uniao_valores AS (
-  SELECT
-    a.*,
-    b.nome AS name_id_municipio,
-    b.id_municipio,
-    b.sigla_uf
-  FROM sql as a
-    LEFT JOIN `basedosdados.br_bd_diretorios_brasil.municipio` AS b
-    on a.id_municipio_nascimento = b.nome and a.sigla_uf_nascimento = b.sigla_uf)
-    select 
+{{ config(alias="deputado", schema="br_camara_dados_abertos") }}
+with
+    sql as (
+        select
+            regexp_extract(uri, r'/([^/]+)$') as id_deputado,
+            safe_cast(nome as string) nome,
+            safe_cast(nomecivil as string) nome_civil,
+            safe_cast(datanascimento as date) data_nascimento,
+            safe_cast(datafalecimento as date) data_falecimento,
+            case
+                when municipionascimento = 'SAO PAULO'
+                then 'São Paulo'
+                when municipionascimento = 'Moji-Mirim'
+                then 'Mogi Mirim'
+                when municipionascimento = "São Lourenço D'Oeste"
+                then 'São Lourenço do Oeste'
+                when municipionascimento = "Santa Bárbara D'Oeste"
+                then "Santa Bárbara d'Oeste"
+                when municipionascimento = "Araióses"
+                then "Araioses"
+                when municipionascimento = "Cacador"
+                then "Caçador"
+                when municipionascimento = "Pindaré Mirim"
+                then "Pindaré-Mirim"
+                when municipionascimento = "Belém de São Francisco"
+                then "Belém do São Francisco"
+                when municipionascimento = "Sud Menucci"
+                then "Sud Mennucci"
+                when municipionascimento = 'Duerê'
+                then "Dueré"
+                when municipionascimento = 'Santana do Livramento'
+                then "Sant'Ana do Livramento"
+                when municipionascimento = "Herval D'Oeste"
+                then "Herval d'Oeste"
+                when municipionascimento = "Guaçui"
+                then "Guaçuí"
+                when municipionascimento = "Lençois Paulista"
+                then "Lençóis Paulista"
+                when municipionascimento = "Amambaí"
+                then "Amambai"
+                when municipionascimento = "Santo Estevão"
+                then "Santo Estêvão"
+                when municipionascimento = "Poxoréu"
+                then "Poxoréo"
+                when municipionascimento = "Trajano de Morais"
+                then "Trajano de Moraes"
+                else municipionascimento
+            end as municipionascimento,
+            safe_cast(ufnascimento as string) sigla_uf_nascimento,
+            replace(
+                replace(safe_cast(siglasexo as string), 'M', 'Masculino'),
+                'F',
+                'Feminino'
+            ) sexo,
+            safe_cast(idlegislaturainicial as string) id_inicial_legislatura,
+            safe_cast(idlegislaturafinal as string) id_final_legislatura,
+            safe_cast(urlwebsite as string) url_site,
+            safe_cast(urlwebsite as string) url_rede_social,
+        from `basedosdados-dev.br_camara_dados_abertos_staging.deputado`
+    ),
+    uniao_valores as (
+        select a.*, b.nome as name_id_municipio, b.id_municipio, b.sigla_uf
+        from sql as a
+        left join
+            `basedosdados.br_bd_diretorios_brasil.municipio` as b
+            on a.municipionascimento = b.nome
+            and a.sigla_uf_nascimento = b.sigla_uf
+    )
+select
     nome,
     nome_civil,
     data_nascimento,
@@ -59,6 +79,4 @@ WITH
     id_final_legislatura,
     url_site,
     url_rede_social,
-    from uniao_valores
-
-
+from uniao_valores

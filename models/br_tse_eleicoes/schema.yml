@@ -1,5 +1,5 @@
+---
 version: 2
-
 models:
   - name: br_tse_eleicoes__candidatos
     description: "Candidatos"
@@ -11,7 +11,7 @@ models:
       - name: sigla_uf
         description: Sigla da Unidade da Federação
       - name: id_municipio
-        description: ID Município - IBGE 7 Dígitos 
+        description: ID Município - IBGE 7 Dígitos
       - name: id_municipio_tse
         description: ID Município - Tribunal Superior Eleitoral (TSE)
       - name: id_candidato_bd
@@ -163,7 +163,8 @@ models:
       - name: cnae_2_doador
         description: CNAE 2 do Doador
       - name: descricao_cnae_2_doador
-        description: Descrição da Classificação Nacional de Atividades Econômicas 2.0 do doador
+        description: Descrição da Classificação Nacional de Atividades Econômicas
+          2.0 do doador
       - name: cpf_cnpj_doador_orig
         description: CPF ou CNPJ do doador originário
       - name: nome_doador_orig
@@ -173,7 +174,8 @@ models:
       - name: tipo_doador_orig
         description: Tipo do doador originário
       - name: descricao_cnae_2_doador_orig
-        description: Descrição da Classificação Nacional de Atividades Econômicas 2.0 do doador originário
+        description: Descrição da Classificação Nacional de Atividades Econômicas
+          2.0 do doador originário
       - name: nome_administrador
         description: Nome do administrador
       - name: cpf_administrador
@@ -270,7 +272,8 @@ models:
       - name: cnae_2_fornecedor
         description: Classificação Nacional de Atividades Econômicas 2.0 do fornecedor
       - name: descricao_cnae_2_fornecedor
-        description: Descrição da Classificação Nacional de Atividades Econômicas 2.0 do fornecedor
+        description: Descrição da Classificação Nacional de Atividades Econômicas
+          2.0 do fornecedor
       - name: tipo_fornecedor
         description: Tipo do fornecedor
       - name: esfera_partidaria_fornecedor
@@ -345,7 +348,8 @@ models:
       - name: nome_doador_rf
         description: Nome do doador - Receita Federal
       - name: descricao_cnae_2_doador
-        description: Descrição da Classificação Nacional de Atividades Econômicas 2.0 do doador
+        description: Descrição da Classificação Nacional de Atividades Econômicas
+          2.0 do doador
       - name: numero_partido_doador
         description: Número do partido do doador
       - name: numero_candidato_doador
@@ -359,7 +363,8 @@ models:
       - name: tipo_doador_orig
         description: Tipo do doador originário
       - name: descricao_cnae_2_doador_orig
-        description: Descrição da Classificação Nacional de Atividades Econômicas 2.0 do doador originário
+        description: Descrição da Classificação Nacional de Atividades Econômicas
+          2.0 do doador originário
       - name: nome_doador_orig_rf
         description: Nome do doador originário - Receita Federal
   - name: br_tse_eleicoes__receitas_orgao_partidario
@@ -426,7 +431,8 @@ models:
       - name: cnae_2_doador
         description: Classificação Nacional de Atividades Econômicas 2.0 do doador
       - name: descricao_cnae_2_doador
-        description: Descrição da Classificação Nacional de Atividades Econômicas 2.0 do doador
+        description: Descrição da Classificação Nacional de Atividades Econômicas
+          2.0 do doador
       - name: cpf_cnpj_doador
         description: CPF ou CNPJ do doador
       - name: nome_doador
@@ -464,7 +470,8 @@ models:
       - name: tipo_doador_orig
         description: Tipo do doador originário
       - name: descricao_cnae_2_doador_orig
-        description: Descrição da Classificação Nacional de Atividades Econômicas 2.0 do doador originário
+        description: Descrição da Classificação Nacional de Atividades Econômicas
+          2.0 do doador originário
       - name: nome_doador_orig_rf
         description: Nome do doador originário - Receita Federal
   - name: br_tse_eleicoes__resultados_candidato

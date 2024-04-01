@@ -1,9 +1,9 @@
-{{ config(alias='deputado_ocupacao',schema='br_camara_dados_abertos') }}
-SELECT
-    SAFE_CAST(ano_inicio AS INT64) ano_inicio,
-    SAFE_CAST(ano_fim AS INT64) ano_fim,
-    SAFE_CAST(id_deputado AS STRING) id_deputado,
-    SAFE_CAST(sigla_uf AS STRING) sigla_uf,
-    SAFE_CAST(entidade AS STRING) entidade,
-    SAFE_CAST(titulo AS STRING) titulo,
-FROM basedosdados-dev.br_camara_dados_abertos_staging.deputado_ocupacao AS t
+{{ config(alias="deputado_ocupacao", schema="br_camara_dados_abertos") }}
+select distinct
+    safe_cast(id as string) id_deputado,
+    safe_cast(anoinicio as int64) ano_inicio,
+    safe_cast(anofim as int64) ano_fim,
+    safe_cast(entidadeuf as string) sigla_uf,
+    safe_cast(entidade as string) entidade,
+    safe_cast(titulo as string) titulo,
+from `basedosdados-dev.br_camara_dados_abertos_staging.deputado_ocupacao` as t
