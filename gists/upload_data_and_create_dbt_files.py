@@ -32,7 +32,7 @@ if __name__ == '__main__':
     # Creating standard files required to run a dbt model
     # Modifications will be needed, but this code significantly reduces workload
     create_yaml_file(
-        arq_url=ARCHITECTURE_URL,
+        arch_url=ARCHITECTURE_URL,
         table_id=TABLE_ID,
         dataset_id=DATASET_ID,
         preprocessed_staging_column_names=PREPROCESSED_STAGING_COLUMN_NAMES)
