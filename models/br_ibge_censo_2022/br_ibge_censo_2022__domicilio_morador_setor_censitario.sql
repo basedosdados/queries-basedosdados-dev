@@ -23,3 +23,4 @@ select
 from
     `basedosdados-dev.br_ibge_censo_2022_staging.domicilio_morador_setor_censitario`
     as t
+  
