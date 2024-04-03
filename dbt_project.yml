@@ -12,8 +12,8 @@ profile: default
 vars:
   disable_run_results: false
   disable_tests_results: false
-  disable_dbt_artifacts_autoupload: false
-  disable_dbt_invocation_autoupload: false
+  disable_dbt_artifacts_autoupload: true
+  disable_dbt_invocation_autoupload: true
 # These configurations specify where dbt should look for different types of files.
 # The `source-paths` config, for example, states that models in this project can be
 # found in the "models/" directory. You probably won't need to change these!
@@ -103,12 +103,18 @@ models:
     br_cgu_beneficios_cidadao:
       +materialized: incremental
       +schema: br_cgu_beneficios_cidadao
+    br_cgu_dados_abertos:
+      +materialized: table
+      +schema: br_cgu_dados_abertos
     br_cgu_pessoal_executivo_federal:
       +materialized: table
       +schema: br_cgu_pessoal_executivo_federal
     br_cgu_servidores_executivo_federal:
       +materialized: table
       +schema: br_cgu_servidores_executivo_federal
+    br_cnj_improbidade_administrativa:
+      +materialized: table
+      +schema: br_cnj_improbidade_administrativa
     br_cnpq_bolsas:
       +materialized: table
       +schema: br_cnpq_bolsas
@@ -160,9 +166,15 @@ models:
     br_inep_censo_escolar:
       +materialized: table
       +schema: br_inep_censo_escolar
+    br_inep_indicadores_educacionais:
+      +materialized: table
+      +schema: br_inep_indicadores_educacionais
     br_inep_saeb:
       +materialized: table
       +schema: br_inep_saeb
+    br_inep_sinopse_estatistica_educacao_basica:
+      +materialized: table
+      +schema: br_inep_sinopse_estatistica_educacao_basica
     br_inmet_bdmep:
       +materialized: table
       +schema: br_inmet_bdmep
@@ -193,12 +205,18 @@ models:
       +post-hook:
         - REVOKE `roles/bigquery.dataViewer` ON TABLE {{ this }} FROM "specialGroup:allUsers"
         - GRANT `roles/bigquery.dataViewer` ON TABLE {{ this }} TO "group:bd-pro@basedosdados.org"
+    br_mme_consumo_energia_eletrica:
+      +materialized: table
+      +schema: br_mme_consumo_energia_eletrica
     br_mp_pep:
       +materialized: table
       +schema: br_mp_pep
     br_ms_cnes:
       +materialized: table
       +schema: br_ms_cnes
+    br_ms_sia:
+      +materialized: table
+      +schema: br_ms_sia
     br_ms_sim:
       +materialized: table
       +schema: br_ms_sim
@@ -256,6 +274,8 @@ models:
     world_wb_mides:
       +materialized: table
       +schema: world_wb_mides
+    world_ampas_oscar:
+      +materialized: table
+      +schema: world_ampas_oscar
   elementary:
     +schema: elementary
-    +enabled: "{{ env_var('DBT_ELEMENTARY_ENABLED') | as_bool }}"

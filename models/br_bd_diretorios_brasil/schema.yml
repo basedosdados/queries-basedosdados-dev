@@ -428,3 +428,93 @@ models:
         description: Unidade da Federação
       - name: regiao
         description: Região
+  - name: br_bd_diretorios_brasil__cid_10
+    description: Diretório da Classificação Internacional de Doenças (CID) 10.
+    columns:
+      - name: subcategoria
+        description: Subcategoria da CID-10
+      - name: descricao_subcategoria
+        description: Descrição da Subcategoria da CID-10
+      - name: categoria
+        description: Categoria da CID-10
+      - name: descricao_categoria
+        description: Descrição da Categoria da CID-10
+      - name: capitulo
+        description: Capítulo da CID-10
+      - name: descricao_capitulo
+        description: Descrição do Capítulo da CID-10
+      - name: causa_violencia
+        description: Causa - Violência (Categorias W32 W33 W34 X85 X86 X87 X88 X89
+          X90 X91 X92 X93 X94 X95 X96 X97 X98 X99 Y00 Y01 Y02 Y03 Y04 Y05 Y06 Y07
+          Y08 Y09 Y10 Y11 Y12 Y13 Y14 Y15 Y16 Y17 Y18 Y19 Y20 Y21 Y22 Y23 Y24 Y25
+          Y26 Y27 Y28 Y29 Y30 Y31 Y32 Y33 Y34 Y35 Y87 Y89)
+      - name: causa_overdose
+        description: Causa - Overdose (Categorias F10 F11 F12 F14 F16 F19 T40 T41
+          T42 T43 T44 T45 T46 T47 T48 T49 T50 X42 X43 X44 X45 X46 X47 X48 X49 X60
+          X61 X62 X63 X64 X65 X66 X67 X68 X69 Y12 Y13 Y14 Y15 Y16 Y49 Y50 Y51 Z64
+          Z65)
+  - name: br_bd_diretorios_brasil__natureza_juridica
+    description: A tabela reúne as naturezas jurídicas conforme a Comissão Nacional
+      de Classificação (Concla)
+    columns:
+      - name: id_natureza_juridica
+        description: ID da Natureza Jurídica
+      - name: descricao
+        description: Descrição da natureza jurídica
+      - name: escopo
+        description: Propósito da natureza jurídica
+  - name: br_bd_diretorios_brasil__setor_censitario
+    description: Description
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [ano, id_setor_censitario]    
+    columns:
+      - name: ano
+        description: Ano
+      - name: id_setor_censitario
+        description: ID do setor censitário 
+      - name: id_municipio
+        description: ID Município - IBGE 7 Dígitos
+      - name: id_rm
+        description: ID da região metropolitana ou RIDE 
+      - name: nome_rm
+        description: Nome da região metropolitana ou RIDE   
+      - name: id_distrito
+        description: ID do distrito                  
+      - name: nome_distrito
+        description: Nome do distrito              
+      - name: id_subdistrito
+        description: ID do subdistrito 
+      - name: nome_subdistrito
+        description: Nome do subdistrito
+      - name: id_bairro
+        description: ID de bairro         
+      - name: nome_bairro
+        description: Nome do bairro
+      - name: sigla_uf
+        description: Sigla do Estado
+      - name: situacao_setor
+        description: – ID de situação do setor - Situação urbana - IDs 1, 2 e 3; 1 - Área urbanizada de cidade ou vila 2 - Área não urbanizada de cidade ou vila 3 - Área urbana isolada - Situação rural – IDs 4, 5, 6, 7 e 8; 4 - Aglomerado rural de extensão urbana 5 - Aglomerado rural isolado, povoado 6 - Aglomerado rural isolado, núcleo 7 - Aglomerado rural isolado, outros aglomerados 8 - Zona rural, exclusive aglomerado rural
+      - name: tipo_setor
+        description: Tipo de setor censitário        
+      - name: id_microrregiao
+        description: ID da microrregião
+      - name: nome_microrregiao
+        description: Nome da microrregião
+      - name: id_mesorregiao
+        description: ID da microrregião
+      - name: nome_mesorregiao
+        description: Nome da mesorregião
+      - name: id_regiao_imediata
+        description: ID da região geográfica imediata
+      - name: nome_regiao_imediata
+        description: Nome da região geográfica imediata     
+      - name: id_regiao_intermediaria
+        description: ID da região geográfica intermediária
+      - name: nome_regiao_intermediaria
+        description: Nome da região geográfica intermediária
+      - name: id_concentracao_urbana
+        description: ID da Concentração Urbana
+      - name: nome_concentracao_urbana
+        description: Nome da Concentração Urbana                           
+  
