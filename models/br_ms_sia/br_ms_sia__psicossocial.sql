@@ -51,7 +51,7 @@ select
     -- safe_cast(tippre__ as string) tipo_prestador,
     -- safe_cast(mn_ind as string) tipo_mantenedor_estabelecimento,
     -- safe_cast(cnpjcpf as string) cnpj_estabelecimento_executante,
-    -- safe_cast(cnpjmnt as string) cnpj_mantenedora_estabalecimento,
+    -- safe_cast(cnpjmnt as string) cnpj_mantenedora_estabelecimento,
     -- safe_cast(nat_jur as string) natureza_juridica_estabelecimento,
     safe_cast(pa_proc_id as string) id_procedimento_ambulatorial,
     safe_cast(pa_srv as string) id_servico_especializado,
