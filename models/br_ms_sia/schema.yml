@@ -73,7 +73,7 @@ models:
         description: Código da Autorização de Procedimento Ambulatorial de Alta complexidade
           (APAC) e/ou custo ou número de autorização do Boletim de Produção Ambulatorial
           Individualizado (BPA-I), conforme o caso. No BPA-I não é obrigatório, portanto,
-          não é criticado
+          não é criticado.
       - name: codigo_ocorrencia
         description: Código de ocorrência
       - name: tipo_financiamento_producao
