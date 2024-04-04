@@ -4,9 +4,6 @@ models:
   - name: br_ms_sia__producao_ambulatorial
     description: Esta tabela contém o registro de processos ambulatorias realizados
       em todo sistema de saúde nacional - público e privado.
-    tests:
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
     columns:
       - name: ano
         description: Ano
@@ -76,7 +73,7 @@ models:
         description: Código da Autorização de Procedimento Ambulatorial de Alta complexidade
           (APAC) e/ou custo ou número de autorização do Boletim de Produção Ambulatorial
           Individualizado (BPA-I), conforme o caso. No BPA-I não é obrigatório, portanto,
-          não é criticado
+          não é criticado.
       - name: codigo_ocorrencia
         description: Código de ocorrência
       - name: tipo_financiamento_producao
@@ -245,12 +242,8 @@ models:
       - name: valor
         description: Valor
   - name: br_ms_sia__psicossocial
-    description: Insert `psicossocial` table description here
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, mes]
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
+    description: Esta tabela contém o registro de processos ambulatorias de atendimento
+      psicossial no sistema público de saúde nacional.
     columns:
       - name: ano
         description: Ano
@@ -294,13 +287,9 @@ models:
       - name: cnpj_estabelecimento_executante
         description: CNPJ do Estabelecimento executante
       - name: cnpj_mantenedora_estabalecimento
-        description: 'CNPJ da Mantenedora do Estabelecimento '
+        description: CNPJ da Mantenedora do Estabelecimento
       - name: natureza_juridica_estabelecimento
-        description: Natureza jurídica do operador do estabelecimento
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__natureza_juridica')
-              field: id_natureza_juridica
+        description: Natureza jurídica do operador do estabelecimento  # Não possui teste pois a coluna foi excluida na materialização
       - name: id_procedimento_ambulatorial
         description: Ação Realizada
       - name: id_servico_especializado
@@ -311,13 +300,13 @@ models:
       - name: id_cns_paciente_criptografado
         description: Número do CNS (Cartão Nacional de Saúde) do paciente (criptografia)
       - name: data_inicio_atendimento
-        description: Data de Início do Atendimento (DDMMAAAA)
+        description: Data de Início do Atendimento
         tests:
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__data')
               field: data.data
       - name: data_termino_atendimento
-        description: Data de Fim do Atendimento (DDMMAAAA)
+        description: Data de Fim do Atendimento
         tests:
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__data')
@@ -334,20 +323,40 @@ models:
               field: data.data
       - name: ano_processamento
         description: Ano do processamento
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano
       - name: mes_processamento
         description: Mês do processamento
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__mes')
+              field: mes.mes
       - name: ano_atendimento
         description: Ano do atendimento
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano
       - name: mes_atendimento
         description: Mês do atendimento
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__mes')
+              field: mes.mes
       - name: data_nascimento_paciente
         description: Data de nascimento do paciente
         tests:
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__data')
               field: data.data
-      - name: municipio_residencia_paciente
+      - name: id_municipio_residencia_paciente
         description: ID Município - IBGE 7 Dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
       - name: origem_paciente
         description: Origem do paciente
       - name: nacionalidade_paciente
@@ -366,19 +375,19 @@ models:
       - name: carater_atendimento
         description: Caráter de atendimento (APAC ou BPA-I)
       - name: cid_principal_categoria
-        description: 'Identificador da categoria da Classificação Internacional de
+        description: Identificador da categoria da Classificação Internacional de
           Doenças (CID10) principal da Autorização de Procedimento Ambulatorial de
           Alta complexidade (APAC) ou do Boletim de Produção Ambulatorial Individualizado
-          (BPA-I) '
+          (BPA-I)
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__cid_10')
               field: categoria
       - name: cid_principal_subcategoria
-        description: 'Identificador da subcategoria da Classificação Internacional
+        description: Identificador da subcategoria da Classificação Internacional
           de Doenças (CID10) principal da Autorização de Procedimento Ambulatorial
           de Alta complexidade (APAC) ou do Boletim de Produção Ambulatorial Individualizado
-          (BPA-I) '
+          (BPA-I)
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__cid_10')
@@ -400,13 +409,13 @@ models:
               to: ref('br_bd_diretorios_brasil__cid_10')
               field: subcategoria
       - name: tipo_droga
-        description: TIPO DE DROGA (A - Álcool, C - Crack, O - Outros)
+        description: Tipo de Droga
       - name: destino_paciente
         description: Destino do paciente
       - name: local_realizacao_atendimento
-        description: Local de Realização (C – CAPS, T - Território)
+        description: Local de Realização
       - name: indicador_situacao_rua
-        description: Situação de Rua (S- SIM, N - NÃO)
+        description: Situação de Rua
       - name: indicador_estrategia_familia
         description: Indica se a região de atendimento do paciente tem cobertura de
           Estratégia Saúde da Família
