@@ -1,3 +1,4 @@
+.DS_Store
 target/
 dbt_modules/
 logs/
@@ -8,7 +9,7 @@ venv-dbt/
 .user.yml
 dbt_packages
 profiles.yml
-.python-version
 gists/test.py
+.python-version
 gists/__pycache__/
 edr_target/
