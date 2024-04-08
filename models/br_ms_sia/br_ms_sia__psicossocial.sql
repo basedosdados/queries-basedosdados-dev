@@ -11,39 +11,53 @@
         cluster_by=["mes", "sigla_uf"],
     )
 }}
+
+
 with
     sia_add_municipios as (
         -- Adicionar id_municipio de 7 dígitos
-        select *
+        select
+            psicossocial.*,
+            mun.id_municipio as id_municipio_executante,
+            mun_res.id_municipio as id_municipio_residencia
         from `basedosdados-dev.br_ms_sia_staging.psicossocial` as psicossocial
         left join
             (
-                select id_municipio, id_municipio_6,
+                select id_municipio, id_municipio_6
                 from `basedosdados-dev.br_bd_diretorios_brasil.municipio`
             ) as mun
             on psicossocial.ufmun = mun.id_municipio_6
-        where sigla_uf = 'PA'
+        left join
+            (
+                select id_municipio, id_municipio_6
+                from `basedosdados-dev.br_bd_diretorios_brasil.municipio`
+            ) as mun_res
+            on psicossocial.munpac = mun_res.id_municipio_6
+
     )
 
 select
     safe_cast(ano as int64) ano,
     safe_cast(mes as int64) mes,
     safe_cast(sigla_uf as string) sigla_uf,
-    safe_cast(id_municipio as string) id_municipio,
+    safe_cast(id_municipio_executante as string) id_municipio,
     safe_cast(cnes_exec as string) id_estabelecimento_cnes,
     safe_cast(cnes_esf as string) id_estabelecimento_cnes_familia,
-    safe_cast(gestao as string) id_gestao,
-    safe_cast(condic as string) tipo_gestao,
-    safe_cast(tpups as string) tipo_unidade,
-    safe_cast(tippre__ as string) tipo_prestador,
-    safe_cast(mn_ind as string) tipo_mantenedor_estabelecimento,
-    safe_cast(cnpjcpf as string) cnpj_estabelecimento_executante,
-    safe_cast(cnpjmnt as string) cnpj_mantenedora_estabalecimento,
-    safe_cast(nat_jur as string) natureza_juridica_estabelecimento,
+    -- colunas removidas da materilização final pois estão todas presentes
+    -- na tabela de estabelecimento -> basedosdados.br_ms_cnes.estabelecimento
+    -- safe_cast(gestao as string) id_gestao,
+    -- safe_cast(condic as string) tipo_gestao,
+    -- safe_cast(tpups as string) tipo_unidade,
+    -- safe_cast(tippre__ as string) tipo_prestador,
+    -- safe_cast(mn_ind as string) tipo_mantenedor_estabelecimento,
+    -- safe_cast(cnpjcpf as string) cnpj_estabelecimento_executante,
+    -- safe_cast(cnpjmnt as string) cnpj_mantenedora_estabelecimento,
+    -- safe_cast(nat_jur as string) natureza_juridica_estabelecimento,
     safe_cast(pa_proc_id as string) id_procedimento_ambulatorial,
     safe_cast(pa_srv as string) id_servico_especializado,
     safe_cast(pa_class_s as string) id_classificacao_servico,
-    safe_cast(cns_pac as string) id_cns_paciente_criptografado,
+    -- retirada pois apresenta dígitos sem sentido
+    -- safe_cast(cns_pac as string) id_cns_paciente_criptografado,
     safe_cast(
         format_date('%Y-%m-%d', safe.parse_date('%Y%m%d', inicio)) as date
     ) data_inicio_atendimento,
@@ -62,15 +76,17 @@ select
     safe_cast(
         format_date('%Y-%m-%d', safe.parse_date('%Y%m%d', dtnasc)) as date
     ) data_nascimento_paciente,
-    safe_cast(munpac as string) id_municipio_residencia_paciente,
-    safe_cast(origem_pac as string) origem_paciente,
-    safe_cast(nacion_pac as string) nacionalidade_paciente,
+    safe_cast(id_municipio_residencia as string) id_municipio_residencia_paciente,
+    safe_cast(ltrim(cast(origem_pac as string), '0') as string) origem_paciente,
+    safe_cast(ltrim(cast(nacion_pac as string), '0') as string) nacionalidade_paciente,
     safe_cast(tpidadepac as string) tipo_idade,
     safe_cast(idadepac as int64) idade_paciente,
     safe_cast(sexopac as string) sexo_paciente,
     safe_cast(racacor as string) raca_cor_paciente,
     safe_cast(etnia as string) etnia_paciente,
-    safe_cast(catend as string) carater_atendimento,
+    case
+        when catend = '00' then '0' else cast(ltrim(catend, '0') as string)
+    end as carater_atendimento,
     safe_cast(
         trim(case when length(trim(cidpri)) = 3 then cidpri else null end) as string
     ) as cid_principal_categoria,
