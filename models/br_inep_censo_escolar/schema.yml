@@ -1161,6 +1161,9 @@ models:
       se a turma passa por atividades complementares, em quais dias da semana ela
       é ativa e se a turma conta com medidas de inclusão como aulas em libras e em
       braille.
+    testes:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [ano, id_turma]
     columns:
       - name: ano
         description: Ano do Censo
@@ -1186,6 +1189,8 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_brasil__escola')
               field: rede
+          - accepted_values:
+              values: [municipal, estadual, federal, privada]
       - name: id_escola
         description: Código da Escola
       - name: id_turma
