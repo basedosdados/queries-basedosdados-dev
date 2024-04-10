@@ -1,6 +1,6 @@
 {{
     config(
-        alias="lavoura_permanente",
+        alias="lavoura_temporaria",
         schema="br_ibge_pam",
         partition_by={
             "field": "ano",
