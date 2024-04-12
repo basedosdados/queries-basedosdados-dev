@@ -14,25 +14,22 @@
             {% set max_date_result = run_query(max_date_query) %}
 
             {% if execute %}
-                {% do log(max_date_query, info=True) %}
-                {% do log(max_date_result, info=True) %}
-                {% do log(max_date_result.rows, info=True) %}
-                {% do log(max_date_result.rows[0], info=True) %}
-                {% do log(max_date_result.rows[0][0], info=True) %}
+                {# % do log(max_date_query, info=True) %#}
+                {# % do log(max_date_result, info=True) %#}
+                {# Extract the maximum year and month from the max_date #}
+                {% set max_date = max_date_result.rows[0][0] %}
+                {% set max_year = max_date[:4] %}
+                {% set max_month = max_date[5:7] %}
 
-                {% if max_date_result and max_date_result.success %}
-                    {# Extract the maximum year and month from the max_date #}
-                    {% set max_date = max_date_result.rows[0][0] %}
-                    {% set max_year = max_date[:4] %}
-                    {% set max_month = max_date[5:7] %}
+                {# Replace placeholder in the where config with actual maximum year and month #}
+                {% set where = where | replace(
+                    "__most_recent__",
+                    "ano = " ~ max_year ~ " and mes = " ~ max_month,
+                ) %}
+                {% do log(
+                    "----- The test will be performed for: " ~ where, info=True
+                ) %}
 
-                    {# Replace placeholder in the where config with actual maximum year and month #}
-                    {% set where = where | replace(
-                        "__most_recent__",
-                        "ano = " ~ max_year ~ " and mes = " ~ max_month,
-                    ) %}
-                {% else %} {% do log("max_date query failed", info=True) %}
-                {% endif %}
             {% endif %}
         {% endif %}
 
