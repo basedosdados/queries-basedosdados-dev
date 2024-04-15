@@ -1,11 +1,15 @@
--- A materilização incremental finaliza antes do teste
--- Supondo que só um ano,mes sera atualizado por vez
--- Preciso de uma macro que selecione o ano mes mais recentes
+-- This macro is used to get a subquery with a where clause that can be used in a test
+-- to filter the data to be tested. The macro looks for a where clause in the model's
+-- config (schema.yml) and replaces the placeholder "__most_recent_year_month__" with
+-- the maximum
+-- year and month found in the relation. The macro returns a subquery with the where
+-- thats used
+-- to filter the data to be tested
 {% macro get_where_subquery(relation) -%}
     {% set where = config.get("where", "") %}
 
     {% if where %}
-        {% if "__most_recent__" in where %}
+        {% if "__most_recent_year_month__" in where %}
             {# Construct a query to find the maximum date using ano and mes columns #}
             {% set max_date_query = (
                 "select format_date('%Y-%m', max(date(cast(ano as int64), cast(mes as int64), 1))) as max_date from "
@@ -23,7 +27,7 @@
 
                 {# Replace placeholder in the where config with actual maximum year and month #}
                 {% set where = where | replace(
-                    "__most_recent__",
+                    "__most_recent_year_month__",
                     "ano = " ~ max_year ~ " and mes = " ~ max_month,
                 ) %}
                 {% do log(
