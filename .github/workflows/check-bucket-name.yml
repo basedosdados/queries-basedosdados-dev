@@ -19,7 +19,7 @@ jobs:
       with:
         list-files: shell
         filters: |
-          allChanges:
+          markdown:
             - added|deleted|modified: '**'
 
 
@@ -31,7 +31,7 @@ jobs:
 
     - name: Run Python script
       run: |
-        for file in ${{ steps.get_files.outputs.allChanges }}; do
+        for file in ${{ steps.get_files.outputs.markdown_files }}; do
           echo $file
         done
 
