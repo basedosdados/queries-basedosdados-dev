@@ -17,6 +17,7 @@ jobs:
       id: get_files
       uses: dorny/paths-filter@v2
       with:
+        list-files: shell
         filters: |
           allChanges:
             - added|deleted|modified: '**'
