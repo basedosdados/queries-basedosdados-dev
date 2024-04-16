@@ -17,7 +17,9 @@ jobs:
       id: get_files
       uses: dorny/paths-filter@v2
       with:
-        filters: '**/*.sql'
+        filters: |
+          allChanges:
+            - added|deleted|modified: '**'
 
 
 
