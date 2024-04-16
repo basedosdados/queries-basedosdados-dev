@@ -1,4 +1,4 @@
-name: Check if bucket name
+name: Check bucket name
 on:
   workflow_dispatch:
   pull_request:
@@ -6,18 +6,18 @@ on:
       - '**/*.sql'
 
 jobs:
-  check:
+  check_bucket_name:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Find SQL files
+    - name: Install Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Check SQL files
       run: |
-        if grep -r --include=*.sql '-staging' .; then
-          echo "Found '-staging' in SQL files."
-          exit 1
-        else
-          echo "No occurrences of '-staging' found in SQL files."
-        fi
+        python .github/workflows/scripts/check_sql_files.py
