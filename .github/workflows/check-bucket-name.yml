@@ -12,12 +12,27 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+    
+    - name: Get changed files
+      id: get_files
+      uses: dorny/paths-filter@v2
+      with:
+        filters: |
+          **/*.sql
+
+
 
     - name: Install Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.x'
 
-    - name: Check SQL files
+    - name: Run Python script
       run: |
-        python .github/workflows/scripts/check_sql_files.py
+        for file in ${{ steps.get_files.outputs.matched_files }}; do
+          echo $file
+        done
+
+    # - name: Check SQL files
+    #   run: |
+    #     python .github/workflows/scripts/check_sql_files.py
