@@ -32,7 +32,7 @@ jobs:
         for file in ${{ steps.get_files.outputs.pr_files }}; do
           if [[ $file == *.sql ]]; then
             echo "SQL file detected: $file"
-            python .github/workflows/scripts/check_sql_files.py ${{ steps.get_files.outputs.pr_files }}
+            python .github/workflows/scripts/check_sql_files.py $file
           else
             echo "Não é um arquivo SQL: $file"
           fi
