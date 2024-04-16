@@ -11,6 +11,8 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__ano')
               field: ano.ano
+              config:
+                where: __most_recent_year_month__
       - name: mes
         description: Mês
       - name: sigla_uf
