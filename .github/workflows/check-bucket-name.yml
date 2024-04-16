@@ -1,0 +1,24 @@
+name: Check if bucket is set to `basedosdados-dev` on SQL Files
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '**/*.sql'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Find SQL files
+      run: |
+        if grep -r --include=*.sql '-staging' .; then
+          echo "Found '-staging' in SQL files."
+          exit 1
+        else
+          echo "No occurrences of '-staging' found in SQL files."
+        fi
