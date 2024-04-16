@@ -21,7 +21,7 @@
     )
 }}
 
-select  
+select
     safe_cast(substr(mes_referencia, 1, 4) as int64) ano_referencia,
     safe_cast(substr(mes_referencia, 5, 2) as int64) mes_referencia,
     t2.id_municipio,
