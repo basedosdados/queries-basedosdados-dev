@@ -22,8 +22,6 @@ jobs:
           pr:
             - added|deleted|modified: '**'
 
-
-
     - name: Install Python
       uses: actions/setup-python@v2
       with:
@@ -32,9 +30,10 @@ jobs:
     - name: Run Python script
       run: |
         for file in ${{ steps.get_files.outputs.pr_files }}; do
-          echo $file
+          if [[ $file == *.sql ]]; then
+            echo "SQL file detected: $file"
+            python .github/workflows/scripts/check_sql_files.py ${{ steps.get_files.outputs.pr_files }}
+          else
+            echo "Não é um arquivo SQL: $file"
+          fi
         done
-
-    # - name: Check SQL files
-    #   run: |
-    #     python .github/workflows/scripts/check_sql_files.py

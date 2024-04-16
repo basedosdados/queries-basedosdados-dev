@@ -1,26 +1,23 @@
-import os
+import argparse
 
-def check_sql_files():
+def check_sql_files(file):
     found_staging = False
-    for root, dirs, files in os.walk("."):
-        for file in files:
-            if file.endswith(".sql"):
-                with open(os.path.join(root, file), "r") as f:
-                    lines = f.readlines()
-                    for line in lines:
-                        if "basedosdados-staging" in line:
-                            found_staging = True
-                            print(f"Found 'basedosdados-staging' in {os.path.join(root, file)}")
-                            break
-                    if found_staging:
-                        break
-        if found_staging:
-            break
+    if file.endswith(".sql"):
+        with open(file, "r") as f:
+            lines = f.readlines()
+            for line in lines:
+                if "basedosdados-staging" in line:
+                    found_staging = True
+                    print(f"Found 'basedosdados-staging' in {file}")
+                    break
+    return found_staging
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Check for 'basedosdados-staging' occurrences in SQL files.")
+    parser.add_argument("file", help="Path to the SQL file to check")
+    args = parser.parse_args()
     
-    if found_staging:
+    if check_sql_files(args.file):
         exit(1)
     else:
         print("No occurrences of 'basedosdados-staging' found in SQL files.")
-
-if __name__ == "__main__":
-    check_sql_files()
