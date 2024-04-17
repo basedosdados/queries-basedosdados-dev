@@ -1,5 +1,6 @@
+---
 version: 2
-models :
+models:
   - name: br_tse_eleicoes__bens_candidato
     description: Declaração de bens de candidatos em eleições brasileiras.
     columns:
