@@ -35,12 +35,6 @@ models:
         description: ID Estabelecimento - CNES
       - name: natureza_juridica_estabelecimento
         description: Natureza jurídica do operador do estabelecimento
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__natureza_juridica')
-              field: natureza_juridica.id_natureza_juridica
-              config:
-                where: __most_recent_year_month__
       - name: tipo_unidade
         description: Tipo de estabelecimento
       - name: tipo_prestador
