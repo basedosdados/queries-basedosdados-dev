@@ -160,12 +160,18 @@ models:
     br_ibge_ipca15:
       +materialized: table
       +schema: br_ibge_ipca15
+    br_ibge_pam:
+      +materialized: table
+      +schema: br_ibge_pam
     br_ibge_pnadc:
       +materialized: table
       +schema: br_ibge_pnadc
     br_inep_censo_escolar:
       +materialized: table
       +schema: br_inep_censo_escolar
+    br_inep_ideb:
+      +materialized: table
+      +schema: br_inep_ideb
     br_inep_indicadores_educacionais:
       +materialized: table
       +schema: br_inep_indicadores_educacionais
