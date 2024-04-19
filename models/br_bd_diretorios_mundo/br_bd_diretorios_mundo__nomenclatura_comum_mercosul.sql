@@ -1,4 +1,4 @@
-{{ config(alias="nomenclatura_comum_mercosul", schema="br_bd_diretorios_brasil") }}
+{{ config(alias="nomenclatura_comum_mercosul", schema="br_bd_diretorios_mundo") }}
 select
     safe_cast(co_ncm as string) id_ncm,
     safe_cast(co_unid as string) id_unidade,
@@ -41,11 +41,10 @@ select
             then lower('BILHOES DE UNIDADES INTERNACIONAIS')
             when co_unid = '24'
             then lower('QUILOGRAMA BRUTO')
-            -- Adicione mais condições conforme necessário
-            else lower(co_unid)  -- para todos os outros casos, converte NO_UNID para minúsculas
+            else lower(co_unid)
         end as string
     ) as nome_unidade,
     safe_cast(co_isic_classe as string) nome_ncm_portugues,
     safe_cast(co_exp_subset as string) nome_ncm_espanhol,
     safe_cast(no_ncm_por as string) nome_ncm_ingles,
-from `basedosdados-dev.br_bd_diretorios_brasil_staging.nomenclatura_comum_mercosul` as t
+from `basedosdados-dev.br_bd_diretorios_mundo_staging.nomenclatura_comum_mercosul` as t
