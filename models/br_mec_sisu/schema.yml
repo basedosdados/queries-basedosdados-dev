@@ -2,10 +2,10 @@
 version: 2
 models:
   - name: br_mec_sisu__microdados
-    description: Insert `microdados` table description here
+    description: Microdados dos candidatos que utilizam do sistema unificado gerido pelo MEC para as vagas ofertadas por instituições públicas de ensino superior de todo o Brasil
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, candidato, etapa]
+          combination_of_columns: [ano, semestre, etapa, id_curso, cpf, candidato, opcao]
     columns:
       - name: ano
         description: Ano da edição
@@ -14,9 +14,9 @@ models:
               at_least: 0.05
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__ano')
-              field: ano
-      - name: edicao
-        description: Número da edição
+              field: ano.ano
+      - name: semestre
+        description: Semestre
         tests:
           - dbt_utils.not_null_proportion:
               at_least: 0.05
@@ -205,7 +205,7 @@ models:
               at_least: 0.05
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__dia')
-              field: dia
+              field: dia.dia
       - name: sigla_uf_candidato
         description: Sigla da Unidade da Federação de residência do candidato
         tests:
