@@ -49,8 +49,3 @@ select
     safe_cast(sequencia as string) sequencia,
     safe_cast(remessa as string) nome_remessa,
 from `basedosdados-dev.br_ms_sih_staging.servicos_profissionais` as t
--- {% if is_incremental() %}
---     where
---         date(cast(ano as int64), cast(mes as int64), 1)
---         > (select max(date(cast(ano as int64), cast(mes as int64), 1)) from {{ this }})
--- {% endif %}
