@@ -1,0 +1,827 @@
+{{
+    config(
+        alias="microdados_dengue",
+        schema="br_ms_sinan",
+        materialized="table",
+        partition_by={
+            "field": "ano",
+            "data_type": "int64",
+            "range": {"start": 2000, "end": 2025, "interval": 1},
+        },
+        cluster_by=["sigla_uf_notificacao", "sigla_uf_residencia"],
+        labels={"project_id": "basedosdados-dev"},
+    )
+}}
+with
+    sql as (
+        select
+            safe_cast(ano as int64) ano,
+            safe_cast(tp_not as string) tipo_notificacao,
+            case
+                when id_agravo = 'A900'
+                then 'A90'
+                when id_agravo = 'A90 '
+                then 'A90'
+                when id_agravo = 'A90  '
+                then 'A90'
+                when id_agravo = ''
+                then null
+                else id_agravo
+            end id_agravo,
+
+            case
+                when dt_notific = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_notific, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_notificacao,
+
+            safe_cast(sem_not as int64) semana_notificacao,
+            case
+                when sigla_uf_notificacao = '11'
+                then 'RO'
+                when sigla_uf_notificacao = '12'
+                then 'AC'
+                when sigla_uf_notificacao = '13'
+                then 'AM'
+                when sigla_uf_notificacao = '14'
+                then 'RR'
+                when sigla_uf_notificacao = '15'
+                then 'PA'
+                when sigla_uf_notificacao = '16'
+                then 'AP'
+                when sigla_uf_notificacao = '17'
+                then 'TO'
+                when sigla_uf_notificacao = '21'
+                then 'MA'
+                when sigla_uf_notificacao = '22'
+                then 'PI'
+                when sigla_uf_notificacao = '23'
+                then 'CE'
+                when sigla_uf_notificacao = '24'
+                then 'RN'
+                when sigla_uf_notificacao = '25'
+                then 'PB'
+                when sigla_uf_notificacao = '26'
+                then 'PE'
+                when sigla_uf_notificacao = '27'
+                then 'AL'
+                when sigla_uf_notificacao = '28'
+                then 'SE'
+                when sigla_uf_notificacao = '29'
+                then 'BA'
+                when sigla_uf_notificacao = '31'
+                then 'MG'
+                when sigla_uf_notificacao = '32'
+                then 'ES'
+                when sigla_uf_notificacao = '33'
+                then 'RJ'
+                when sigla_uf_notificacao = '35'
+                then 'SP'
+                when sigla_uf_notificacao = '41'
+                then 'PR'
+                when sigla_uf_notificacao = '42'
+                then 'SC'
+                when sigla_uf_notificacao = '43'
+                then 'RS'
+                when sigla_uf_notificacao = '50'
+                then 'MS'
+                when sigla_uf_notificacao = '51'
+                then 'MT'
+                when sigla_uf_notificacao = '52'
+                then 'GO'
+                when sigla_uf_notificacao = '53'
+                then 'DF'
+                when sigla_uf_notificacao = '"s'
+                then null
+                when sigla_uf_notificacao = ''
+                then null
+                when sigla_uf_notificacao = ' '
+                then null
+                else sigla_uf_notificacao
+            end sigla_uf_notificacao,
+            case
+                when id_regiona = '' then null else id_regiona
+            end id_regional_saude_notificacao,
+            case
+                when id_municip = '' then null else id_municip
+            end id_municipio_notificacao,
+            case when id_unidade = '' then null else id_unidade end id_estabelecimento,
+
+            case
+                when dt_sin_pri = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_sin_pri, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_primeiros_sintomas,
+
+            safe_cast(sem_pri as int64) semana_sintomas,
+            safe_cast(id_pais as string) pais_residencia,
+            case
+                when sg_uf = '11'
+                then 'RO'
+                when sg_uf = '12'
+                then 'AC'
+                when sg_uf = '13'
+                then 'AM'
+                when sg_uf = '14'
+                then 'RR'
+                when sg_uf = '15'
+                then 'PA'
+                when sg_uf = '16'
+                then 'AP'
+                when sg_uf = '17'
+                then 'TO'
+                when sg_uf = '21'
+                then 'MA'
+                when sg_uf = '22'
+                then 'PI'
+                when sg_uf = '23'
+                then 'CE'
+                when sg_uf = '24'
+                then 'RN'
+                when sg_uf = '25'
+                then 'PB'
+                when sg_uf = '26'
+                then 'PE'
+                when sg_uf = '27'
+                then 'AL'
+                when sg_uf = '28'
+                then 'SE'
+                when sg_uf = '29'
+                then 'BA'
+                when sg_uf = '31'
+                then 'MG'
+                when sg_uf = '32'
+                then 'ES'
+                when sg_uf = '33'
+                then 'RJ'
+                when sg_uf = '35'
+                then 'SP'
+                when sg_uf = '41'
+                then 'PR'
+                when sg_uf = '42'
+                then 'SC'
+                when sg_uf = '43'
+                then 'RS'
+                when sg_uf = '50'
+                then 'MS'
+                when sg_uf = '51'
+                then 'MT'
+                when sg_uf = '52'
+                then 'GO'
+                when sg_uf = '53'
+                then 'DF'
+                when sg_uf = '1 '
+                then null
+                when sg_uf = '07'
+                then null
+                when sg_uf = '00'
+                then null
+                when sg_uf = 'MH'
+                then null
+                when sg_uf = 'NG'
+                then null
+                when sg_uf = '2 '
+                then null
+                when sg_uf = '61'
+                then null
+                when sg_uf = 'F '
+                then null
+                when sg_uf = 'MF'
+                then null
+                when sg_uf = '  '
+                then null
+                else sg_uf
+            end sigla_uf_residencia,
+            safe_cast(id_rg_resi as string) id_regional_saude_residencia,
+            safe_cast(id_mn_resi as string) id_municipio_residencia,
+            safe_cast(ano_nasc as int64) ano_nascimento_paciente,
+
+            case
+                when dt_nasc = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_nasc, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_nascimento_paciente,
+
+            safe_cast(nu_idade_n as int64) idade_paciente,
+            safe_cast(cs_sexo as string) sexo_paciente,
+            safe_cast(cs_raca as string) raca_cor_paciente,
+            safe_cast(cs_escol_n as string) escolaridade_paciente,
+            safe_cast(id_ocupa_n as string) ocupacao_paciente,
+            safe_cast(cs_gestant as string) gestante_paciente,
+            safe_cast(auto_imune as string) possui_doenca_autoimune,
+            safe_cast(diabetes as string) possui_diabetes,
+            safe_cast(hematolog as string) possui_doencas_hematologicas,
+            safe_cast(hepatopat as string) possui_hepatopatias,
+            safe_cast(renal as string) possui_doenca_renal,
+            safe_cast(hipertensa as string) possui_hipertensao,
+            safe_cast(acido_pept as string) possui_doenca_acido_peptica,
+            safe_cast(vacinado as string) paciente_vacinado,
+
+            case
+                when dt_dose = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_dose, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_vacina,
+
+            case
+                when dt_invest = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_invest, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_investigacao,
+
+            case
+                when dt_febre = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_febre, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_febre,
+            safe_cast(duracao as string) duracao_febre,
+            safe_cast(cefaleia as string) apresenta_cefaleia,
+            safe_cast(exantema as string) apresenta_exantema,
+            safe_cast(dor_costas as string) apresenta_dor_costas,
+            safe_cast(prostacao as string) apresenta_prostacao,
+            safe_cast(mialgia as string) apresenta_mialgia,
+            safe_cast(vomito as string) apresenta_vomito,
+            safe_cast(nauseas as string) apresenta_nausea,
+            safe_cast(diarreia as string) apresenta_diarreia,
+            safe_cast(conjuntvit as string) apresenta_conjutivite,
+            safe_cast(dor_retro as string) apresenta_dor_retroorbital,
+            safe_cast(artralgia as string) apresenta_artralgia,
+            safe_cast(artrite as string) apresenta_artrite,
+            safe_cast(leucopenia as string) apresenta_leucopenia,
+            safe_cast(epistaxe as string) apresenta_epistaxe,
+            safe_cast(petequia_n as string) apresenta_petequias,
+            safe_cast(gengivo as string) apresenta_gengivorragia,
+            safe_cast(metro as string) apresenta_metrorragia,
+            safe_cast(hematura as string) apresenta_hematuria,
+            safe_cast(sangram as string) apresenta_sangramento,
+            safe_cast(complica as string) apresenta_complicacao,
+            safe_cast(ascite as string) apresenta_ascite,
+            safe_cast(pleural as string) apresenta_pleurite,
+            safe_cast(pericardi as string) apresenta_pericardite,
+            safe_cast(abdominal as string) apresenta_dor_abdominal,
+            safe_cast(hepato as string) apresenta_hepatomegalia,
+            safe_cast(miocardi as string) apresenta_miocardite,
+            safe_cast(hipotensao as string) apresenta_hipotensao,
+            safe_cast(choque as string) apresenta_choque,
+            safe_cast(insuficien as string) apresenta_insuficiencia_orgao,
+            safe_cast(outros as string) apresenta_sintoma_outro,
+            safe_cast(sin_out as string) apresenta_qual_sintoma,
+
+            case
+                when dt_choque = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_choque, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_choque,
+
+            safe_cast(laco_n as string) prova_laco,
+            safe_cast(hospitaliz as string) internacao,
+
+            case
+                when dt_interna = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_interna, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_internacao,
+
+            case
+                when uf = '11'
+                then 'RO'
+                when uf = '12'
+                then 'AC'
+                when uf = '13'
+                then 'AM'
+                when uf = '14'
+                then 'RR'
+                when uf = '15'
+                then 'PA'
+                when uf = '16'
+                then 'AP'
+                when uf = '17'
+                then 'TO'
+                when uf = '21'
+                then 'MA'
+                when uf = '22'
+                then 'PI'
+                when uf = '23'
+                then 'CE'
+                when uf = '24'
+                then 'RN'
+                when uf = '25'
+                then 'PB'
+                when uf = '26'
+                then 'PE'
+                when uf = '27'
+                then 'AL'
+                when uf = '28'
+                then 'SE'
+                when uf = '29'
+                then 'BA'
+                when uf = '31'
+                then 'MG'
+                when uf = '32'
+                then 'ES'
+                when uf = '33'
+                then 'RJ'
+                when uf = '35'
+                then 'SP'
+                when uf = '41'
+                then 'PR'
+                when uf = '42'
+                then 'SC'
+                when uf = '43'
+                then 'RS'
+                when uf = '50'
+                then 'MS'
+                when uf = '51'
+                then 'MT'
+                when uf = '52'
+                then 'GO'
+                when uf = '53'
+                then 'DF'
+                when uf = '`'
+                then null
+                when uf = ' `'
+                then null
+                when uf = ' '
+                then null
+                when uf = ''
+                then null
+                when uf = '  '
+                then null
+                else uf
+            end sigla_uf_internacao,
+            safe_cast(
+                replace(municipio, '      ', null) as string
+            ) id_municipio_internacao,
+            safe_cast(alrm_hipot as string) alarme_hipotensao,
+            safe_cast(alrm_plaq as string) alarme_plaqueta,
+            safe_cast(alrm_vom as string) alarme_vomito,
+            safe_cast(alrm_sang as string) alarme_sangramento,
+            safe_cast(alrm_hemat as string) alarme_hematocrito,
+            safe_cast(alrm_abdom as string) alarme_dor_abdominal,
+            safe_cast(alrm_letar as string) alarme_letargia,
+            safe_cast(alrm_hepat as string) alarme_hepatomegalia,
+            safe_cast(alrm_liq as string) alarme_liquidos,
+
+            case
+                when dt_alrm = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_alrm, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_alarme,
+
+            safe_cast(grav_pulso as string) grave_pulso,
+            safe_cast(grav_conv as string) grave_convulsao,
+            safe_cast(grav_ench as string) grave_enchimento_capilar,
+            safe_cast(grav_insuf as string) grave_insuficiencia_respiratoria,
+            safe_cast(grav_taqui as string) grave_taquicardia,
+            safe_cast(grav_extre as string) grave_extremidade_fria,
+            safe_cast(grav_hipot as string) grave_hipotensao,
+            safe_cast(grav_hemat as string) grave_hematemese,
+            safe_cast(grav_melen as string) grave_melena,
+            safe_cast(grav_metro as string) grave_metrorragia,
+            safe_cast(grav_sang as string) grave_sangramento,
+            safe_cast(grav_ast as string) grave_ast_alt,
+            safe_cast(grav_mioc as string) grave_miocardite,
+            safe_cast(grav_consc as string) grave_consciencia,
+            safe_cast(grav_orgao as string) grave_orgaos,
+            case
+                when dt_grav = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_grav, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_sinais_gravidade,
+
+            case
+                when dt_col_hem = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_col_hem, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_hematocrito,
+
+            safe_cast(hema_maior as string) hematocrito_maior,
+
+            case
+                when dt_col_plq = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_col_plq, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_plaquetas,
+
+            safe_cast(palq_maior as string) plaqueta_maior,
+
+            case
+                when dt_col_he2 = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_col_he2, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_hematocrito_2,
+
+            safe_cast(hema_menor as string) hematocrito_menor,
+
+            case
+                when dt_col_pl2 = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_col_pl2, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_plaquetas_2,
+
+            safe_cast(plaq_menor as string) plaqueta_menor,
+
+            case
+                when dt_chik_s1 = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_chik_s1, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_sorologia1_chikungunya,
+
+            case
+                when dt_soror1 = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_soror1, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_resultado_sorologia1_chikungunya,
+
+            safe_cast(res_chiks1 as string) resultado_sorologia1_chikungunya,
+            safe_cast(s1_igm as string) sorologia1_igm,
+            safe_cast(s1_igg as string) sorologia1_igg,
+            safe_cast(s1_tit1 as string) sorologia1_tit1,
+
+            case
+                when dt_chik_s2 = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_chik_s2, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_sorologia2_chikungunya,
+
+            case
+                when dt_soror2 = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_soror2, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_resultado_sorologia2_chikungunya,
+
+            safe_cast(res_chiks2 as string) resultado_sorologia2_chikungunya,
+            safe_cast(s2_igm as string) sorologia2_igm,
+            safe_cast(s2_igg as string) sorologia2_igg,
+            safe_cast(s2_tit1 as string) sorologia2_tit1,
+
+            case
+                when dt_prnt = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_prnt, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_prnt,
+            safe_cast(resul_prnt as string) resultado_prnt,
+
+            case
+                when dt_ns1 = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_ns1, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_ns1,
+
+            safe_cast(resul_ns1 as string) resultado_ns1,
+
+            case
+                when dt_viral = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_viral, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_viral,
+
+            safe_cast(resul_vi_n as string) resultado_viral,
+
+            case
+                when dt_pcr = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_pcr, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_pcr,
+
+            safe_cast(resul_pcr_ as string) resultado_pcr,
+            safe_cast(amos_pcr as string) amostra_pcr,
+            safe_cast(amos_out as string) amostra_outra,
+            safe_cast(tecnica as string) tecnica,
+            safe_cast(resul_out as string) resultado_amostra_outra,
+
+            case
+                when dt_soro = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_soro, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_sorologia_dengue,
+
+            safe_cast(resul_soro as string) resultado_sorologia_dengue,
+            safe_cast(sorotipo as string) sorotipo,
+            safe_cast(histopa_n as string) histopatologia,
+            safe_cast(imunoh_n as string) imunohistoquimica,
+            safe_cast(mani_hemor as string) manifestacao_hemorragica,
+            safe_cast(classi_fin as string) classificacao_final,
+            safe_cast(criterio as string) criterio_confirmacao,
+            safe_cast(con_fhd as string) caso_fhd,
+            safe_cast(tpautocto as string) caso_autoctone,
+            safe_cast(copaisinf as string) pais_infeccao,
+            case
+                when coufinf = '11'
+                then 'RO'
+                when coufinf = '12'
+                then 'AC'
+                when coufinf = '13'
+                then 'AM'
+                when coufinf = '14'
+                then 'RR'
+                when coufinf = '15'
+                then 'PA'
+                when coufinf = '16'
+                then 'AP'
+                when coufinf = '17'
+                then 'TO'
+                when coufinf = '21'
+                then 'MA'
+                when coufinf = '22'
+                then 'PI'
+                when coufinf = '23'
+                then 'CE'
+                when coufinf = '24'
+                then 'RN'
+                when coufinf = '25'
+                then 'PB'
+                when coufinf = '26'
+                then 'PE'
+                when coufinf = '27'
+                then 'AL'
+                when coufinf = '28'
+                then 'SE'
+                when coufinf = '29'
+                then 'BA'
+                when coufinf = '31'
+                then 'MG'
+                when coufinf = '32'
+                then 'ES'
+                when coufinf = '33'
+                then 'RJ'
+                when coufinf = '35'
+                then 'SP'
+                when coufinf = '41'
+                then 'PR'
+                when coufinf = '42'
+                then 'SC'
+                when coufinf = '43'
+                then 'RS'
+                when coufinf = '50'
+                then 'MS'
+                when coufinf = '51'
+                then 'MT'
+                when coufinf = '52'
+                then 'GO'
+                when coufinf = '53'
+                then 'DF'
+                when coufinf = ''
+                then null
+                when coufinf = '  '
+                then null
+                else coufinf
+            end sigla_uf_infeccao,
+            safe_cast(comuninf as string) id_municipio_infeccao,
+            safe_cast(doenca_tra as string) doenca_trabalho,
+            safe_cast(clinc_chik as string) apresentacao_clinica,
+            safe_cast(evolucao as string) evolucao_caso,
+
+            case
+                when dt_obito = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_obito, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_obito,
+
+            case
+                when dt_encerra = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_encerra, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_encerramento,
+
+            safe_cast(tp_sistema as string) tipo_sistema,
+
+            case
+                when dt_digita = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_digita, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_digitacao,
+            safe_cast(nduplic_n as string) duplicidade,
+            safe_cast(cs_flxret as string) fluxo_retorno,
+        from `basedosdados-dev.br_ms_sinan_staging.microdados_dengue`
+    ),
+    table as (
+        select *
+        from sql
+        where
+            not (
+                data_alarme = '5202-01-07'
+                or data_alarme = '8202-05-29'
+                or data_encerramento = '5008-05-12'
+                or data_encerramento = '5200-05-07'
+                or data_digitacao = '8010-10-08'
+                or data_digitacao = '8303-03-12'
+                or data_plaquetas = '8200-10-23'
+                or data_prnt = '9202-06-30'
+                or data_sinais_gravidade = '8022-06-08'
+                or data_sinais_gravidade = '5202-05-01'
+                or data_sorologia1_chikungunya = '6201-06-10'
+                or id_municipio_internacao = '280020'
+            )
+    )
+
+select *
+from table
