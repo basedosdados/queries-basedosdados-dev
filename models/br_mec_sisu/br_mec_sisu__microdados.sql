@@ -123,4 +123,3 @@ select
 from `basedosdados-dev.br_mec_sisu_staging.microdados` s
 left join `basedosdados-dev.br_bd_diretorios_brasil.municipio` d1 on (s.sigla_uf_campus = d1.sigla_uf) and (lower(s.nome_municipio_campus)  = lower(d1.nome))
 left join `basedosdados-dev.br_bd_diretorios_brasil.municipio` d2 on (s.sigla_uf_candidato = d2.sigla_uf) and (lower(s.nome_municipio_candidato)  = lower(d2.nome))
-)
