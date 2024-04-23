@@ -6,7 +6,7 @@ models:
       do Sistema Harmonizado (SH4)
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, mes, id_sh4, id_pais, id_muncipio]
+          combination_of_columns: [ano, mes, id_sh4, id_pais, id_municipio]
       - not_null_proportion_multiple_columns:
           at_least: 0.95
     columns:
@@ -39,7 +39,7 @@ models:
       do Sistema Harmonizado (SH4)
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, mes, id_sh4, id_pais, id_muncipio]
+          combination_of_columns: [ano, mes, id_sh4, id_pais, id_municipio]
       - not_null_proportion_multiple_columns:
           at_least: 0.95
     columns:
@@ -77,7 +77,6 @@ models:
             - mes
             - id_ncm
             - id_pais
-            - id_muncipio
             - id_via
             - id_urf
       - not_null_proportion_multiple_columns:
@@ -123,7 +122,6 @@ models:
             - mes
             - id_ncm
             - id_pais
-            - id_muncipio
             - id_via
             - id_urf
       - not_null_proportion_multiple_columns:
