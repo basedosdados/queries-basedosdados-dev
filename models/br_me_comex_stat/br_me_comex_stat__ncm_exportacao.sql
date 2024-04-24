@@ -17,9 +17,10 @@ select
     safe_cast(mes as int64) mes,
     safe_cast(lpad(id_ncm, 8, "0") as string) id_ncm,
     safe_cast(id_unidade as string) id_unidade,
+    safe_cast(id_pais as string) id_pais,
     {{ transform_mdic_country_code("id_pais") }} as sigla_pais_iso3,
     safe_cast(
-        case when sigla_uf_ncm = 'ND' then '' else sigla_uf_ncm end as string
+        case when sigla_uf_ncm = 'ND' then null else sigla_uf_ncm end as string
     ) sigla_uf_ncm,
     safe_cast(id_via as string) id_via,
     safe_cast(id_urf as string) id_urf,

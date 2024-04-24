@@ -10,7 +10,8 @@ models:
             - ano
             - mes
             - id_sh4
-            - sigla_pais_iso3
+            - id_pais
+            - sigla_uf
             - id_municipio
       - not_null_proportion_multiple_columns:
           at_least: 0.95
@@ -25,8 +26,14 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_mundo__sistema_harmonizado')
               field: id_sh4
+      - name: id_pais
+        description: ID do País
       - name: sigla_pais_iso3
         description: Sigla ISO3 do País
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_mundo__municipio')
+              field: sigla_pais_iso3
       - name: sigla_uf
         description: Sigla da Unidade da Federação
       - name: id_municipio
@@ -48,7 +55,8 @@ models:
             - ano
             - mes
             - id_sh4
-            - sigla_pais_iso3
+            - id_pais
+            - sigla_uf
             - id_municipio
       - not_null_proportion_multiple_columns:
           at_least: 0.95
@@ -63,8 +71,14 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_mundo__sistema_harmonizado')
               field: id_sh4
+      - name: id_pais
+        description: ID do País
       - name: sigla_pais_iso3
         description: Sigla ISO3 do País
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_mundo__municipio')
+              field: sigla_pais_iso3
       - name: sigla_uf
         description: Sigla da Unidade da Federação
       - name: id_municipio
@@ -87,7 +101,7 @@ models:
             - mes
             - sigla_uf_ncm
             - id_ncm
-            - sigla_pais_iso3
+            - id_pais
             - id_via
             - id_urf
       - not_null_proportion_multiple_columns:
@@ -105,8 +119,18 @@ models:
               field: id_ncm
       - name: id_unidade
         description: ID Unidade
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_mundo__nomenclatura_comum_mercosul')
+              field: id_unidade
+      - name: id_pais
+        description: ID do País
       - name: sigla_pais_iso3
         description: Sigla ISO3 do País
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_mundo__municipio')
+              field: sigla_pais_iso3
       - name: sigla_uf_ncm
         description: Sigla da Unidade da Federação - Nomenclatura Comum do Mercosul
       - name: id_via
@@ -133,7 +157,7 @@ models:
             - mes
             - sigla_uf_ncm
             - id_ncm
-            - sigla_pais_iso3
+            - id_pais
             - id_via
             - id_urf
       - not_null_proportion_multiple_columns:
@@ -151,8 +175,18 @@ models:
               field: id_ncm
       - name: id_unidade
         description: ID Unidade
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_mundo__nomenclatura_comum_mercosul')
+              field: id_unidade
+      - name: id_pais
+        description: ID do País
       - name: sigla_pais_iso3
         description: Sigla ISO3 do País
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_mundo__municipio')
+              field: sigla_pais_iso3
       - name: sigla_uf_ncm
         description: Sigla da Unidade da Federação - Nomenclatura Comum do Mercosu
       - name: id_via
