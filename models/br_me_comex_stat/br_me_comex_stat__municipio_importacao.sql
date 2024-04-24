@@ -17,12 +17,13 @@ select
     safe_cast(ano as int64) ano,
     safe_cast(mes as int64) mes,
     safe_cast(lpad(id_sh4, 4, '0') as string) id_sh4,
+    safe_cast(id_pais as string) id_pais,
     {{ transform_mdic_country_code("id_pais") }} as sigla_pais_iso3,
-    safe_cast(case when sigla_uf = 'ND' then '' else sigla_uf end as string) sigla_uf,
+    safe_cast(case when sigla_uf = 'ND' then null else sigla_uf end as string) sigla_uf,
     safe_cast(
         case
             when id_municipio = '9300000' or id_municipio = '9999999'
-            then ''
+            then null
             else id_municipio
         end as string
     ) id_municipio,
