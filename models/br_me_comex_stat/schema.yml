@@ -6,7 +6,12 @@ models:
       do Sistema Harmonizado (SH4)
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, mes, id_sh4, id_pais, id_municipio]
+          combination_of_columns:
+            - ano
+            - mes
+            - id_sh4
+            - sigla_pais_iso3
+            - id_municipio
       - not_null_proportion_multiple_columns:
           at_least: 0.95
     columns:
@@ -20,8 +25,8 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_mundo__sistema_harmonizado')
               field: id_sh4
-      - name: id_pais
-        description: ID País
+      - name: sigla_pais_iso3
+        description: Sigla ISO3 do País
       - name: sigla_uf
         description: Sigla da Unidade da Federação
       - name: id_municipio
@@ -39,7 +44,12 @@ models:
       do Sistema Harmonizado (SH4)
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, mes, id_sh4, id_pais, id_municipio]
+          combination_of_columns:
+            - ano
+            - mes
+            - id_sh4
+            - sigla_pais_iso3
+            - id_municipio
       - not_null_proportion_multiple_columns:
           at_least: 0.95
     columns:
@@ -53,8 +63,8 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_mundo__sistema_harmonizado')
               field: id_sh4
-      - name: id_pais
-        description: ID País
+      - name: sigla_pais_iso3
+        description: Sigla ISO3 do País
       - name: sigla_uf
         description: Sigla da Unidade da Federação
       - name: id_municipio
@@ -75,8 +85,9 @@ models:
           combination_of_columns:
             - ano
             - mes
+            - sigla_uf_ncm
             - id_ncm
-            - id_pais
+            - sigla_pais_iso3
             - id_via
             - id_urf
       - not_null_proportion_multiple_columns:
@@ -94,10 +105,10 @@ models:
               field: id_ncm
       - name: id_unidade
         description: ID Unidade
-      - name: id_pais
-        description: ID País
+      - name: sigla_pais_iso3
+        description: Sigla ISO3 do País
       - name: sigla_uf_ncm
-        description: Sigla da Unidade da Federação - Nomenclatura Comum do Mercosu
+        description: Sigla da Unidade da Federação - Nomenclatura Comum do Mercosul
       - name: id_via
         description: ID Via de Transporte
       - name: id_urf
@@ -120,8 +131,9 @@ models:
           combination_of_columns:
             - ano
             - mes
+            - sigla_uf_ncm
             - id_ncm
-            - id_pais
+            - sigla_pais_iso3
             - id_via
             - id_urf
       - not_null_proportion_multiple_columns:
@@ -139,8 +151,8 @@ models:
               field: id_ncm
       - name: id_unidade
         description: ID Unidade
-      - name: id_pais
-        description: ID País
+      - name: sigla_pais_iso3
+        description: Sigla ISO3 do País
       - name: sigla_uf_ncm
         description: Sigla da Unidade da Federação - Nomenclatura Comum do Mercosu
       - name: id_via
