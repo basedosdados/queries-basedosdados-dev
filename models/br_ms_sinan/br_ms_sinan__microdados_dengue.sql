@@ -268,7 +268,7 @@ with
                         ) as date
                     )
             end data_investigacao,
-
+            safe_cast(febre as string) as apresenta_febre,
             case
                 when dt_febre = ''
                 then null
@@ -413,9 +413,13 @@ with
                 then null
                 else uf
             end sigla_uf_internacao,
-            safe_cast(
-                replace(municipio, '      ', null) as string
-            ) id_municipio_internacao,
+            case
+                when municipio = '       '
+                then null
+                when municipio = '280020'
+                then null
+                else municipio
+            end id_municipio_internacao,
             safe_cast(alrm_hipot as string) alarme_hipotensao,
             safe_cast(alrm_plaq as string) alarme_plaqueta,
             safe_cast(alrm_vom as string) alarme_vomito,
@@ -425,9 +429,12 @@ with
             safe_cast(alrm_letar as string) alarme_letargia,
             safe_cast(alrm_hepat as string) alarme_hepatomegalia,
             safe_cast(alrm_liq as string) alarme_liquidos,
-
             case
                 when dt_alrm = ''
+                then null
+                when dt_alrm = '5202-01-07'
+                then null
+                when dt_alrm = '8202-05-29'
                 then null
                 else
                     safe_cast(
@@ -458,6 +465,10 @@ with
             case
                 when dt_grav = ''
                 then null
+                when dt_grav = '8022-06-08'
+                then null
+                when dt_grav = '5202-05-01'
+                then null
                 else
                     safe_cast(
                         format_date(
@@ -487,6 +498,8 @@ with
 
             case
                 when dt_col_plq = ''
+                then null
+                when dt_col_plq = '8200-10-23'
                 then null
                 else
                     safe_cast(
@@ -535,6 +548,8 @@ with
 
             case
                 when dt_chik_s1 = ''
+                then null
+                when dt_chik_s1 = '6201-06-10'
                 then null
                 else
                     safe_cast(
@@ -601,6 +616,8 @@ with
 
             case
                 when dt_prnt = ''
+                then null
+                when dt_prnt = '9202-06-30'
                 then null
                 else
                     safe_cast(
@@ -751,7 +768,9 @@ with
                 then null
                 else coufinf
             end sigla_uf_infeccao,
-            safe_cast(comuninf as string) id_municipio_infeccao,
+            case
+                when comuninf = '       ' then null else comuninf
+            end id_municipio_infeccao,
             safe_cast(doenca_tra as string) doenca_trabalho,
             safe_cast(clinc_chik as string) apresentacao_clinica,
             safe_cast(evolucao as string) evolucao_caso,
@@ -773,6 +792,10 @@ with
             case
                 when dt_encerra = ''
                 then null
+                when dt_encerra = '5008-05-12'
+                then null
+                when dt_encerra = '5200-05-07'
+                then null
                 else
                     safe_cast(
                         format_date(
@@ -789,6 +812,10 @@ with
             case
                 when dt_digita = ''
                 then null
+                when dt_digita = '8010-10-08'
+                then null
+                when dt_digita = '8303-03-12'
+                then null
                 else
                     safe_cast(
                         format_date(
@@ -803,25 +830,200 @@ with
             safe_cast(cs_flxret as string) fluxo_retorno,
         from `basedosdados-dev.br_ms_sinan_staging.microdados_dengue`
     ),
-    table as (
-        select *
-        from sql
-        where
-            not (
-                data_alarme = '5202-01-07'
-                or data_alarme = '8202-05-29'
-                or data_encerramento = '5008-05-12'
-                or data_encerramento = '5200-05-07'
-                or data_digitacao = '8010-10-08'
-                or data_digitacao = '8303-03-12'
-                or data_plaquetas = '8200-10-23'
-                or data_prnt = '9202-06-30'
-                or data_sinais_gravidade = '8022-06-08'
-                or data_sinais_gravidade = '5202-05-01'
-                or data_sorologia1_chikungunya = '6201-06-10'
-                or id_municipio_internacao = '280020'
-            )
-    )
+    tabelas_join as (
+        select
+            t1.*,
+            mun_residencia.id_municipio as novo_id_municipio_residencia,
+            mun_internacao.id_municipio as novo_id_municipio_internacao,
+            mun_infeccao.id_municipio as novo_id_municipio_infeccao,
+            mun_notificacao.id_municipio as novo_id_municipio_notificacao
+        from sql as t1
+        left join
+            `basedosdados.br_bd_diretorios_brasil.municipio` as mun_residencia
+            on t1.id_municipio_residencia = mun_residencia.id_municipio_6
+        left join
+            `basedosdados.br_bd_diretorios_brasil.municipio` as mun_internacao
+            on t1.id_municipio_internacao = mun_internacao.id_municipio_6
+        left join
+            `basedosdados.br_bd_diretorios_brasil.municipio` as mun_infeccao
+            on t1.id_municipio_infeccao = mun_infeccao.id_municipio_6
+        left join
+            `basedosdados.br_bd_diretorios_brasil.municipio` as mun_notificacao
+            on t1.id_municipio_notificacao = mun_notificacao.id_municipio_6
+        where ano > 2006
+        union all
 
-select *
-from table
+        select
+            t1.*,
+            t1.id_municipio_residencia as novo_id_municipio_residencia,
+            t1.id_municipio_internacao as novo_id_municipio_internacao,
+            t1.id_municipio_infeccao as novo_id_municipio_infeccao,
+            t1.id_municipio_notificacao as novo_id_municipio_notificacao
+        from sql as t1
+        left join
+            `basedosdados.br_bd_diretorios_brasil.municipio` as mun_residencia
+            on t1.id_municipio_residencia = mun_residencia.id_municipio
+        left join
+            `basedosdados.br_bd_diretorios_brasil.municipio` as mun_internacao
+            on t1.id_municipio_internacao = mun_internacao.id_municipio
+        left join
+            `basedosdados.br_bd_diretorios_brasil.municipio` as mun_infeccao
+            on t1.id_municipio_infeccao = mun_infeccao.id_municipio
+        left join
+            `basedosdados.br_bd_diretorios_brasil.municipio` as mun_notificacao
+            on t1.id_municipio_notificacao = mun_notificacao.id_municipio
+        where ano <= 2006
+    )
+select
+    ano,
+    tipo_notificacao,
+    id_agravo,
+    data_notificacao,
+    semana_notificacao,
+    sigla_uf_notificacao,
+    id_regional_saude_notificacao,
+    novo_id_municipio_notificacao as id_municipio_notificacao,
+    id_estabelecimento,
+    data_primeiros_sintomas,
+    semana_sintomas,
+    pais_residencia,
+    sigla_uf_residencia,
+    id_regional_saude_residencia,
+    novo_id_municipio_residencia as id_municipio_residencia,
+    ano_nascimento_paciente,
+    data_nascimento_paciente,
+    idade_paciente,
+    sexo_paciente,
+    raca_cor_paciente,
+    escolaridade_paciente,
+    ocupacao_paciente,
+    gestante_paciente,
+    possui_doenca_autoimune,
+    possui_diabetes,
+    possui_doencas_hematologicas,
+    possui_hepatopatias,
+    possui_doenca_renal,
+    possui_hipertensao,
+    possui_doenca_acido_peptica,
+    paciente_vacinado,
+    data_vacina,
+    data_investigacao,
+    apresenta_febre,
+    data_febre,
+    duracao_febre,
+    apresenta_cefaleia,
+    apresenta_exantema,
+    apresenta_dor_costas,
+    apresenta_prostacao,
+    apresenta_mialgia,
+    apresenta_vomito,
+    apresenta_nausea,
+    apresenta_diarreia,
+    apresenta_conjutivite,
+    apresenta_dor_retroorbital,
+    apresenta_artralgia,
+    apresenta_artrite,
+    apresenta_leucopenia,
+    apresenta_epistaxe,
+    apresenta_petequias,
+    apresenta_gengivorragia,
+    apresenta_metrorragia,
+    apresenta_hematuria,
+    apresenta_sangramento,
+    apresenta_complicacao,
+    apresenta_ascite,
+    apresenta_pleurite,
+    apresenta_pericardite,
+    apresenta_dor_abdominal,
+    apresenta_hepatomegalia,
+    apresenta_miocardite,
+    apresenta_hipotensao,
+    apresenta_choque,
+    apresenta_insuficiencia_orgao,
+    apresenta_sintoma_outro,
+    apresenta_qual_sintoma,
+    data_choque,
+    prova_laco,
+    internacao,
+    data_internacao,
+    sigla_uf_internacao,
+    novo_id_municipio_internacao as id_municipio_internacao,
+    alarme_hipotensao,
+    alarme_plaqueta,
+    alarme_vomito,
+    alarme_sangramento,
+    alarme_hematocrito,
+    alarme_dor_abdominal,
+    alarme_letargia,
+    alarme_hepatomegalia,
+    alarme_liquidos,
+    data_alarme,
+    grave_pulso,
+    grave_convulsao,
+    grave_enchimento_capilar,
+    grave_insuficiencia_respiratoria,
+    grave_taquicardia,
+    grave_extremidade_fria,
+    grave_hipotensao,
+    grave_hematemese,
+    grave_melena,
+    grave_metrorragia,
+    grave_sangramento,
+    grave_ast_alt,
+    grave_miocardite,
+    grave_consciencia,
+    grave_orgaos,
+    data_sinais_gravidade,
+    data_hematocrito,
+    hematocrito_maior,
+    data_plaquetas,
+    plaqueta_maior,
+    data_hematocrito_2,
+    hematocrito_menor,
+    data_plaquetas_2,
+    plaqueta_menor,
+    data_sorologia1_chikungunya,
+    data_resultado_sorologia1_chikungunya,
+    resultado_sorologia1_chikungunya,
+    sorologia1_igm,
+    sorologia1_igg,
+    sorologia1_tit1,
+    data_sorologia2_chikungunya,
+    data_resultado_sorologia2_chikungunya,
+    resultado_sorologia2_chikungunya,
+    sorologia2_igm,
+    sorologia2_igg,
+    sorologia2_tit1,
+    data_prnt,
+    resultado_prnt,
+    data_ns1,
+    resultado_ns1,
+    data_viral,
+    resultado_viral,
+    data_pcr,
+    resultado_pcr,
+    amostra_pcr,
+    amostra_outra,
+    tecnica,
+    resultado_amostra_outra,
+    data_sorologia_dengue,
+    resultado_sorologia_dengue,
+    sorotipo,
+    histopatologia,
+    imunohistoquimica,
+    manifestacao_hemorragica,
+    classificacao_final,
+    criterio_confirmacao,
+    caso_fhd,
+    caso_autoctone,
+    pais_infeccao,
+    sigla_uf_infeccao,
+    novo_id_municipio_infeccao as id_municipio_infeccao,
+    doenca_trabalho,
+    apresentacao_clinica,
+    evolucao_caso,
+    data_obito,
+    data_encerramento,
+    tipo_sistema,
+    data_digitacao
+from tabelas_join

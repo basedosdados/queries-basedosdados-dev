@@ -2,10 +2,19 @@
 version: 2
 models:
   - name: br_mec_sisu__microdados
-    description: Microdados dos candidatos que utilizam do sistema unificado gerido pelo MEC para as vagas ofertadas por instituições públicas de ensino superior de todo o Brasil
+    description: Microdados dos candidatos que utilizam do sistema unificado gerido
+      pelo MEC para as vagas ofertadas por instituições públicas de ensino superior
+      de todo o Brasil
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, semestre, etapa, id_curso, cpf, candidato, opcao]
+          combination_of_columns:
+            - ano
+            - semestre
+            - etapa
+            - id_curso
+            - cpf
+            - candidato
+            - opcao
     columns:
       - name: ano
         description: Ano da edição
