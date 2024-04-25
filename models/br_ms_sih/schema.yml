@@ -78,7 +78,7 @@ models:
         description: Classificação do tipo de serviço
       - name: id_prestador_servico
         description: CNES, CPF ou CNPJ do prestador do serviço do ato profissional
-      - name: id_procedimento
+      - name: id_procedimento_secundario
         description: Procedimento referente ao ato profissional
       - name: cbo_2002_profissional
         description: Identificador de Ocupação Brasileira do Profissional que realizou

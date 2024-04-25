@@ -32,7 +32,7 @@ select
     safe_cast(sp_procrea as string) id_procedimento_principal,
     safe_cast(serv_cla as string) tipo_servico,
     safe_cast(sp_cpfcgc as string) id_prestador_servico,
-    safe_cast(sp_atoprof as string) id_procedimento,
+    safe_cast(sp_atoprof as string) id_procedimento_secundario,
     safe_cast(sp_pf_cbo as string) cbo_2002_profissional,
     safe_cast(ltrim(sp_qt_proc) as int64) quantidade_procedimentos,
     safe_cast(
