@@ -8,9 +8,10 @@ from typing import List
 def create_yaml_file(arch_url,
                      table_id,
                      dataset_id,
+                     table_description: str = "Insert table description here",
                      at_least: float = 0.05,
                      unique_keys: List[str] = ["insert unique keys here"],
-                     mkdir=True,
+                     mkdir: bool = True,
                      preprocessed_staging_column_names=True) -> None:
     """
     Creates dbt models and schema.yaml files based on the architecture table, including data quality tests automatically.
@@ -94,7 +95,7 @@ def create_yaml_file(arch_url,
                 data['models'].remove(model)
                 break
 
-        table['description'] = f"Insert `{id}` table description here"
+        table['description'] = table_description
         table['tests'] = create_unique_combination(unique_keys_copy)
         table['tests'] += create_not_null_proportion(at_least)
 
