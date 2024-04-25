@@ -92,12 +92,19 @@ models:
       - name: id_cid_principal
         description: Identificador principal da Classificação Internacional de Doenças
             e Problemas Relacionados com a Saúde (CID)
+      - name: id_cid_principal_subcategoria
+        description: Subcategoria do identificador principal da Classificação Internacional de Doenças
+            e Problemas Relacionados com a Saúde (CID)
         tests:
           - relationships:
                 to: ref('br_bd_diretorios_brasil__cid_10')
                 field: subcategoria
+
       - name: id_cid_secundario
         description: Identificador secundário da Classificação Internacional de Doenças
+            e Problemas Relacionados com a Saúde (CID)
+      - name: id_cid_secundario_subcategoria
+        description: Subcategoria do identificador secundário da Classificação Internacional de Doenças
             e Problemas Relacionados com a Saúde (CID)
         tests:
           - relationships:
