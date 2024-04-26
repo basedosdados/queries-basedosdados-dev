@@ -6,9 +6,13 @@ import re
 import os
 
 def find_model_directory(directory):
+    print(directory)
     # Check if 'model' is in the current directory
     if 'models' in os.listdir(directory):
         return os.path.join(directory, 'models')
+
+    if 'queries-basedosdados-dev' in os.listdir(directory):
+        return os.path.join(directory, 'queries-basedosdados-dev/models')
 
     # Get the parent directory
     parent_directory = os.path.dirname(directory)
@@ -50,7 +54,7 @@ def create_model_from_architecture(architecture_df, output_dir, dataset_id, tabl
                 sql_line = f"safe_cast({column['original_name']} as {column['bigquery_type'].lower()}) {column['name']},\n"
                 file.write(sql_line)
 
-            sql_last_line = f"from `basedosdados-dev.{dataset_id}_staging.{table_id}` as t\n\n"
+            sql_last_line = f"from `basedosdados-staging.{dataset_id}_staging.{table_id}` as t\n\n"
             file.write(sql_last_line)
 
 def extract_column_parts(input_string):
