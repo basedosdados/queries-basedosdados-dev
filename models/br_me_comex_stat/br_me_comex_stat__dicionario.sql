@@ -1,9 +1,4 @@
-{{
-    config(
-        alias="dicionario",
-        schema="br_me_comex_stat",
-    )
-}}
+{{ config(alias="dicionario", schema="br_me_comex_stat") }}
 select
     safe_cast(id_tabela as string) id_tabela,
     safe_cast(
