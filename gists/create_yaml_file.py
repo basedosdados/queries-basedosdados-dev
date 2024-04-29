@@ -1,3 +1,4 @@
+import json
 import pandas as pd
 import ruamel.yaml as yaml
 from utils import *
@@ -5,9 +6,32 @@ import os
 from typing import List
 
 
+def update_dbt_project_yaml(dataset_id,models_path):
+    dbt_project_path = models_path.replace('models','dbt_project.yml')
+
+    yaml_obj = yaml.YAML(typ='rt')
+    yaml_obj.indent(mapping=4, sequence=4, offset=2)
+
+    with open(dbt_project_path, 'r') as file:
+        data = yaml_obj.load(file)
+
+    models = data['models']['basedosdados']
+    models.update({dataset_id:{"+materialized":"table",
+                              "+schema": dataset_id}})
+
+    data['models']['basedosdados'] = {key: models[key] for key in sorted(models)}
+
+    with open(dbt_project_path, 'w') as file:
+        yaml_obj.dump(data, file)
+
+    print("dbt_project successfully updated!")
+
+
+
 def create_yaml_file(arch_url,
                      table_id,
                      dataset_id,
+                     table_description: str = 'Insert table description here',
                      at_least: float = 0.05,
                      unique_keys: List[str] = ["insert unique keys here"],
                      mkdir=True,
@@ -82,9 +106,6 @@ def create_yaml_file(arch_url,
         architecture_df.dropna(subset = ['bigquery_type'], inplace= True)
         architecture_df = architecture_df[~architecture_df['bigquery_type'].apply(lambda x: any(word in x.lower() for word in exclude))]
 
-
-
-
         table = yaml.comments.CommentedMap()
         table['name'] = f"{dataset_id}__{id}"
 
@@ -125,8 +146,9 @@ def create_yaml_file(arch_url,
 
     print("Files successfully created!")
 
+    update_dbt_project_yaml(dataset_id,models_path)
 
-if __name__ == '__main__':
+def main():
     DATASET_ID = 'test'
     TABLE_ID = 'test'
     #The URL must be the browser link containing '#gid='. The edit function should be open to anyone on the internet.
@@ -137,3 +159,9 @@ if __name__ == '__main__':
     table_id=TABLE_ID,
     dataset_id=DATASET_ID,
     preprocessed_staging_column_names=True)
+
+
+
+if __name__ == '__main__':
+    models_path = find_model_directory(os.getcwd())
+    update_dbt_project_yaml('dataset_id',models_path)

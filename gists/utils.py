@@ -10,6 +10,9 @@ def find_model_directory(directory):
     if 'models' in os.listdir(directory):
         return os.path.join(directory, 'models')
 
+    if 'queries-basedosdados-dev' in os.listdir(directory):
+        return os.path.join(directory, 'queries-basedosdados-dev','models')
+
     # Get the parent directory
     parent_directory = os.path.dirname(directory)
 
