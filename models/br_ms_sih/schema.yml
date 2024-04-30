@@ -119,8 +119,8 @@ models:
         description: Nota fiscal do material empregado quando órtese/prótese, quando não, o campo representa a data do ato
       - name: valor_ato_profissional
         description: Valor do ato profissional
-      - name: indicador_uf_paciente
-        description: Indica se a UF de residência do paciente é diferente da UF de localização do estabelecimento
+      - name: indicador_uf_hospital
+        description: Indica se a UF de residência do hospital é diferente da UF de localização do estabelecimento
       - name: indicador_uf_paciente
         description: Indica se a UF de residência do paciente é diferente da UF de
             localização do estabelecimento

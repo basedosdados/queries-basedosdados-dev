@@ -2,7 +2,7 @@
     config(
         alias="servicos_profissionais",
         schema="br_ms_sih",
-        materialized="table",
+        materialized="incremental",
         partition_by={
             "field": "ano",
             "data_type": "int64",
@@ -84,7 +84,7 @@ select
     safe_cast(ltrim(sp_ptsp) as int64) quantidade_pontos,
     safe_cast(sp_nf as string) nota_fiscal,
     safe_cast(ltrim(sp_valato) as float64) valor_ato_profissional,
-    safe_cast(sp_des_hos as int64) indicador_uf_paciente,
+    safe_cast(sp_des_hos as int64) indicador_uf_hospital,
     safe_cast(sp_des_pac as int64) indicador_uf_paciente,
     safe_cast(sp_u_aih as int64) indicador_id_aih,
     safe_cast(sp_financ as string) tipo_financiamento_ato_profissional,
@@ -101,3 +101,8 @@ left join
         from `basedosdados.br_bd_diretorios_brasil.municipio`
     ) as mun
     on sih.sp_m_hosp = mun.id_municipio_6
+{% if is_incremental() %}
+    where
+        date(cast(ano as int64), cast(mes as int64), 1)
+        > (select max(date(cast(ano as int64), cast(mes as int64), 1)) from {{ this }})
+{% endif %}
