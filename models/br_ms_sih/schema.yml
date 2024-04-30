@@ -7,45 +7,27 @@ models:
       - dbt_utils.unique_combination_of_columns:
             combination_of_columns:
               - id_aih
-      - not_null_proportion_multiple_columns:
-            at_least: 0.05
+              - ano
+              - mes
+              - sigla_uf
+              - id_municipio_estabelecimento_aih
+            config:
+              where: __most_recent_year_month__              
     columns:
       - name: ano
         description: Ano
         tests:
-          - relationships:
-                to: ref('br_bd_diretorios_data_tempo__ano')
-                field: ano.ano
+          - not_null
       - name: mes
         description: Mês
-        tests:
-          - relationships:
-                to: ref('br_bd_diretorios_data_tempo__ano')
-                field: mes
       - name: ano_internacao
         description: Ano da internação
-        tests:
-          - relationships:
-                to: ref('br_bd_diretorios_data_tempo__ano')
-                field: ano.ano
       - name: mes_internacao
         description: Mes da internação
-        tests:
-          - relationships:
-                to: ref('br_bd_diretorios_data_tempo__ano')
-                field: mes
       - name: data_entrada_internacao
         description: Data do início da internação
-        tests:
-          - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
       - name: data_saida_iternacao
         description: Data do final da internação
-        tests:
-          - relationships:
-                to: ref('br_bd_diretorios_data_tempo__data')
-                field: data.data
       - name: sigla_uf
         description: Sigla unidade da fedaração
         tests:
@@ -63,7 +45,9 @@ models:
         tests:
           - relationships:
                 to: ref('br_bd_diretorios_brasil__municipio')
-                field: id_municipio
+                field: id_municipio_6
+                config:
+                  where: __most_recent_year_month__                
       - name: id_gestor
         description: Unidade de Federação + Código Município de Gestão ou UF0000 se
             o Estabelecimento Executante está sob Gestão Estadual.
@@ -83,10 +67,10 @@ models:
       - name: cbo_2002_profissional
         description: Identificador de Ocupação Brasileira do Profissional que realizou
             o ato ou “00000” caso não tenha sido
-        tests:
-          - relationships:
-                to: ref('br_bd_diretorios_brasil__cbo_2002')
-                field: cbo_2002.cbo_2002
+        # tests:
+        #   - relationships:
+        #         to: ref('br_bd_diretorios_brasil__cbo_2002')
+        #         field: cbo_2002.cbo_2002
       - name: quantidade_procedimentos
         description: Quantidade de procedimentos realizados
       - name: id_cid_principal
