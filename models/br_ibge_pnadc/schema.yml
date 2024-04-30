@@ -1893,19 +1893,6 @@ models:
       - name: V1032200
         description: Peso replicado do domicílio e das pessoas (Peso anual de 1ª visita
           com correção de não entrevista com calibração pela projeção de população)
-  - name: br_ibge_pnadc__dicionario
-    description: Dicionário
-    columns:
-      - name: id_tabela
-        description: ID Tabela
-      - name: nome_coluna
-        description: Nome da coluna
-      - name: chave
-        description: Chave
-      - name: cobertura_temporal
-        description: Cobertura temporal
-      - name: valor
-        description: Valor
   - name: br_ibge_pnadc__educacao
     description: Microdados da Pesquisa Suplementar Anual referentes a educação
     tests:
