@@ -1,7 +1,7 @@
 ---
 version: 2
 models:
-  - name: equipamento
+  - name: br_ms_cnes__equipamento
     description: Esta tabela  contém o catálogo de equipamentos em atividade ou não
       nos estabelecimentos de saúde
     tests:
@@ -44,7 +44,7 @@ models:
         description: Indicador de equipamento disponível para o SUS
       - name: indicador_equipamento_indisponivel_sus
         description: Indicador de equipamento não disponível para o SUS
-  - name: equipe
+  - name: br_ms_cnes__equipe
     description: Esta tabela contém o cadastro de equipes em atividade ou não nos
       estabelecimentos de saúde.
     tests:
@@ -115,7 +115,7 @@ models:
         description: Indicador de atendimento a população Indígena
       - name: indicador_atende_populacao_assistida_pronasci
         description: Indicador de atendimento a população Pronasci
-  - name: profissional
+  - name: br_ms_cnes__profissional
     description: A tabela fornece o cadastro dos profissionais de saúde nos estabelecimentos.
     tests:
       - dbt_utils.unique_combination_of_columns:
@@ -181,7 +181,7 @@ models:
         description: Carga horária hospitalar
       - name: carga_horaria_ambulatorial
         description: Carga horária Ambulatorial
-  - name: estabelecimento
+  - name: br_ms_cnes__estabelecimento
     description: A tabela fornece informações sobre a gestão e operação dos estabelecimentos
       de saúde brasileiros.
     tests:
@@ -677,7 +677,7 @@ models:
       - name: indicador_atendimento_regulacao_plano_saude_privado
         description: Indica a existência de atendimento prestado regulação/convênio
           plano de saúde privado
-  - name: leito
+  - name: br_ms_cnes__leito
     description: leitos disponíveis nos estabelecimentos de saúde
     tests:
       - dbt_utils.unique_combination_of_columns:
@@ -715,7 +715,7 @@ models:
         description: Quantidade de leitos contratados
       - name: quantidade_sus
         description: Quantidade de leitos para o SUS
-  - name: dados_complementares
+  - name: br_ms_cnes__dados_complementares
     description: Dados complementares dos estabelecimentos de saúde
     tests:
       - dbt_utils.unique_combination_of_columns:
@@ -918,7 +918,7 @@ models:
       - name: indicador_existencia_requisito_quimio_radio
         description: Indica a existência de algum requisito de quimio/rádio para este
           CNES
-  - name: estabelecimento_filantropico
+  - name: br_ms_cnes__estabelecimento_filantropico
     description: Esta tabela apresenta um cadastro de estabelecimentos de saúde filantrópicos.
     tests:
       - dbt_utils.unique_combination_of_columns:
@@ -961,7 +961,7 @@ models:
         description: Ano da portaria
       - name: mes_portaria
         description: Mês da portaria
-  - name: estabelecimento_ensino
+  - name: br_ms_cnes__estabelecimento_ensino
     description: Esta tabela apresenta informações sobre os estabelecimentos habilitados
       para atividades de ensino.
     tests:
@@ -1003,7 +1003,7 @@ models:
         description: Ano da portaria
       - name: mes_portaria
         description: Mês da portaria
-  - name: gestao_metas
+  - name: br_ms_cnes__gestao_metas
     description: Esta tabela apresenta informações sobre os contratos de gestão de
       metas dos estabelecimentos de sáude.
     tests:
@@ -1055,7 +1055,7 @@ models:
         description: Ano da portaria
       - name: mes_portaria
         description: Mês da portaria
-  - name: incentivos
+  - name: br_ms_cnes__incentivos
     description: A tabela fornece informações sobre os incentivos do estabelecimento.
     tests:
       - dbt_utils.unique_combination_of_columns:
@@ -1106,7 +1106,7 @@ models:
         description: Ano da portaria
       - name: mes_portaria
         description: Mês da portaria
-  - name: habilitacao
+  - name: br_ms_cnes__habilitacao
     description: A tabela fornece informações sobre as habilitações do estabelecimento.
     tests:
       - dbt_utils.unique_combination_of_columns:
@@ -1162,7 +1162,7 @@ models:
         description: Ano da portaria
       - name: mes_portaria
         description: Mês da portaria
-  - name: regra_contratual
+  - name: br_ms_cnes__regra_contratual
     description: A tabela fornece informações sobre os contratos dos estabelecimentos.
     tests:
       - dbt_utils.unique_combination_of_columns:
@@ -1210,7 +1210,7 @@ models:
         description: Ano da portaria
       - name: mes_portaria
         description: Mês da portaria
-  - name: servico_especializado
+  - name: br_ms_cnes__servico_especializado
     description: A tabela fornece informações sobre serviços especializados ofertados
       pelo estabelecimento.
     tests:
