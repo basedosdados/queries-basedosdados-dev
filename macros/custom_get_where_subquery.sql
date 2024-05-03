@@ -1,10 +1,4 @@
--- This macro is used to get a subquery with a where clause that can be used in a test
--- to filter the data to be tested. The macro looks for a where clause in the model's
--- config (schema.yml) and replaces the placeholder "__most_recent_year_month__" with
--- the maximum
--- year and month found in the relation. The macro returns a subquery with the where
--- thats used
--- to filter the data to be tested
+-- https://github.com/basedosdados/pipelines/wiki/Incluindo-testes-no-seu-modelo#where--__most_recent_year_month__--__most_recent_date__--__most_recent_year__
 {% macro get_where_subquery(relation) %}
     {% set where = config.get("where", "") %}
 
