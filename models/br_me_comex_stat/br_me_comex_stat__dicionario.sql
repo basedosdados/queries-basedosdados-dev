@@ -11,4 +11,4 @@ select
     ) chave,
     safe_cast(cobertura_temporal as string) cobertura_temporal,
     safe_cast(valor as string) valor
-from `basedosdados-staging.br_me_comex_stat_staging.dicionario` as t
+from `basedosdados-dev.br_me_comex_stat_staging.dicionario` as t
