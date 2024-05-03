@@ -11,10 +11,10 @@
     )
 }}
 select
-safe_cast(ano as int64) ano,
-safe_cast(sigla_uf as string) sigla_uf,
-safe_cast(id_municipio as string) id_municipio,
-safe_cast(ovinos_tosquiados as int64) ovinos_tosquiados,
-safe_cast(vacas_ordenhadas as int64) vacas_ordenhadas,
+    safe_cast(ano as int64) ano,
+    safe_cast(sigla_uf as string) sigla_uf,
+    safe_cast(id_municipio as string) id_municipio,
+    safe_cast(ovinos_tosquiados as int64) ovinos_tosquiados,
+    safe_cast(vacas_ordenhadas as int64) vacas_ordenhadas,
 from `basedosdados-dev.br_ibge_ppm_staging.producao_pecuaria` as t
 where ovinos_tosquiados is not null or vacas_ordenhadas is not null

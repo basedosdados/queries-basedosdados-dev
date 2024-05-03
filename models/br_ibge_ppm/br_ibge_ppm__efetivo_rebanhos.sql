@@ -11,11 +11,10 @@
     )
 }}
 select
-safe_cast(ano as int64) ano,
-safe_cast(sigla_uf as string) sigla_uf,
-safe_cast(id_municipio as string) id_municipio,
-safe_cast(tipo_rebanho as string) tipo_rebanho,
-safe_cast(quantidade as int64) quantidade,
+    safe_cast(ano as int64) ano,
+    safe_cast(sigla_uf as string) sigla_uf,
+    safe_cast(id_municipio as string) id_municipio,
+    safe_cast(tipo_rebanho as string) tipo_rebanho,
+    safe_cast(quantidade as int64) quantidade,
 from `basedosdados-dev.br_ibge_ppm_staging.efetivo_rebanhos` as t
 where quantidade is not null
-
