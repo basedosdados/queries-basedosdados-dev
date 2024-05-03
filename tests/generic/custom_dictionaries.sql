@@ -1,5 +1,4 @@
--- o objetivo do teste é verificar se todos os valores que estão presentes em colunas
--- de tabelas com dicionário também estão nos dicionários
+-- https://github.com/basedosdados/pipelines/wiki/Incluindo-testes-no-seu-modelo#dicionários
 {% test custom_dictionaries(
     model, dictionary_model_name, table_id, columns_covered_by_dictionary
 ) %}
