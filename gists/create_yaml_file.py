@@ -228,7 +228,7 @@ def create_yaml_file(arch_url,
                 data['models'].remove(model)
                 break
 
-        table['description'] = f"Insert `{id}` table description here"
+        table['description'] = table_description
         table['tests'] = create_unique_combination(unique_keys_copy)
         table['tests'] += create_not_null_proportion(at_least)
 
