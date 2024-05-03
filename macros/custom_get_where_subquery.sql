@@ -47,25 +47,25 @@
         {# This block looks for __most_recent_year_month__  placeholder #}
         {% if "__most_recent_year_month__" in where %}
             {% set max_date_query = (
-                "select format('%Y-%m', max(date(cast(ano as int64), cast(mes as int64), 1))) as max_date from "
+                "select format_date('%Y-%m', max(date(cast(ano as int64), cast(mes as int64), 1))) as max_date from "
                 ~ relation
             ) %}
             {% set max_date_result = run_query(max_date_query) %}
-            {% if execute and max_date_result.rows[0][0] %}
+
+            {% if execute %}
                 {% set max_date = max_date_result.rows[0][0] %}
+                {% set max_year = max_date[:4] %}
+                {% set max_month = max_date[5:7] %}
+
+                {# Replace placeholder in the where config with actual maximum year and month #}
                 {% set where = where | replace(
                     "__most_recent_year_month__",
-                    "ano = '"
-                    ~ max_date[:4]
-                    ~ "' and mes = '"
-                    ~ max_date[5:7]
-                    ~ "'",
+                    "ano = " ~ max_year ~ " and mes = " ~ max_month,
                 ) %}
                 {% do log(
-                    "The test will filter by the most recent year and month: "
-                    ~ max_date,
-                    info=True,
+                    "----- The test will be performed for: " ~ where, info=True
                 ) %}
+
             {% endif %}
         {% endif %}
 
