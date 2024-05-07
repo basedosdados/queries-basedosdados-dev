@@ -113,3 +113,9 @@ select
     pessoas_indigenas,
     populacao_residente,
 from ibge
+where
+    not (
+        idade like '% a %'
+        or idade like '100 anos ou mais'
+        or idade like 'Menos de 1 ano'
+    )
