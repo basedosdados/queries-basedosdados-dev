@@ -959,7 +959,9 @@ select
     alarme_hepatomegalia,
     alarme_liquidos,
     case
-        when extract(year from data_alarme) > 2026 then null else data_alarme
+        when extract(year from data_alarme) > extract(year from current_date)
+        then null
+        else data_alarme
     end data_alarme,
     grave_pulso,
     grave_convulsao,
@@ -977,14 +979,16 @@ select
     grave_consciencia,
     grave_orgaos,
     case
-        when extract(year from data_sinais_gravidade) > 2026
+        when extract(year from data_sinais_gravidade) > extract(year from current_date)
         then null
         else data_sinais_gravidade
     end data_sinais_gravidade,
     data_hematocrito,
     hematocrito_maior,
     case
-        when extract(year from data_plaquetas) > 2026 then null else data_plaquetas
+        when extract(year from data_plaquetas) > extract(year from current_date)
+        then null
+        else data_plaquetas
     end data_plaquetas,
     plaqueta_maior,
     data_hematocrito_2,
@@ -992,7 +996,9 @@ select
     data_plaquetas_2,
     plaqueta_menor,
     case
-        when extract(year from data_sorologia1_chikungunya) > 2026
+        when
+            extract(year from data_sorologia1_chikungunya)
+            > extract(year from current_date)
         then null
         else data_sorologia1_chikungunya
     end data_sorologia1_chikungunya,
@@ -1008,7 +1014,9 @@ select
     sorologia2_igg,
     sorologia2_tit1,
     case
-        when extract(year from data_prnt) > 2026 then null else data_prnt
+        when extract(year from data_prnt) > extract(year from current_date)
+        then null
+        else data_prnt
     end data_prnt,
     resultado_prnt,
     data_ns1,
@@ -1038,15 +1046,19 @@ select
     apresentacao_clinica,
     evolucao_caso,
     case
-        when extract(year from data_obito) > 2026 then null else data_obito
+        when extract(year from data_obito) > extract(year from current_date)
+        then null
+        else data_obito
     end data_obito,
     case
-        when extract(year from data_encerramento) > 2026
+        when extract(year from data_encerramento) > extract(year from current_date)
         then null
         else data_encerramento
     end data_encerramento,
     tipo_sistema,
     case
-        when extract(year from data_digitacao) > 2026 then null else data_digitacao
+        when extract(year from data_digitacao) > extract(year from current_date)
+        then null
+        else data_digitacao
     end data_digitacao,
 from tabelas_join
