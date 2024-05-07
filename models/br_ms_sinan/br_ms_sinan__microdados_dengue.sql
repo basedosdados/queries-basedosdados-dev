@@ -12,6 +12,7 @@
         labels={"project_id": "basedosdados-dev"},
     )
 }}
+
 with
     sql as (
         select
@@ -104,6 +105,8 @@ with
                 when sigla_uf_notificacao = ''
                 then null
                 when sigla_uf_notificacao = ' '
+                then null
+                when sigla_uf_notificacao = '  '
                 then null
                 else sigla_uf_notificacao
             end sigla_uf_notificacao,
@@ -432,10 +435,6 @@ with
             case
                 when dt_alrm = ''
                 then null
-                when dt_alrm = '5202-01-07'
-                then null
-                when dt_alrm = '8202-05-29'
-                then null
                 else
                     safe_cast(
                         format_date(
@@ -464,10 +463,6 @@ with
             safe_cast(grav_orgao as string) grave_orgaos,
             case
                 when dt_grav = ''
-                then null
-                when dt_grav = '8022-06-08'
-                then null
-                when dt_grav = '5202-05-01'
                 then null
                 else
                     safe_cast(
@@ -498,8 +493,6 @@ with
 
             case
                 when dt_col_plq = ''
-                then null
-                when dt_col_plq = '8200-10-23'
                 then null
                 else
                     safe_cast(
@@ -548,8 +541,6 @@ with
 
             case
                 when dt_chik_s1 = ''
-                then null
-                when dt_chik_s1 = '6201-06-10'
                 then null
                 else
                     safe_cast(
@@ -616,8 +607,6 @@ with
 
             case
                 when dt_prnt = ''
-                then null
-                when dt_prnt = '9202-06-30'
                 then null
                 else
                     safe_cast(
@@ -792,10 +781,6 @@ with
             case
                 when dt_encerra = ''
                 then null
-                when dt_encerra = '5008-05-12'
-                then null
-                when dt_encerra = '5200-05-07'
-                then null
                 else
                     safe_cast(
                         format_date(
@@ -811,10 +796,6 @@ with
 
             case
                 when dt_digita = ''
-                then null
-                when dt_digita = '8010-10-08'
-                then null
-                when dt_digita = '8303-03-12'
                 then null
                 else
                     safe_cast(
@@ -836,7 +817,17 @@ with
             mun_residencia.id_municipio as novo_id_municipio_residencia,
             mun_internacao.id_municipio as novo_id_municipio_internacao,
             mun_infeccao.id_municipio as novo_id_municipio_infeccao,
-            mun_notificacao.id_municipio as novo_id_municipio_notificacao
+            mun_notificacao.id_municipio as novo_id_municipio_notificacao,
+            concat(
+                left(cast(semana_notificacao as string), 4),
+                "-",
+                right(cast(semana_notificacao as string), 2)
+            ) as semana_notificacao_certa,
+            concat(
+                left(cast(semana_sintomas as string), 4),
+                "-",
+                right(cast(semana_sintomas as string), 2)
+            ) as semana_sintomas_certa
         from sql as t1
         left join
             `basedosdados.br_bd_diretorios_brasil.municipio` as mun_residencia
@@ -858,7 +849,17 @@ with
             t1.id_municipio_residencia as novo_id_municipio_residencia,
             t1.id_municipio_internacao as novo_id_municipio_internacao,
             t1.id_municipio_infeccao as novo_id_municipio_infeccao,
-            t1.id_municipio_notificacao as novo_id_municipio_notificacao
+            t1.id_municipio_notificacao as novo_id_municipio_notificacao,
+            concat(
+                right(cast(semana_notificacao as string), 4),
+                "-",
+                left(cast(semana_notificacao as string), 2)
+            ) as semana_notificacao_certa,
+            concat(
+                right(cast(semana_sintomas as string), 4),
+                "-",
+                left(cast(semana_sintomas as string), 2)
+            ) as semana_sintomas_certa
         from sql as t1
         left join
             `basedosdados.br_bd_diretorios_brasil.municipio` as mun_residencia
@@ -879,13 +880,13 @@ select
     tipo_notificacao,
     id_agravo,
     data_notificacao,
-    semana_notificacao,
+    semana_notificacao_certa as semana_notificacao,
     sigla_uf_notificacao,
     id_regional_saude_notificacao,
     novo_id_municipio_notificacao as id_municipio_notificacao,
     id_estabelecimento,
     data_primeiros_sintomas,
-    semana_sintomas,
+    semana_sintomas_certa as semana_sintomas,
     pais_residencia,
     sigla_uf_residencia,
     id_regional_saude_residencia,
@@ -957,7 +958,9 @@ select
     alarme_letargia,
     alarme_hepatomegalia,
     alarme_liquidos,
-    data_alarme,
+    case
+        when extract(year from data_alarme) > 2026 then null else data_alarme
+    end data_alarme,
     grave_pulso,
     grave_convulsao,
     grave_enchimento_capilar,
@@ -973,16 +976,26 @@ select
     grave_miocardite,
     grave_consciencia,
     grave_orgaos,
-    data_sinais_gravidade,
+    case
+        when extract(year from data_sinais_gravidade) > 2026
+        then null
+        else data_sinais_gravidade
+    end data_sinais_gravidade,
     data_hematocrito,
     hematocrito_maior,
-    data_plaquetas,
+    case
+        when extract(year from data_plaquetas) > 2026 then null else data_plaquetas
+    end data_plaquetas,
     plaqueta_maior,
     data_hematocrito_2,
     hematocrito_menor,
     data_plaquetas_2,
     plaqueta_menor,
-    data_sorologia1_chikungunya,
+    case
+        when extract(year from data_sorologia1_chikungunya) > 2026
+        then null
+        else data_sorologia1_chikungunya
+    end data_sorologia1_chikungunya,
     data_resultado_sorologia1_chikungunya,
     resultado_sorologia1_chikungunya,
     sorologia1_igm,
@@ -994,7 +1007,9 @@ select
     sorologia2_igm,
     sorologia2_igg,
     sorologia2_tit1,
-    data_prnt,
+    case
+        when extract(year from data_prnt) > 2026 then null else data_prnt
+    end data_prnt,
     resultado_prnt,
     data_ns1,
     resultado_ns1,
@@ -1022,8 +1037,16 @@ select
     doenca_trabalho,
     apresentacao_clinica,
     evolucao_caso,
-    data_obito,
-    data_encerramento,
+    case
+        when extract(year from data_obito) > 2026 then null else data_obito
+    end data_obito,
+    case
+        when extract(year from data_encerramento) > 2026
+        then null
+        else data_encerramento
+    end data_encerramento,
     tipo_sistema,
-    data_digitacao
+    case
+        when extract(year from data_digitacao) > 2026 then null else data_digitacao
+    end data_digitacao,
 from tabelas_join

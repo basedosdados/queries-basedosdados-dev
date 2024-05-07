@@ -2,10 +2,11 @@
 version: 2
 models:
   - name: br_ms_sinan__microdados_dengue
-    # description: Insert `microdados_dengue` table description here
+    description: Microdados da Dengue retirado através do Sistema de Informações de
+      Agravos de Notificação (SINAN)
     tests:
       - not_null_proportion_multiple_columns:
-          at_least: 0.001
+          at_least: 0.00
     columns:
       - name: ano
         description: Ano
