@@ -248,19 +248,6 @@ models:
         description: Tipo de erro de Quantidade Produzida
       - name: flag_erro_corpo_apac
         description: FLAG de erro de corpo da APAC
-  - name: br_ms_sia__dicionario
-    description: Dicionário
-    columns:
-      - name: id_tabela
-        description: ID Tabela
-      - name: nome_coluna
-        description: Nome da coluna
-      - name: chave
-        description: Chave
-      - name: cobertura_temporal
-        description: Cobertura temporal
-      - name: valor
-        description: Valor
   - name: br_ms_sia__psicossocial
     description: Esta tabela contém o registro de processos ambulatorias de atendimento
       psicossial no sistema público de saúde nacional.
@@ -481,3 +468,27 @@ models:
         description: Quantidade de Atendimentos
       - name: quantidade_pacientes
         description: Quantidade de pacientes
+  - name: br_ms_sia__dicionario
+    description: Dicionário para tradução dos códigos do conjunto br_ms_sia. Para
+      taduzir códigos compartilhados entre instituições, como id_municipio, buscar
+      por diretórios
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - id_tabela
+            - nome_coluna
+            - chave
+            - cobertura_temporal
+      - not_null_proportion_multiple_columns:
+          at_least: 0.05
+    columns:
+      - name: id_tabela
+        description: ID Tabela
+      - name: nome_coluna
+        description: Nome da coluna
+      - name: chave
+        description: Chave
+      - name: cobertura_temporal
+        description: Cobertura Temporal
+      - name: valor
+        description: Valor

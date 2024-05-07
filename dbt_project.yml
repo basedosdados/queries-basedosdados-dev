@@ -42,22 +42,18 @@ models:
     relation: true
     columns: true
   basedosdados:
-    # Config indicated by + and applies to all files under models/example/
-    example:
-      +materialized: table  # Materialization type (table, table or incremental)
-      +schema: example  # Overrides the default schema (defaults to what is set on profiles.yml)
-    br_ans_beneficiario:
-      +materialized: incremental
-      +schema: br_ans_beneficiario
-    br_anp_precos_combustiveis:
-      +materialized: table
-      +schema: br_anp_precos_combustiveis
     br_anatel_banda_larga_fixa:
       +materialized: table
       +schema: br_anatel_banda_larga_fixa
     br_anatel_telefonia_movel:
       +materialized: table  # Materialization type (table, view or incremental)
       +schema: br_anatel_telefonia_movel
+    br_anp_precos_combustiveis:
+      +materialized: table
+      +schema: br_anp_precos_combustiveis
+    br_ans_beneficiario:
+      +materialized: incremental
+      +schema: br_ans_beneficiario
     br_b3_cotacoes:
       +materialized: table
       +schema: br_b3_cotacoes
@@ -76,9 +72,6 @@ models:
     br_bcb_taxa_selic:
       +materialized: table
       +schema: br_bcb_taxa_selic
-    br_bd_indicadores:
-      +materialized: table
-      +schema: br_bd_indicadores
     br_bd_diretorios_brasil:
       +materialized: table
       +schema: br_bd_diretorios_brasil
@@ -88,9 +81,15 @@ models:
     br_bd_diretorios_mundo:
       +materialized: table
       +schema: br_bd_diretorios_mundo
+    br_bd_indicadores:
+      +materialized: table
+      +schema: br_bd_indicadores
     br_bd_metadados:
       +materialized: table
       +schema: br_bd_metadados
+    br_camara_atividade_legislativa:
+      +materialized: table
+      +schema: br_camara_atividade_legislativa
     br_camara_dados_abertos:
       +materialized: table
       +schema: br_camara_dados_abertos
@@ -142,15 +141,18 @@ models:
     br_geobr_mapas:
       +materialized: table
       +schema: br_geobr_mapas
-    br_ibge_censo_demografico:
-      +materialized: table
-      +schema: br_ibge_censo_demografico
     br_ibge_censo_2022:
       +materialized: table
       +schema: br_ibge_censo_2022
+    br_ibge_censo_demografico:
+      +materialized: table
+      +schema: br_ibge_censo_demografico
     br_ibge_criacao_municipios:
       +materialized: table
       +schema: br_ibge_criacao_municipios
+    br_ibge_estadic:
+      +materialized: table
+      +schema: br_ibge_estadic
     br_ibge_inpc:
       +materialized: table
       +schema: br_ibge_inpc
@@ -163,15 +165,36 @@ models:
     br_ibge_pam:
       +materialized: table
       +schema: br_ibge_pam
+    br_ibge_pnad:
+      +materialized: table
+      +schema: br_ibge_pnad
+    br_ibge_pnad_covid:
+      +materialized: table
+      +schema: br_ibge_pnad_covid
     br_ibge_pnadc:
       +materialized: table
       +schema: br_ibge_pnadc
+    br_ibge_pof:
+      +materialized: table
+      +schema: br_ibge_pof
+    br_inep_ana:
+      +materialized: table
+      +schema: br_inep_ana
     br_inep_censo_escolar:
       +materialized: table
       +schema: br_inep_censo_escolar
+    br_inep_enem:
+      +materialized: table
+      +schema: br_inep_enem
+    br_inep_formacao_docente:
+      +materialized: table
+      +schema: br_inep_formacao_docente
     br_inep_ideb:
       +materialized: table
       +schema: br_inep_ideb
+    br_inep_indicador_nivel_socioeconomico:
+      +materialized: table
+      +schema: br_inep_indicador_nivel_socioeconomico
     br_inep_indicadores_educacionais:
       +materialized: table
       +schema: br_inep_indicadores_educacionais
@@ -190,12 +213,24 @@ models:
     br_me_caged:
       +materialized: table
       +schema: br_me_caged
+    br_me_cno:
+      +materialized: table
+      +schema: br_me_cno
     br_me_cnpj:
       +materialized: table
       +schema: br_me_cnpj
     br_me_comex_stat:
       +materialized: table
       +schema: br_me_comex_stat
+    br_me_rais:
+      +materialized: table
+      +schema: br_me_rais
+    br_me_sic:
+      +materialized: table
+      +schema: br_me_sic
+    br_mec_prouni:
+      +materialized: table
+      +schema: br_mec_prouni
     br_mec_sisu:
       +materialized: table
       +schema: br_mec_sisu
@@ -223,12 +258,21 @@ models:
     br_ms_sia:
       +materialized: table
       +schema: br_ms_sia
+    br_ms_sih:
+      +materialized: table
+      +schema: br_ms_sih     
     br_ms_sim:
       +materialized: table
       +schema: br_ms_sim
+    br_ms_sinan:
+      +materialized: table
+      +schema: br_ms_sinan
     br_ms_sinasc:
       +materialized: table
       +schema: br_ms_sinasc
+    br_ms_vacinacao_covid19:
+      +materialized: table
+      +schema: br_ms_vacinacao_covid19
     br_ons_avaliacao_operacao:
       +materialized: table
       +schema: br_ons_avaliacao_operacao
@@ -250,9 +294,6 @@ models:
     br_stf_corte_aberta:
       +materialized: table
       +schema: br_stf_corte_aberta
-      +post-hook:
-        - REVOKE `roles/bigquery.dataViewer` ON TABLE {{ this }} FROM "specialGroup:allUsers"
-        - GRANT `roles/bigquery.dataViewer` ON TABLE {{ this }} TO "group:bd-pro@basedosdados.org"
     br_trase_supply_chain:
       +materialized: table
       +schema: br_trase_supply_chain
@@ -262,15 +303,21 @@ models:
     br_tse_eleicoes_2022:
       +materialized: table
       +schema: br_tse_eleicoes_2022
+    fundacao_lemann:
+      +materialized: table
+      +schema: fundacao_lemann
+    mundo_bm_wdi:
+      +materialized: table
+      +schema: mundo_bm_wdi
     mundo_transfermarkt_competicoes:
       +materialized: table
       +schema: mundo_transfermarkt_competicoes
     mundo_transfermarkt_competicoes_internacionais:
       +materialized: table
       +schema: mundo_transfermarkt_competicoes_internacionais
-    fundacao_lemann:
+    world_ampas_oscar:
       +materialized: table
-      +schema: fundacao_lemann
+      +schema: world_ampas_oscar
     world_iea_pirls:
       +materialized: table
       +schema: world_iea_pirls
@@ -280,8 +327,5 @@ models:
     world_wb_mides:
       +materialized: table
       +schema: world_wb_mides
-    world_ampas_oscar:
-      +materialized: table
-      +schema: world_ampas_oscar
   elementary:
     +schema: elementary
