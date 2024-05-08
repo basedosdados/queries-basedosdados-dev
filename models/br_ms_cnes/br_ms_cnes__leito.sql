@@ -50,8 +50,8 @@ select
     safe_cast(sigla_uf as string) as sigla_uf,
     safe_cast(id_municipio as string) as id_municipio,
     safe_cast(cnes as string) as id_estabelecimento_cnes,
-    safe_cast(codleito as string) as tipo_especialidade_leito,
-    safe_cast(tp_leito as string) as tipo_leito,
+    ltrim(safe_cast(codleito as string), '0') as tipo_especialidade_leito,
+    ltrim(safe_cast(tp_leito as string), '0') as tipo_leito,
     safe_cast(qt_exist as int64) as quantidade_total,
     safe_cast(qt_contr as int64) as quantidade_contratado,
     safe_cast(qt_sus as int64) as quantidade_sus

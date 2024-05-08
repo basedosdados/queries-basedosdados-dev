@@ -17,6 +17,7 @@
 }}
 
 
+# todo: adicionar drop dupliocates
 with
     raw_cnes_equipamento as (
         -- 1. Retirar linhas com id_estabelecimento_cnes nulo

@@ -50,13 +50,31 @@ select
     safe_cast(nome_eqp as string) as equipe,
     safe_cast(nomearea as string) as area,
     safe_cast(id_segm as string) as id_segmento,
-    safe_cast(tiposegm as string) as tipo_segmento,
+    safe_cast(
+        case
+            when regexp_replace(tiposegm, '^0+', '') = ''
+            then '0'
+            else regexp_replace(tiposegm, '^0+', '')
+        end as string
+    ) as tipo_segmento,
     safe_cast(descsegm as string) as descricao_segmento,
     -- - inserir subsrt para criar ano e mes
     safe_cast(substr(dt_ativa, 1, 4) as int64) as ano_ativacao_equipe,
     safe_cast(substr(dt_ativa, 5, 6) as int64) as mes_ativacao_equipe,
-    safe_cast(motdesat as string) as motivo_desativacao_equipe,
-    safe_cast(tp_desat as string) as tipo_desativacao_equipe,
+    safe_cast(
+        case
+            when regexp_replace(motdesat, '^0+', '') = ''
+            then '0'
+            else regexp_replace(motdesat, '^0+', '')
+        end as string
+    ) as motivo_desativacao_equipe,
+    safe_cast(
+        case
+            when regexp_replace(tp_desat, '^0+', '') = ''
+            then '0'
+            else regexp_replace(tp_desat, '^0+', '')
+        end as string
+    ) as tipo_desativacao_equipe,
     safe_cast(substr(dt_desat, 1, 4) as int64) as ano_desativacao_equipe,
     safe_cast(substr(dt_desat, 5, 6) as int64) as mes_desativacao_equipe,
     safe_cast(quilombo as int64) as indicador_atende_populacao_assistida_quilombolas,

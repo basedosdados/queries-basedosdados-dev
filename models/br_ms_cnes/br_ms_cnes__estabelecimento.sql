@@ -65,11 +65,29 @@ select
     safe_cast(vinc_sus as int64) indicador_vinculo_sus,
     safe_cast(tpgestao as string) tipo_gestao,
     safe_cast({{ clean_cols("ESFERA_A") }} as string) tipo_esfera_administrativa,
-    safe_cast(retencao as string) tipo_retencao_tributos,
+    safe_cast(
+        case
+            when regexp_replace(retencao, '^0+', '') = ''
+            then '0'
+            else regexp_replace(retencao, '^0+', '')
+        end as string
+    ) as tipo_retencao_tributos,
     safe_cast({{ clean_cols("ATIVIDAD") }} as string) tipo_atividade_ensino_pesquisa,
-    safe_cast(natureza as string) tipo_natureza_administrativa,
+    safe_cast(
+        case
+            when regexp_replace(natureza, '^0+', '') = ''
+            then '0'
+            else regexp_replace(natureza, '^0+', '')
+        end as string
+    ) as tipo_natureza_administrativa,
     safe_cast(nat_jur as string) id_natureza_juridica,
-    safe_cast(clientel as string) tipo_fluxo_atendimento,
+    safe_cast(
+        case
+            when regexp_replace(clientel, '^0+', '') = ''
+            then '0'
+            else regexp_replace(clientel, '^0+', '')
+        end as string
+    ) as tipo_fluxo_atendimento,
     safe_cast({{ clean_cols("TP_UNID") }} as string) tipo_unidade,
     safe_cast({{ clean_cols("TURNO_AT") }} as string) tipo_turno,
     safe_cast({{ clean_cols("NIV_HIER") }} as string) tipo_nivel_hierarquia,
@@ -93,7 +111,13 @@ select
     safe_cast(
         {{ clean_cols("AV_ACRED") }} as string
     ) tipo_avaliacao_acreditacao_hospitalar,
-    safe_cast(clasaval as string) tipo_classificacao_acreditacao_hospitalar,
+    safe_cast(
+        case
+            when regexp_replace(clasaval, '^0+', '') = ''
+            then '0'
+            else regexp_replace(clasaval, '^0+', '')
+        end as string
+    ) as tipo_classificacao_acreditacao_hospitalar,
     safe_cast(substr(cast(dt_acred as string), 1, 4) as int64) as ano_acreditacao,
     safe_cast(substr(cast(dt_acred as string), 5, 2) as int64) as mes_acreditacao,
     safe_cast(

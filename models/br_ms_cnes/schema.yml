@@ -12,26 +12,48 @@ models:
             - id_estabelecimento_cnes
             - id_equipamento
             - tipo_equipamento
+          config:
+            where: __most_recent_year_month__
+      - custom_dictionaries:
+          table_id: equipamento
+          columns_covered_by_dictionary: [id_equipamento, tipo_equipamento]
+          dictionary_model_name: ref('br_ms_cnes__dicionario')
+          config:
+            where: __most_recent_year_month__
     columns:
       - name: ano
         description: Ano
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: mes
         description: Mes
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: sigla_uf
         description: Sigla da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio
+              config:
+                where: __most_recent_year_month__
           - dbt_utils.not_null_proportion:
               at_least: 0.05
+              config:
+                where: __most_recent_year_month__
       - name: id_estabelecimento_cnes
         description: ID Estabelecimento - CNES
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: id_equipamento
         description: Identificador do equipamento
       - name: tipo_equipamento
@@ -56,6 +78,16 @@ models:
             - id_estabelecimento_cnes
             - id_equipe
             - tipo_equipe
+      - custom_dictionaries:
+          table_id: equipe
+          columns_covered_by_dictionary:
+            - motivo_desativacao_equipe
+            - tipo_desativacao_equipe
+            - tipo_segmento
+            - tipo_equipe
+          dictionary_model_name: ref('br_ms_cnes__dicionario')
+          config:
+            where: __most_recent_year_month__
     columns:
       - name: ano
         description: Ano
@@ -65,6 +97,10 @@ models:
         tests: [not_null]
       - name: sigla_uf
         description: Sigla da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
@@ -128,6 +164,10 @@ models:
             - cbo_2002
             - id_vinculo
             - indicador_atende_sus
+      # - custom_dictionaries:
+      #     table_id: equipamento
+      #      columns_covered_by_dictionary:  # TODO:
+      #     dictionary_model_name: ref('br_ms_cnes__dicionario')
     columns:
       - name: ano
         description: Ano
@@ -137,6 +177,10 @@ models:
         tests: [not_null]
       - name: sigla_uf
         description: Sigla da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
@@ -162,6 +206,10 @@ models:
         description: CNS - Cartão Nacional de Saúde
       - name: cbo_2002
         description: Código da especialidade
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__cbo_2002')
+              field: cbo_2002.cbo_2002
       - name: indicador_estabelecimento_terceiro
         description: Indica se o estabelecimento é de terceiros ou não
       - name: indicador_vinculo_contratado_sus
@@ -187,6 +235,25 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns: [ano, mes, id_estabelecimento_cnes]
+      - custom_dictionaries:
+          table_id: estabelecimento
+          columns_covered_by_dictionary:
+            - tipo_pessoa
+            - tipo_grau_dependencia
+            - tipo_retencao_tributos_mantenedora
+            - tipo_gestao
+            - tipo_esfera_administrativa
+            - tipo_retencao_tributos
+            - tipo_atividade_ensino_pesquisa
+            - tipo_natureza_administrativa
+            - tipo_unidade
+            - tipo_fluxo_atendimento
+            - tipo_turno
+            - tipo_prestador
+            - tipo_orgao_expedidor
+            - tipo_avaliacao_acreditacao_hospitalar
+            - tipo_classificacao_acreditacao_hospitalar
+          dictionary_model_name: ref('br_ms_cnes__dicionario')
     columns:
       - name: ano
         description: Ano
@@ -196,6 +263,10 @@ models:
         tests: [not_null]
       - name: sigla_uf
         description: Sigla da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
       - name: ano_atualizacao
         description: Ano de atualização da informação pelo estabelecimento
       - name: mes_atualizacao
@@ -247,6 +318,12 @@ models:
         description: Natureza da organização
       - name: id_natureza_juridica
         description: Natureza jurídica
+        tests:
+          - custom_relationships:
+              to: ref('br_bd_diretorios_brasil__natureza_juridica')
+              field: id_natureza_juridica
+              ignore_values: ['1000', '2000', '3000', '4000', '8885']  # O valor 5410 será ignorado
+              proportion_allowed_failures: 0
       - name: tipo_fluxo_atendimento
         description: Fluxo da clientela
       - name: tipo_unidade
@@ -687,6 +764,10 @@ models:
             - id_estabelecimento_cnes
             - tipo_especialidade_leito
             - tipo_leito
+      - custom_dictionaries:
+          table_id: leito
+          columns_covered_by_dictionary: [tipo_especialidade_leito, tipo_leito]
+          dictionary_model_name: ref('br_ms_cnes__dicionario')
     columns:
       - name: ano
         description: Ano
@@ -694,6 +775,10 @@ models:
         description: Mês
       - name: sigla_uf
         description: Sigla da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
@@ -727,6 +812,10 @@ models:
         description: Mes
       - name: sigla_uf
         description: Sigla da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
@@ -974,6 +1063,10 @@ models:
         description: Mês
       - name: sigla_uf
         description: Sigla da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
@@ -1015,6 +1108,10 @@ models:
             - tipo_habilitacao
             - portaria
             - data_portaria
+      - custom_dictionaries:
+          table_id: habilitacao
+          columns_covered_by_dictionary: [tipo_habilitacao, tipo_incentivo]
+          dictionary_model_name: ref('br_ms_cnes__dicionario')
     columns:
       - name: ano
         description: Ano
@@ -1066,6 +1163,10 @@ models:
             - tipo_habilitacao
             - portaria
             - data_portaria
+      - custom_dictionaries:
+          table_id: habilitacao
+          columns_covered_by_dictionary: [tipo_habilitacao, tipo_incentivo]
+          dictionary_model_name: ref('br_ms_cnes__dicionario')
     columns:
       - name: ano
         description: Ano
@@ -1120,6 +1221,10 @@ models:
             - mes_competencia_inicial
             - data_portaria
             - portaria
+      - custom_dictionaries:
+          table_id: habilitacao
+          columns_covered_by_dictionary: [tipo_habilitacao, nivel_habilitacao]
+          dictionary_model_name: ref('br_ms_cnes__dicionario')
     columns:
       - name: ano
         description: Ano
@@ -1172,6 +1277,13 @@ models:
             - id_estabelecimento_cnes
             - tipo_habilitacao
             - data_portaria
+      - custom_dictionaries:
+          table_id: regra_contratual
+          columns_covered_by_dictionary:
+            - tipo_servico_especializado
+            - tipo_classificacao_bd
+            - tipo_servico_especializado_unico
+          dictionary_model_name: ref('br_ms_cnes__dicionario')
     columns:
       - name: ano
         description: Ano
@@ -1225,6 +1337,13 @@ models:
             - indicador_servico_nao_sus
             - indicador_servico_hospitalar_nao_sus
             - indicador_servico_hospitalar_sus
+      - custom_dictionaries:
+          table_id: servico_especializado
+          columns_covered_by_dictionary:
+            - tipo_servico_especializado
+            - tipo_classificacao_bd
+            - tipo_servico_especializado_unico
+          dictionary_model_name: ref('br_ms_cnes__dicionario')
     columns:
       - name: ano
         description: Ano
@@ -1234,6 +1353,10 @@ models:
         tests: [not_null]
       - name: sigla_uf
         description: Sigla da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
@@ -1247,10 +1370,8 @@ models:
         tests: [not_null]
       - name: tipo_servico_especializado
         description: Código do serviço especializado
-      - name: tipo_classificacao
+      - name: subtipo_servico_especializado
         description: Código da classificação do serviço
-      - name: tipo_classificacao_bd
-        description: Código da classificação do serviço criado pela equipe da BD
       - name: tipo_servico_especializado_unico
         description: Código do serviço especializado único
       - name: tipo_caracterizacao
