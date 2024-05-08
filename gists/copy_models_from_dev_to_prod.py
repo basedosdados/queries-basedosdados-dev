@@ -14,7 +14,6 @@ def main(datasets):
     prod_models_path = dev_models_path.replace('queries-basedosdados-dev', 'queries-basedosdados')
     for dataset_id in datasets:
         prod_models_dataset_path = f"{prod_models_path}/{dataset_id}"
-        print(prod_models_dataset_path)
         copy_tree(f"{dev_models_path}/{dataset_id}",prod_models_dataset_path)
         update_dbt_project_yaml(dataset_id,prod_models_path)
         [change_origin_from_dev_to_staging(file, prod_models_dataset_path) for file in os.listdir(prod_models_dataset_path) if '.sql' in file]
