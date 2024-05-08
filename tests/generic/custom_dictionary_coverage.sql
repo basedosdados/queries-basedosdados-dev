@@ -1,11 +1,14 @@
 -- https://github.com/basedosdados/pipelines/wiki/Incluindo-testes-no-seu-modelo#dicionários
-{% test custom_dictionaries(
-    model, dictionary_model_name, table_id, columns_covered_by_dictionary
+{% test custom_dictionary_coverage(
+    model, dictionary_model, columns_covered_by_dictionary
 ) %}
     {{ config(severity="error") }}
 
     {%- set combined_query_parts = [] -%}
     {%- set union_parts = [] -%}
+    {% set model_identifier = model.identifier %}
+    {% set dataset_table_list = model_identifier.split("__") %}
+    {% set table_id = dataset_table_list[1] %}
 
     {%- for column_name in columns_covered_by_dictionary %}
         {% set subquery_name = "exceptions_" ~ loop.index %}
@@ -20,7 +23,7 @@
             ),
             {{ right_table_name }} as (
                 select chave
-                from {{ dictionary_model_name }}
+                from {{ dictionary_model}}
                 where valor is not null
                 and id_tabela = '{{ table_id }}'
                 and nome_coluna = '{{ column_name }}'
