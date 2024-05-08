@@ -7,6 +7,7 @@
 with
     ibge as (
         select
+            safe_cast(ano as int64) as ano,
             safe_cast(cod_ as string) id_terra_indigena,
             safe_cast(
                 trim(

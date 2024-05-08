@@ -902,8 +902,13 @@ models:
                 field: id_municipio
       - name: localizacao_domicilio
         description: Localização do Domicílio
-      - name: idade_num
+      - name: idade_anos
         description: Idade
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 120     
+              where: 'idade_anos is not null' 
       - name: grupo_idade
         description: Grupo de Idade
       - name: sexo
@@ -915,7 +920,9 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
             combination_of_columns:
-              - insert unique keys here
+              - ano
+              - id_municipio
+              - localizacao_domicilio
       - not_null_proportion_multiple_columns:
             at_least: 0.05
     columns:
@@ -926,15 +933,24 @@ models:
         tests:
           - relationships:
                 to: ref('br_bd_diretorios_brasil__municipio')
-                field: id
+                field: id_municipio
       - name: localizacao_domicilio
         description: Localização do Domicílio
       - name: indice_envelhecimento
         description: Índice de envelhecimento da população quilombola
       - name: idade_mediana
         description: Idade mediana da população quilombola
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 120     
+              where: 'idade_mediana is not null'           
       - name: razao_sexo
         description: Razão de sexo da população quilombola
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: '>= 1'      
+              where: 'razao_sexo is not null'        
   - name: br_ibge_censo_2022__quilombolas_populacao_residente_grupo_idade_territorio_quilombola
     description: Insert table description here
     tests:
@@ -955,8 +971,13 @@ models:
                 field: sigla
       - name: sexo
         description: Sexo
-      - name: idade_num
+      - name: idade_anos
         description: Idade
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 120     
+              where: 'idade_anos is not null'            
       - name: grupo_idade
         description: Grupo de Idade        
       - name: pessoas_quilombolas
@@ -990,8 +1011,17 @@ models:
             quilombolas
       - name: idade_mediana
         description: Idade mediana da população residente em territórios quilombolas
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 120     
+              where: 'idade_mediana is not null'           
       - name: razao_sexo
         description: Razão de sexo da população residente em territórios quilombolas
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: '>= 1'      
+              where: 'razao_sexo is not null'           
       - name: indice_envelhecimento_populacao_quilombola
         description: Índice de envelhecimento da população quilombola residente em
             territórios quilombolas
@@ -1072,6 +1102,8 @@ models:
               - id_terra_indigena
               - quesito_declaracao_indigena
               - sexo
+              - idade_anos
+              - ano
       - not_null_proportion_multiple_columns:
             at_least: 0.05
     columns:
