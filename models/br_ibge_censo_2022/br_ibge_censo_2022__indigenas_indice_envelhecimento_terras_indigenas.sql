@@ -34,6 +34,7 @@ select
                 ) as string
             )
     end as sigla_uf,
+    safe_cast(quesito_de_declaracao_indigena as string) quesito_declaracao_indigena,
     safe_cast(
         replace(
             indice_de_envelhecimento_da_populacao_residente_em_terras_indigenas_idosos_60_anos_ou_mais_de_idade_razao_,
@@ -55,17 +56,17 @@ select
             ",",
             "."
         ) as float64
-    ) indice_envelhecimento_populacao_quilombola,
+    ) indice_envelhecimento_populacao_indigena,
     safe_cast(
         idade_mediana_da_populacao_indigena_residente_em_terras_indigenas_anos_ as int64
-    ) idade_mediana_populacao_quilombola,
+    ) idade_mediana_populacao_indigena,
     safe_cast(
         replace(
             razao_de_sexo_da_populacao_indigena_residente_em_terras_indigenas_razao_,
             ",",
             "."
         ) as float64
-    ) razao_sexo_quilombola,
+    ) razao_sexo_populacao_indigena,
 from
     `basedosdados-dev.br_ibge_censo_2022_staging.indigenas_indice_envelhecimento_terras_indigenas`
     as t
