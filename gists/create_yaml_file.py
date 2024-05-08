@@ -1,13 +1,13 @@
 import pandas as pd
 import ruamel.yaml as yaml
 import os
-from typing import List
+from typing import List, Optional, Tuple
 import requests
 from io import StringIO
 import re
 
 
-def find_model_directory(directory):
+def find_model_directory(directory: str)-> Optional[str]:
     # Check if 'model' is in the current directory
     if 'models' in os.listdir(directory):
         return os.path.join(directory, 'models')
@@ -25,7 +25,7 @@ def find_model_directory(directory):
     # Otherwise, continue searching recursively in parent directories
     return find_model_directory(parent_directory)
 
-def sheet_to_df(columns_config_url_or_path):
+def sheet_to_df(columns_config_url_or_path: str) -> pd.DataFrame:
     """
     Convert sheet to dataframe
     """
@@ -40,7 +40,7 @@ def sheet_to_df(columns_config_url_or_path):
             "Check if your google sheet Share are: Anyone on the internet with this link can view"
         )
 
-def create_model_from_architecture(architecture_df, output_dir, dataset_id, table_id, preprocessed_staging_column_names = True):
+def create_model_from_architecture(architecture_df: pd.DataFrame, output_dir: str, dataset_id: str, table_id: str, preprocessed_staging_column_names: bool = True) -> None:
 
         if preprocessed_staging_column_names:
             architecture_df['original_name'] = architecture_df['name']
@@ -58,7 +58,7 @@ def create_model_from_architecture(architecture_df, output_dir, dataset_id, tabl
             sql_last_line = f"from `basedosdados-dev.{dataset_id}_staging.{table_id}` as t\n\n"
             file.write(sql_last_line)
 
-def extract_column_parts(input_string):
+def extract_column_parts(input_string: str) -> str:
     pattern_1 = re.compile(r"(\w+)\.(\w+):(\w+)")
     pattern_2 = re.compile(r"\w+\.(\w+)\.(\w+):(\w+)")
 
@@ -69,7 +69,7 @@ def extract_column_parts(input_string):
     else:
         raise ValueError(f"Invalid input format on `{input_string}`. Expected format: 'dataset.table:column'")
 
-def extract_relationship_info(input_string):
+def extract_relationship_info(input_string: str) -> Tuple[str,str]:
     try:
         dataset, table, column = extract_column_parts(input_string)
 
@@ -86,40 +86,43 @@ def extract_relationship_info(input_string):
         print(f"An unexpected error occurred: {e}")
         return None
 
-def create_relationships(directory_column):
+def create_relationships(directory_column: str) -> List:
         relationship_table, relationship_field  = extract_relationship_info(directory_column)
-        list_relationships = []
         yaml_relationship = yaml.comments.CommentedMap()
         yaml_relationship['relationships'] = {
             "to": relationship_table,
             "field": relationship_field
         }
-        list_relationships.append(yaml_relationship)
-        return list_relationships
+        return [yaml_relationship]
 
-def create_unique_combination(unique_keys):
-        combinations = []
+def create_unique_combination(unique_keys: List[str]):
         combination = yaml.comments.CommentedMap()
         combination['dbt_utils.unique_combination_of_columns'] = {
             "combination_of_columns": unique_keys
         }
-        combinations.append(combination)
-        return combinations
+        return [combination]
 
-def create_not_null_proportion(at_least):
-        not_null_proportion = []
+def create_not_null_proportion(at_least:float) -> List:
         not_null = yaml.comments.CommentedMap()
         not_null['not_null_proportion_multiple_columns'] = {
             "at_least": at_least,
         }
-        not_null_proportion.append(not_null)
-        return not_null_proportion
+        return [not_null]
 
-def create_unique():
+def create_dict_coverage(dataset_id: str, list_covered_by_dict_columns: List[str])-> List:
+        dict_coverage = yaml.comments.CommentedMap()
+        dict_coverage['custom_dictionaries'] = {
+            "columns_covered_by_dictionary": list_covered_by_dict_columns,
+            "dictionary_model": f"ref('{dataset_id}__dicionario')"
+        }
+        return [dict_coverage]
+
+
+def create_unique() -> List:
         return ["unique", "not_null"]
 
 
-def update_dbt_project_yaml(dataset_id,models_path):
+def update_dbt_project_yaml(dataset_id: str,models_path: str) -> None:
     dbt_project_path = models_path.replace('models','dbt_project.yml')
 
     yaml_obj = yaml.YAML(typ='rt')
@@ -141,11 +144,11 @@ def update_dbt_project_yaml(dataset_id,models_path):
 
 
 
-def create_yaml_file(arch_url,
-                     table_id,
-                     dataset_id,
+def create_yaml_file(arch_url: str,
+                     table_id: str,
+                     dataset_id: str,
                      table_description: str = "Insert table description here",
-                     at_least: float = 0.05,
+                     at_least: float = 0.95,
                      unique_keys: List[str] = ["insert unique keys here"],
                      mkdir: bool = True,
                      preprocessed_staging_column_names=True) -> None:
@@ -232,6 +235,11 @@ def create_yaml_file(arch_url,
         table['tests'] = create_unique_combination(unique_keys_copy)
         table['tests'] += create_not_null_proportion(at_least)
 
+        covered_by_dict_columns = architecture_df['covered_by_dictionary']=='yes'
+        if covered_by_dict_columns.sum():
+            list_covered_by_dict_columns = architecture_df[covered_by_dict_columns]['name'].tolist()
+            table['tests'] += create_dict_coverage(dataset_id, list_covered_by_dict_columns)
+
         table['columns'] = []
 
         for _, row in architecture_df.iterrows():
@@ -263,7 +271,7 @@ def create_yaml_file(arch_url,
 
 def main():
     DATASET_ID = 'test'
-    TABLE_ID = 'test'
+    TABLE_ID = 'test_table'
     #The URL must be the browser link containing '#gid='. The edit function should be open to anyone on the internet.
     ARCHITECTURE_URL = "https://docs.google.com/spreadsheets/d/1Y2ebUNrZTUv2x_psWpK4oTxvRxhje5K6BSKZIWBQYDM/edit?pli=0#gid=1213668070"
 
