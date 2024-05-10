@@ -48,13 +48,15 @@ select
     -- UFMUNRES que indica null
     safe_cast(regexp_replace(ufmunres, '0{6}', '') as string) id_municipio_6_residencia,
     safe_cast(nomeprof as string) nome,
-    safe_cast(vinculac as string) tipo_vinculo,
-    safe_cast(registro as string) id_registro_conselho,
-    safe_cast(conselho as string) tipo_conselho,
+    safe_cast(replace(vinculac, 'nan', null) as string) tipo_vinculo,
+    safe_cast(replace(registro, 'nan', null) as string) id_registro_conselho,
+    safe_cast(replace(conselho, 'nan', null) as string) tipo_conselho,
     -- replace de valores de linha com 15 zeros para null. 15 zeros é valor do campo
     -- CNS_PROF que indica null
-    safe_cast(regexp_replace(cns_prof, '0{15}', '') as string) cartao_nacional_saude,
-    safe_cast(cbo as string) cbo_2002,
+    safe_cast(regexp_replace(cns_prof, '0{15}', null) as string) cartao_nacional_saude,
+    safe_cast(cbo as string) cbo_2002_original,
+    safe_cast(case when length(cbo) = 6 then cbo else null end as string) cbo_2002,
+    safe_cast(case when length(cbo) = 5 then cbo else null end as string) cbo_1994,
     safe_cast(terceiro as int64) indicador_estabelecimento_terceiro,
     safe_cast(vincul_c as int64) indicador_vinculo_contratado_sus,
     safe_cast(vincul_a as int64) indicador_vinculo_autonomo_sus,

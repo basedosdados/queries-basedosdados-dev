@@ -12,6 +12,10 @@ models:
             - id_estabelecimento_cnes
             - id_equipamento
             - tipo_equipamento
+            - quantidade_equipamentos
+            - quantidade_equipamentos_ativos
+            - indicador_equipamento_disponivel_sus
+            - indicador_equipamento_indisponivel_sus
       - custom_dictionary_coverage:
           columns_covered_by_dictionary: [id_equipamento, tipo_equipamento]
           dictionary_model: ref('br_ms_cnes__dicionario')
@@ -197,12 +201,21 @@ models:
         description: Código do conselho de classe
       - name: cartao_nacional_saude
         description: CNS - Cartão Nacional de Saúde
+      - name: cbo_2002_original
+        description: Código da Classificação Brasileira de Ocupações (CB0) 2002 sem
+          tratamento aplicado
       - name: cbo_2002
-        description: Código da especialidade
+        description: Código da Classificação Brasileira de Ocupações (CB0) 2002
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__cbo_2002')
               field: cbo_2002.cbo_2002
+      - name: cbo_1994
+        description: Código da Classificação Brasileira de Ocupações (CB0) 1994
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__cbo_1994')
+              field: cbo_1994.cbo_1994
       - name: indicador_estabelecimento_terceiro
         description: Indica se o estabelecimento é de terceiros ou não
       - name: indicador_vinculo_contratado_sus
@@ -228,17 +241,17 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns: [ano, mes, id_estabelecimento_cnes]
+          config:
+            where: __most_recent_year_month__
       - custom_dictionary_coverage:
           columns_covered_by_dictionary:
             - tipo_pessoa
-            - tipo_grau_dependencia
             - tipo_retencao_tributos_mantenedora
             - tipo_gestao
             - tipo_esfera_administrativa
             - tipo_retencao_tributos
             - tipo_atividade_ensino_pesquisa
             - tipo_natureza_administrativa
-            - tipo_unidade
             - tipo_fluxo_atendimento
             - tipo_turno
             - tipo_prestador
@@ -246,19 +259,27 @@ models:
             - tipo_avaliacao_acreditacao_hospitalar
             - tipo_classificacao_acreditacao_hospitalar
           dictionary_model: ref('br_ms_cnes__dicionario')
+          config:
+            where: __most_recent_year_month__
     columns:
       - name: ano
         description: Ano
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: mes
         description: Mês
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: sigla_uf
         description: Sigla da Unidade da Federação
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__uf')
               field: sigla
+              config:
+                where: __most_recent_year_month__
       - name: ano_atualizacao
         description: Ano de atualização da informação pelo estabelecimento
       - name: mes_atualizacao
@@ -269,8 +290,12 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio
+              config:
+                where: __most_recent_year_month__
           - dbt_utils.not_null_proportion:
               at_least: 0.95
+              config:
+                where: __most_recent_year_month__
       - name: id_municipio_6
         description: ID Município - IBGE 6 Dígitos
       - name: id_regiao_saude
@@ -286,6 +311,8 @@ models:
       - name: id_estabelecimento_cnes
         description: ID estabelecimento - CNES
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: tipo_pessoa
         description: Indicador de pessoa física ou jurídica
       - name: cpf_cnpj
@@ -314,8 +341,10 @@ models:
           - custom_relationships:
               to: ref('br_bd_diretorios_brasil__natureza_juridica')
               field: id_natureza_juridica
-              ignore_values: ['1000', '2000', '3000', '4000', '8885']  # O valor 5410 será ignorado
+              ignore_values: ['1000', '2000', '3000', '4000', '8885']
               proportion_allowed_failures: 0
+              config:
+                where: __most_recent_year_month__
       - name: tipo_fluxo_atendimento
         description: Fluxo da clientela
       - name: tipo_unidade
@@ -1328,27 +1357,25 @@ models:
     description: A tabela fornece informações sobre serviços especializados ofertados
       pelo estabelecimento.
     tests:
-    #   - dbt_utils.unique_combination_of_columns:
-    #       combination_of_columns:
-    #         - ano
-    #         - mes
-    #         - id_estabelecimento_cnes
-    #         - tipo_servico_especializado
-    #         - subtipo_servico_especializado
-    #         - tipo_servico_especializado_unico
-    #         - tipo_caracterizacao
-    #         - indicador_servico_ambulatorial_sus
-    #         - indicador_servico_nao_sus
-    #         - indicador_servico_hospitalar_nao_sus
-    #         - indicador_servico_hospitalar_sus
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - ano
+            - mes
+            - id_estabelecimento_cnes
+            - tipo_servico_especializado
+            - subtipo_servico_especializado
+            - tipo_servico_especializado_unico
+            - tipo_caracterizacao
+            - indicador_servico_ambulatorial_sus
+            - indicador_servico_nao_sus
+            - indicador_servico_hospitalar_nao_sus
+            - indicador_servico_hospitalar_sus
       - custom_dictionary_coverage:
           columns_covered_by_dictionary:
             - tipo_servico_especializado
             - subtipo_servico_especializado
             - tipo_servico_especializado_unico
           dictionary_model: ref('br_ms_cnes__dicionario')
-          config:
-            where: ano = 2023 and mes = 2
     columns:
       - name: ano
         description: Ano

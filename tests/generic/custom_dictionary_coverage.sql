@@ -6,9 +6,7 @@
 
     {%- set combined_query_parts = [] -%}
     {%- set union_parts = [] -%}
-    {% set model_identifier = model.identifier %}
-    {% set dataset_table_list = model_identifier.split("__") %}
-    {% set table_id = dataset_table_list[1] %}
+    {% set table_id = model.identifier %}
 
     {%- for column_name in columns_covered_by_dictionary %}
         {% set subquery_name = "exceptions_" ~ loop.index %}
