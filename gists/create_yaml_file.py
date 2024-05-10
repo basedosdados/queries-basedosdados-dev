@@ -262,10 +262,10 @@ def create_yaml_file(arch_url,
     update_dbt_project_yaml(dataset_id,models_path)
 
 def main():
-    DATASET_ID = 'br_ibge_censo_2022'
-    TABLE_ID = 'indigenas_indice_envelhecimento_terras_indigenas'
+    DATASET_ID = 'test'
+    TABLE_ID = 'test'
     #The URL must be the browser link containing '#gid='. The edit function should be open to anyone on the internet.
-    ARCHITECTURE_URL = "https://docs.google.com/spreadsheets/d/1_uKRdC88uYmoGJkxSwFmFshEhzKG-1jU/edit#gid=1045172528"
+    ARCHITECTURE_URL = "https://docs.google.com/spreadsheets/d/1Y2ebUNrZTUv2x_psWpK4oTxvRxhje5K6BSKZIWBQYDM/edit?pli=0#gid=1213668070"
 
     create_yaml_file(
     arch_url=ARCHITECTURE_URL,
