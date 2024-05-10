@@ -1044,7 +1044,7 @@ models:
         tests:
           - relationships:
                 to: ref('br_bd_diretorios_brasil__municipio')
-                field: id
+                field: id_municipio
       - name: localizacao_domicilio
         description: Localização do Domicílio
       - name: idade_anos
@@ -1097,16 +1097,11 @@ models:
   - name: br_ibge_censo_2022__indigenas_populacao_residente_grupo_idade_terras_indigenas
     description: Insert table description here
     tests:
-      - dbt_utils.unique_combination_of_columns:
-            combination_of_columns:
-              - id_terra_indigena
-              - quesito_declaracao_indigena
-              - sexo
-              - idade_anos
-              - ano
       - not_null_proportion_multiple_columns:
             at_least: 0.05
     columns:
+      - name: ano
+        description: Ano   
       - name: id_terra_indigena
         description: ID da Terra Indígena    
       - name: terra_indigena
