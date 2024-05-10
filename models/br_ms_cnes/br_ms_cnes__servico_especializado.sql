@@ -46,12 +46,8 @@ select
     safe_cast(id_municipio as string) as id_municipio,
     safe_cast(cnes as string) as id_estabelecimento_cnes,
     ltrim(safe_cast(serv_esp as string), '0') as tipo_servico_especializado,
-    safe_cast(
-        case
-            when regexp_replace(class_sr, '^0+', '') = ''
-            then '0'
-            else regexp_replace(class_sr, '^0+', '')
-        end as string
+    concat(
+        ltrim(safe_cast(serv_esp as string), '0'), class_sr
     ) as subtipo_servico_especializado,
     ltrim(safe_cast(srvunico as string), '0') as tipo_servico_especializado_unico,
     safe_cast(caracter as string) as tipo_caracterizacao,
