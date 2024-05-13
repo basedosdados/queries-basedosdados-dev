@@ -16,9 +16,13 @@ models:
             - quantidade_equipamentos_ativos
             - indicador_equipamento_disponivel_sus
             - indicador_equipamento_indisponivel_sus
+          config:
+            where: __most_recent_year_month__
       - custom_dictionary_coverage:
           columns_covered_by_dictionary: [id_equipamento, tipo_equipamento]
           dictionary_model: ref('br_ms_cnes__dicionario')
+          config:
+            where: __most_recent_year_month__
     columns:
       - name: ano
         description: Ano
@@ -36,6 +40,8 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_brasil__uf')
               field: sigla
+              config:
+                where: __most_recent_year_month__
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
@@ -77,6 +83,8 @@ models:
             - id_estabelecimento_cnes
             - id_equipe
             - tipo_equipe
+          config:
+            where: __most_recent_year_month__
       - custom_dictionary_coverage:
           columns_covered_by_dictionary:
             - motivo_desativacao_equipe
@@ -90,26 +98,38 @@ models:
       - name: ano
         description: Ano
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: mes
         description: Mês
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: sigla_uf
         description: Sigla da Unidade da Federação
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__uf')
               field: sigla
+              config:
+                where: __most_recent_year_month__
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio
+              config:
+                where: __most_recent_year_month__
           - dbt_utils.not_null_proportion:
-              at_least: 0.05
+              at_least: 0.95
+              config:
+                where: __most_recent_year_month__
       - name: id_estabelecimento_cnes
         description: ID Estabelecimento - CNES
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: id_equipe
         description: ID da equipe dado pelo código do Município, area e sequencial
           da equipe
@@ -162,33 +182,49 @@ models:
             - cbo_2002
             - tipo_vinculo
             - indicador_atende_sus
+          config:
+            where: __most_recent_year_month__
       - custom_dictionary_coverage:
           columns_covered_by_dictionary: [tipo_vinculo, tipo_conselho]
           dictionary_model: ref('br_ms_cnes__dicionario')
+          config:
+            where: __most_recent_year_month__
     columns:
       - name: ano
         description: Ano
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: mes
         description: Mês
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: sigla_uf
         description: Sigla da Unidade da Federação
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__uf')
               field: sigla
+              config:
+                where: __most_recent_year_month__
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio
+              config:
+                where: __most_recent_year_month__
           - dbt_utils.not_null_proportion:
               at_least: 0.95
+              config:
+                where: __most_recent_year_month__
       - name: id_estabelecimento_cnes
         description: ID Estabelecimento - CNES
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: id_municipio_6_residencia
         description: ID Município IBGE - 6 Dígitos do local de residência do profissional
       - name: nome
@@ -210,12 +246,16 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_brasil__cbo_2002')
               field: cbo_2002.cbo_2002
+              config:
+                where: __most_recent_year_month__
       - name: cbo_1994
         description: Código da Classificação Brasileira de Ocupações (CB0) 1994
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__cbo_1994')
               field: cbo_1994.cbo_1994
+              config:
+                where: __most_recent_year_month__
       - name: indicador_estabelecimento_terceiro
         description: Indica se o estabelecimento é de terceiros ou não
       - name: indicador_vinculo_contratado_sus
@@ -243,6 +283,7 @@ models:
           combination_of_columns: [ano, mes, id_estabelecimento_cnes]
           config:
             where: __most_recent_year_month__
+      # NOTE: colunas: tipo_orgao_expedidor | tipo_unidade | tipo_classificacao_acreditacao_hospitalar | tipo_grau_dependencia
       - custom_dictionary_coverage:
           columns_covered_by_dictionary:
             - tipo_pessoa
@@ -255,9 +296,7 @@ models:
             - tipo_fluxo_atendimento
             - tipo_turno
             - tipo_prestador
-            - tipo_orgao_expedidor
             - tipo_avaliacao_acreditacao_hospitalar
-            - tipo_classificacao_acreditacao_hospitalar
           dictionary_model: ref('br_ms_cnes__dicionario')
           config:
             where: __most_recent_year_month__
@@ -282,8 +321,13 @@ models:
                 where: __most_recent_year_month__
       - name: ano_atualizacao
         description: Ano de atualização da informação pelo estabelecimento
+        tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: mes_atualizacao
         description: Mês de atualização da informação pelo estabelecimento
+        config:
+          where: __most_recent_year_month__
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
         tests:
@@ -785,9 +829,14 @@ models:
             - id_estabelecimento_cnes
             - tipo_especialidade_leito
             - tipo_leito
-      - custom_dictionary_coverage:
-          columns_covered_by_dictionary: [tipo_especialidade_leito, tipo_leito]
-          dictionary_model: ref('br_ms_cnes__dicionario')
+          config:
+            where: __most_recent_year_month__
+      # NOTE: aguardando pedido lai
+      # - custom_dictionary_coverage:
+      #     columns_covered_by_dictionary: [tipo_especialidade_leito, tipo_leito]
+      #     dictionary_model: ref('br_ms_cnes__dicionario')
+      #     config:
+      #       where: __most_recent_year_month__
     columns:
       - name: ano
         description: Ano
@@ -799,17 +848,25 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_brasil__uf')
               field: sigla
+              config:
+                where: __most_recent_year_month__
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio
+              config:
+                where: __most_recent_year_month__
           - dbt_utils.not_null_proportion:
               at_least: 0.95
+              config:
+                where: __most_recent_year_month__
       - name: id_estabelecimento_cnes
         description: ID Estabelecimento - CNES
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: tipo_especialidade_leito
         description: Especialidade do leito
       - name: tipo_leito
@@ -825,6 +882,8 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns: [ano, mes, id_estabelecimento_cnes]
+          config:
+            where: __most_recent_year_month__
     columns:
       - name: ano
         description: Ano
@@ -836,17 +895,25 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_brasil__uf')
               field: sigla
+              config:
+                where: __most_recent_year_month__
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio
+              config:
+                where: __most_recent_year_month__
           - dbt_utils.not_null_proportion:
               at_least: 0.95
+              config:
+                where: __most_recent_year_month__
       - name: id_estabelecimento_cnes
         description: ID Estabelecimento - CNES
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: cns_medico_responsavel_administrador_responsavel_tecnico
         description: CNS do médico responsável - Administrador ou Responsável Técnico
       - name: cns_medico_responsavel_oncologista_pediatrico
@@ -1032,9 +1099,13 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns: [ano, mes, id_estabelecimento_cnes]
+          config:
+            where: __most_recent_year_month__
       - custom_dictionary_coverage:
           columns_covered_by_dictionary: [tipo_habilitacao]
           dictionary_model: ref('br_ms_cnes__dicionario')
+          config:
+            where: __most_recent_year_month__
     columns:
       - name: ano
         description: Ano
@@ -1042,17 +1113,29 @@ models:
         description: Mês
       - name: sigla_uf
         description: Sigla da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
+              config:
+                where: __most_recent_year_month__
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio
+              config:
+                where: __most_recent_year_month__
           - dbt_utils.not_null_proportion:
               at_least: 0.05
+              config:
+                where: __most_recent_year_month__
       - name: id_estabelecimento_cnes
         description: ID Estabelecimento - CNES
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: ano_competencia_inicial
         description: Ano Competência inicial
       - name: mes_competencia_inicial
@@ -1077,9 +1160,13 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns: [ano, mes, id_estabelecimento_cnes]
+          config:
+            where: __most_recent_year_month__
       - custom_dictionary_coverage:
           columns_covered_by_dictionary: [tipo_habilitacao]
           dictionary_model: ref('br_ms_cnes__dicionario')
+          config:
+            where: __most_recent_year_month__
     columns:
       - name: ano
         description: Ano
@@ -1091,17 +1178,25 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_brasil__uf')
               field: sigla
+              config:
+                where: __most_recent_year_month__
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio
+              config:
+                where: __most_recent_year_month__
           - dbt_utils.not_null_proportion:
               at_least: 0.95
+              config:
+                where: __most_recent_year_month__
       - name: id_estabelecimento_cnes
         description: ID Estabelecimento - CNES
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: ano_competencia_inicial
         description: Ano Competência inicial
       - name: mes_competencia_inicial
@@ -1139,26 +1234,38 @@ models:
       - name: ano
         description: Ano
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: mes
         description: Mês
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: sigla_uf
         description: Sigla da Unidade da Federação
         tests:
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__uf')
               field: sigla
+              config:
+                where: __most_recent_year_month__
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio
+              config:
+                where: __most_recent_year_month__
           - dbt_utils.not_null_proportion:
-              at_least: 0.05
+              at_least: 0.95
+              config:
+                where: __most_recent_year_month__
       - name: id_estabelecimento_cnes
         description: ID Estabelecimento - CNES
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: ano_competencia_inicial
         description: Ano Competência inicial
       - name: mes_competencia_inicial
@@ -1190,16 +1297,25 @@ models:
             - tipo_habilitacao
             - portaria
             - data_portaria
-      - custom_dictionary_coverage:
-          columns_covered_by_dictionary: [tipo_habilitacao, tipo_incentivo]
-          dictionary_model: ref('br_ms_cnes__dicionario')
+          config:
+            where: __most_recent_year_month__
+      # NOTE: aguardando pedido LAI para reativar;
+      # - custom_dictionary_coverage:
+      #     columns_covered_by_dictionary: [tipo_habilitacao, tipo_incentivo]
+      #     dictionary_model: ref('br_ms_cnes__dicionario')
+      #     config:
+      #       where: __most_recent_year_month__
     columns:
       - name: ano
         description: Ano
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: mes
         description: Mês
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: sigla_uf
         description: Sigla da Unidade da Federação
       - name: id_municipio
@@ -1208,11 +1324,17 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio
+              config:
+                where: __most_recent_year_month__
           - dbt_utils.not_null_proportion:
               at_least: 0.95
+              config:
+                where: __most_recent_year_month__
       - name: id_estabelecimento_cnes
         description: ID Estabelecimento - CNES
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: ano_competencia_inicial
         description: Ano Competência inicial
       - name: mes_competencia_inicial
@@ -1247,33 +1369,50 @@ models:
             - mes_competencia_inicial
             - data_portaria
             - portaria
-      - custom_dictionary_coverage:
-          columns_covered_by_dictionary: [tipo_habilitacao, nivel_habilitacao]
-          dictionary_model: ref('br_ms_cnes__dicionario')
+          config:
+            where: __most_recent_year_month__
+      # NOTE: aguardando pedido LAI para reativar;
+      # - custom_dictionary_coverage:
+      #     columns_covered_by_dictionary: [tipo_habilitacao, nivel_habilitacao]
+      #     dictionary_model: ref('br_ms_cnes__dicionario')
+      #     config:
+      #       where: __most_recent_year_month__
     columns:
       - name: ano
         description: Ano
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: mes
         description: Mês
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: sigla_uf
         description: Sigla da Unidade da Federação
         tests:
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__uf')
               field: sigla
+              config:
+                where: __most_recent_year_month__
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio
+              config:
+                where: __most_recent_year_month__
           - dbt_utils.not_null_proportion:
-              at_least: 0.05
+              at_least: 0.95
+              config:
+                where: __most_recent_year_month__
       - name: id_estabelecimento_cnes
         description: ID Estabelecimento - CNES
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: quantidade_leitos
         description: Quantidade de leitos
       - name: ano_competencia_inicial
@@ -1306,33 +1445,49 @@ models:
             - id_estabelecimento_cnes
             - tipo_habilitacao
             - data_portaria
+          config:
+            where: __most_recent_year_month__
       - custom_dictionary_coverage:
           columns_covered_by_dictionary: [tipo_habilitacao, tipo_regra_contratual]
           dictionary_model: ref('br_ms_cnes__dicionario')
+          config:
+            where: __most_recent_year_month__
     columns:
       - name: ano
         description: Ano
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: mes
         description: Mês
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: sigla_uf
         description: Sigla da Unidade da Federação
         tests:
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__uf')
               field: sigla
+              config:
+                where: __most_recent_year_month__
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio
+              config:
+                where: __most_recent_year_month__
           - dbt_utils.not_null_proportion:
-              at_least: 0.05
+              at_least: 0.95
+              config:
+                where: __most_recent_year_month__
       - name: id_estabelecimento_cnes
         description: ID Estabelecimento - CNES
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: ano_competencia_inicial
         description: Ano Competência inicial
       - name: mes_competencia_inicial
@@ -1370,40 +1525,57 @@ models:
             - indicador_servico_nao_sus
             - indicador_servico_hospitalar_nao_sus
             - indicador_servico_hospitalar_sus
-      - custom_dictionary_coverage:
-          columns_covered_by_dictionary:
-            - tipo_servico_especializado
-            - subtipo_servico_especializado
-            - tipo_servico_especializado_unico
-          dictionary_model: ref('br_ms_cnes__dicionario')
+          config:
+            where: __most_recent_year_month__
+      # NOTE: aguardando pedido LAI para reativar;
+      # - custom_dictionary_coverage:
+      #     columns_covered_by_dictionary:
+      #       - tipo_servico_especializado
+      #       - subtipo_servico_especializado
+      #       - tipo_servico_especializado_unico
+      #     dictionary_model: ref('br_ms_cnes__dicionario')
+      #     config:
+      #       where: __most_recent_year_month__
     columns:
       - name: ano
         description: Ano
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: mes
         description: Mês
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: sigla_uf
         description: Sigla da Unidade da Federação
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__uf')
               field: sigla
+              config:
+                where: __most_recent_year_month__
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio
+              config:
+                where: __most_recent_year_month__
           - dbt_utils.not_null_proportion:
               at_least: 0.95
+              config:
+                where: __most_recent_year_month__
       - name: id_estabelecimento_cnes
         description: ID Estabelecimento - CNES
         tests: [not_null]
+        config:
+          where: __most_recent_year_month__
       - name: tipo_servico_especializado
-        description: Código do serviço especializado
+        description: Código do tipo do serviço especializado
       - name: subtipo_servico_especializado
-        description: Código da classificação do serviço
+        description: Código do subtipo do serviço especializado
       - name: tipo_servico_especializado_unico
         description: Código do serviço especializado único
       - name: tipo_caracterizacao

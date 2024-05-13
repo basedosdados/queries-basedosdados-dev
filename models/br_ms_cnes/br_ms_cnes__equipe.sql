@@ -46,7 +46,13 @@ select
     safe_cast(id_municipio as string) as id_municipio,
     safe_cast(cnes as string) as id_estabelecimento_cnes,
     safe_cast(id_equipe as string) as id_equipe,
-    safe_cast(tipo_eqp as string) as tipo_equipe,
+    safe_cast(
+        case
+            when regexp_replace(tipo_eqp, '^0+', '') = ''
+            then '0'
+            else regexp_replace(tipo_eqp, '^0+', '')
+        end as string
+    ) as tipo_equipe,
     safe_cast(nome_eqp as string) as equipe,
     safe_cast(nomearea as string) as area,
     safe_cast(id_segm as string) as id_segmento,

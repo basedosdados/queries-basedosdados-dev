@@ -55,8 +55,20 @@ select
     -- CNS_PROF que indica null
     safe_cast(regexp_replace(cns_prof, '0{15}', null) as string) cartao_nacional_saude,
     safe_cast(cbo as string) cbo_2002_original,
-    safe_cast(case when length(cbo) = 6 then cbo else null end as string) cbo_2002,
-    safe_cast(case when length(cbo) = 5 then cbo else null end as string) cbo_1994,
+    safe_cast(
+        case
+            when length(cbo) = 6 and regexp_contains(cbo, r'^[0-9]{6}$')
+            then cbo
+            else null
+        end as string
+    ) cbo_2002,
+    safe_cast(
+        case
+            when length(cbo) = 5 and regexp_contains(cbo, r'^[0-9]{5}$')
+            then cbo
+            else null
+        end as string
+    ) cbo_1994,
     safe_cast(terceiro as int64) indicador_estabelecimento_terceiro,
     safe_cast(vincul_c as int64) indicador_vinculo_contratado_sus,
     safe_cast(vincul_a as int64) indicador_vinculo_autonomo_sus,
