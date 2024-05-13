@@ -44,7 +44,7 @@ select
     safe_cast(substr(cmpt_ini, 5, 2) as int64) as mes_competencia_inicial,
     safe_cast(substr(cmpt_fim, 1, 4) as int64) as ano_competencia_final,
     safe_cast(substr(cmpt_fim, 5, 2) as int64) as mes_competencia_final,
-    safe_cast(sgruphab as string) tipo_habilitacao,
+    ltrim(safe_cast(sgruphab as string), '0') as tipo_habilitacao,
     case
         when
             safe_cast(sgruphab as string) in (
