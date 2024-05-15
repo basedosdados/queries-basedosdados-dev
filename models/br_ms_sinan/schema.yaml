@@ -5,8 +5,56 @@ models:
     description: Microdados da Dengue retirado através do Sistema de Informações de
       Agravos de Notificação (SINAN)
     tests:
-      - not_null_proportion_multiple_columns:
-          at_least: 0.00
+      - custom_dictionary_coverage:
+          columns_covered_by_dictionary:  # colunas que precisam ser testadas
+            - apresenta_pleurite
+            - apresenta_petequias
+            - apresenta_metrorragia
+            - internacao
+            - raca_cor_paciente
+            - evolucao_caso
+            - apresenta_epistaxe
+            - escolaridade_paciente
+            - criterio_confirmacao
+            - apresenta_hematuria
+            - apresenta_ascite
+            - apresenta_sangramento
+            - sexo_paciente
+            - tipo_notificacao
+            - gestante_paciente
+            - possui_doenca_acido_peptica
+            - apresenta_artrite
+            - apresenta_leucopenia
+            - apresenta_conjutivite
+            - possui_diabetes
+            - possui_doencas_hematologicas
+            - apresenta_artralgia
+            - possui_hepatopatias
+            - apresenta_vomito
+            - possui_hipertensao
+            - apresenta_dor_retroorbital
+            - possui_doenca_renal
+            - paciente_vacinado
+            - apresenta_pericardite
+            - resultado_sorologia_dengue
+            - resultado_viral
+            - apresenta_dor_abdominal
+            - apresenta_hepatomegalia
+            - imunohistoquimica
+            - apresenta_miocardite
+            - apresenta_hipotensao
+            - apresenta_diarreia
+            - apresenta_choque
+            - apresenta_prostacao
+            - histopatologia
+            - resultado_sorologia1_chikungunya
+            - resultado_pcr
+            - sorotipo
+            - apresenta_insuficiencia_orgao
+            - apresenta_sintoma_outro
+            - resultado_prnt
+            - resultado_ns1
+          dictionary_model: ref('br_ms_sinan__dicionario')  # dicionário que deve ser usado no teste
     columns:
       - name: ano
         description: Ano
@@ -186,12 +234,6 @@ models:
         description: O(A) paciente apresenta outros sintomas
       - name: apresenta_qual_sintoma
         description: O(A) paciente apresenta qual outro sintoma
-      - name: data_choque
-        description: Data de choque
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_data_tempo__data')
-              field: data.data
       - name: prova_laco
         description: Informa se o(a) paciente fez a prova do laço
       - name: internacao
@@ -283,12 +325,6 @@ models:
       - name: grave_orgaos
         description: O(A) paciente apresenta comprometimento grave de órgãos mediante
           outros órgãos
-      - name: data_sinais_gravidade
-        description: Data de início dos sinais de gravidade
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_data_tempo__data')
-              field: data.data
       - name: data_hematocrito
         description: Data da coleta do hematocrito
         tests:
@@ -341,18 +377,6 @@ models:
         description: Resultado da 1a amostra sorologia IgG
       - name: sorologia1_tit1
         description: Resultado da 1a amostra sorologia TiT1
-      - name: data_sorologia2_chikungunya
-        description: Data da coleta da 2a amostra
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_data_tempo__data')
-              field: data.data
-      - name: data_resultado_sorologia2_chikungunya
-        description: Data do resultado da 2a amostra
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_data_tempo__data')
-              field: data.data
       - name: resultado_sorologia2_chikungunya
         description: Resultado da 2a amostra
       - name: sorologia2_igm
@@ -361,12 +385,6 @@ models:
         description: Resultado da 2a amostra sorologia IgG
       - name: sorologia2_tit1
         description: Resultado da 2a amostra sorologia TiT1
-      - name: data_prnt
-        description: Data da coleta para o exame PRNT
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_data_tempo__data')
-              field: data.data
       - name: resultado_prnt
         description: Resultado PRNT
       - name: data_ns1
