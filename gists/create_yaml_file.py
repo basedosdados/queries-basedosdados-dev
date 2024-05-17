@@ -270,16 +270,16 @@ def create_yaml_file(arch_url: str,
     update_dbt_project_yaml(dataset_id,models_path)
 
 def main():
-    DATASET_ID = 'br_ms_sih'
-    TABLE_ID = 'aihs_reduzidas'
+    DATASET_ID = 'test'
+    TABLE_ID = 'test_table'
     #The URL must be the browser link containing '#gid='. The edit function should be open to anyone on the internet.
-    ARCHITECTURE_URL = "https://docs.google.com/spreadsheets/d/1GBpQFrdArJRvNsXFZ3tqkUb13J5IgCCNtCUBQDr9cKs/edit#gid=0"
+    ARCHITECTURE_URL = "https://docs.google.com/spreadsheets/d/1Y2ebUNrZTUv2x_psWpK4oTxvRxhje5K6BSKZIWBQYDM/edit?pli=0#gid=1213668070"
 
     create_yaml_file(
     arch_url=ARCHITECTURE_URL,
     table_id=TABLE_ID,
     dataset_id=DATASET_ID,
-    preprocessed_staging_column_names=False)
+    preprocessed_staging_column_names=True)
 
 if __name__ == '__main__':
     main()
