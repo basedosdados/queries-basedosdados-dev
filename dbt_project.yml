@@ -210,6 +210,9 @@ models:
     br_inpe_queimadas:
       +materialized: table
       +schema: br_inpe_queimadas
+    br_ipea_avs:
+      +materialized: table
+      +schema: br_ipea_avs
     br_me_caged:
       +materialized: table
       +schema: br_me_caged
