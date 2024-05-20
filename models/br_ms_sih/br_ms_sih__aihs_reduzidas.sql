@@ -2,22 +2,26 @@
 select
     safe_cast(ano as int64) ano,
     safe_cast(mes as int64) mes,
-    safe_cast(n_aih as string) id_aih,
+    safe_cast(n_aih as int64) id_aih,
     safe_cast(ident as string) tipo_aih,
-    safe_cast(gestor_cod as string) motivo_autorizacao_aih,
-    safe_cast(sequencia as string) sequencial_aih,
-    safe_cast(espec as string) especialidade_leito,
-    safe_cast(cobranca as string) motivo_saida,
-    safe_cast(marca_uti as string) tipo_uti,
-    safe_cast(marca_uci as string) tipo_uci,
-    safe_cast(car_int as string) carater_internacao,
-    safe_cast(dt_inter as date) data_internacao,
-    safe_cast(dt_saida as date) data_saida,
+    safe_cast(gestor_cod as int64) motivo_autorizacao_aih,
+    safe_cast(ltrim(sequencia) as string) sequencial_aih,
+    safe_cast(espec as int64) especialidade_leito,
+    safe_cast(cobranca as int64) motivo_saida,
+    safe_cast(marca_uti as int64) tipo_uti,
+    safe_cast(marca_uci as int64) tipo_uci,
+    safe_cast(car_int as int64) carater_internacao,
+    safe_cast(
+        format_date('%Y-%m-%d', safe.parse_date('%Y%m%d', dt_inter)) as date
+    ) data_internacao,
+    safe_cast(
+        format_date('%Y-%m-%d', safe.parse_date('%Y%m%d', dt_saida)) as date
+    ) data_saida,
     safe_cast(munic_mov as string) id_municipio_estabelecimento,
     safe_cast(cnes as string) id_estabelecimento_cnes,
-    safe_cast(nat_jur as string) natureza_juridica_estabelecimento,
-    safe_cast(natureza as string) natureza_juridica_estabelecimento_ate_2012,
-    safe_cast(cgc_hosp as string) cnpj_estabelecimento,
+    safe_cast(nat_jur as int64) natureza_juridica_estabelecimento,
+    safe_cast(natureza as int64) natureza_juridica_estabelecimento_ate_2012,
+    safe_cast(regexp_replace(cgc_hosp, '0{14}', '') as string),
     safe_cast(gestao as string) tipo_gestao_estabelecimento,
     safe_cast(uf_zi as string) id_municipio_gestor,
     safe_cast(gestor_tp as string) tipo_gestor,
@@ -29,8 +33,36 @@ select
     safe_cast(nasc as date) data_nascimento_paciente,
     safe_cast(idade as int64) idade_paciente,
     safe_cast(cod_idade as string) unidade_medida_idade_paciente,
-    safe_cast(sexo as string) sexo_paciente,
-    safe_cast(raca_cor as string) raca_cor_paciente,
+    case
+        safe_cast(sexo as int64)
+        when 0
+        then 'Ignorado'
+        when 9
+        then 'Não definida'
+        when 1
+        then 'Masculino'
+        when 2
+        then 'Feminino'
+        when 3
+        then 'Feminino'
+    end as sexo_paciente,
+    case
+        safe_cast(raca_cor as int64)
+        when 0
+        then 'Sem Informação'
+        when 99
+        then 'Sem Informação'
+        when 1
+        then 'Branca'
+        when 2
+        then 'Preta'
+        when 3
+        then 'Parda'
+        when 4
+        then 'Amarela'
+        when 5
+        then 'Indígena'
+    end as raca_cor_paciente,
     safe_cast(etnia as string) etnia_paciente,
     safe_cast(nacional as string) codigo_nacionalidade_paciente,
     safe_cast(cbor as string) cbo_2002_paciente,
