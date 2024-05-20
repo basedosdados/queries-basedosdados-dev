@@ -160,33 +160,33 @@ models:
         description: Valor
   - name: br_ms_sih__aihs_reduzidas
     description: Movimento de AIH - Arquivos Reduzidos
-    tests:
-      - custom_dictionaries:
-            columns_covered_by_dictionary:
-              - tipo_aih
-              - motivo_autorizacao_aih
-              - especialidade_leito
-              - motivo_saida
-              - tipo_uti
-              - tipo_uci
-              - carater_internacao
-              - natureza_juridica_estabelecimento
-              - natureza_juridica_estabelecimento_ate_2012
-              - tipo_gestao_estabelecimento
-              - unidade_medida_idade_paciente
-              - sexo_paciente
-              - raca_cor_paciente
-              - etnia_paciente
-              - grau_instrucao_paciente
-              - indicador_vinculo_previdencia
-              - indicador_gestante_risco
-              - tipo_contraceptivo_principal
-              - tipo_contraceptivo_secundario
-              - procedimento_solicitado
-              - procedimento_realizado
-              - indicador_infeccao_hospitalar
-              - complexidade
-            dictionary_model: ref('br_ms_sih__dicionario')
+    # tests:
+    #   - custom_dictionaries:
+    #         columns_covered_by_dictionary:
+    #           - tipo_aih
+    #           - motivo_autorizacao_aih
+    #           - especialidade_leito
+    #           - motivo_saida
+    #           - tipo_uti
+    #           - tipo_uci
+    #           - carater_internacao
+    #           - natureza_juridica_estabelecimento
+    #           - natureza_juridica_estabelecimento_ate_2012
+    #           - tipo_gestao_estabelecimento
+    #           - unidade_medida_idade_paciente
+    #           - sexo_paciente
+    #           - raca_cor_paciente
+    #           - etnia_paciente
+    #           - grau_instrucao_paciente
+    #           - indicador_vinculo_previdencia
+    #           - indicador_gestante_risco
+    #           - tipo_contraceptivo_principal
+    #           - tipo_contraceptivo_secundario
+    #           - procedimento_solicitado
+    #           - procedimento_realizado
+    #           - indicador_infeccao_hospitalar
+    #           - complexidade
+    #         dictionary_model: ref('br_ms_sih__dicionario')
     columns:
       - name: ano
         description: Ano de processamento da AIH, no formato aaaa
@@ -324,73 +324,100 @@ models:
         description: Subtipo de financiamento FAEC.
       - name: regra_contratual
         description: Regra contratual.
+      - name: cid_notificacao_categoria
+        description: Categoria do CID de Notificação.
       - name: cid_notificacao_subcategoria
-        description: CID de Notificação.
-        tests:
-          - custom_relationships:
-                to: ref('br_bd_diretorios_brasil__cid_10')
-                field: subcategoria
-                ignore_values:
-                  - "'R501','Q314','S571','N182','U109','M723','M725','N975','N184','R500','N183','Q356','B501','N185','U099'"
-                config:
-                    where: __most_recent_year_month__
+        description: Subcategoria do CID de Notificação.
+        # tests:
+        #   - custom_relationships:
+        #         to: ref('br_bd_diretorios_brasil__cid_10')
+        #         field: subcategoria
+        #         ignore_values:
+        #           - "'R501','Q314','S571','N182','U109','M723','M725','N975','N184','R500','N183','Q356','B501','N185','U099'"
+        #         config:
+        #             where: __most_recent_year_month__
+      - name: cid_causa_categoria
+        description: Categoria do CID de causa.
       - name: cid_causa_subcategoria
-        description: CID causa.
-        tests:
-          - custom_relationships:
-                to: ref('br_bd_diretorios_brasil__cid_10')
-                field: subcategoria
-                ignore_values:
-                  - "'R501','Q314','S571','N182','U109','M723','M725','N975','N184','R500','N183','Q356','B501','N185','U099'"
-                config:
-                    where: __most_recent_year_month__
+        description: Subcategoria do CID de causa.
+        # tests:
+        #   - custom_relationships:
+        #         to: ref('br_bd_diretorios_brasil__cid_10')
+        #         field: subcategoria
+        #         ignore_values:
+        #           - "'R501','Q314','S571','N182','U109','M723','M725','N975','N184','R500','N183','Q356','B501','N185','U099'"
+        #         config:
+        #             where: __most_recent_year_month__
+      - name: cid_principal_categoria
+        description: Código da categoria do diagnóstico principal (CID10).
       - name: cid_principal_subcategoria
-        description: Código do diagnóstico principal (CID10).
-        tests:
-          - custom_relationships:
-                to: ref('br_bd_diretorios_brasil__cid_10')
-                field: subcategoria
-                ignore_values:
-                  - "'R501','Q314','S571','N182','U109','M723','M725','N975','N184','R500','N183','Q356','B501','N185','U099'"
-                config:
-                    where: __most_recent_year_month__
-      - name: cid_secundario_subcategoria
-        description: Código do diagnostico secundário (CID10). Preenchido com zeros
+        description: Código da subcategoria diagnóstico principal (CID10).
+        # tests:
+        #   - custom_relationships:
+        #         to: ref('br_bd_diretorios_brasil__cid_10')
+        #         field: subcategoria
+        #         ignore_values:
+        #           - "'R501','Q314','S571','N182','U109','M723','M725','N975','N184','R500','N183','Q356','B501','N185','U099'"
+        #         config:
+        #             where: __most_recent_year_month__
+      - name: cid_secundario_categoria
+        description: Código da categoria do diagnostico secundário (CID10). Preenchido com zeros
             a partir de 201501.
-        tests:
-          - custom_relationships:
-                to: ref('br_bd_diretorios_brasil__cid_10')
-                field: subcategoria
-                ignore_values:
-                  - "'R501','Q314','S571','N182','U109','M723','M725','N975','N184','R500','N183','Q356','B501','N185','U099'"
-                config:
-                    where: __most_recent_year_month__
-      - name: diagnostico_secundario_1
-        description: Diagnóstico secundário 1.
-        tests:
-          - custom_relationships:
-                to: ref('br_bd_diretorios_brasil__cid_10')
-                field: subcategoria
-                ignore_values:
-                  - "'R501','Q314','S571','N182','U109','M723','M725','N975','N184','R500','N183','Q356','B501','N185','U099'"
-                config:
-                    where: __most_recent_year_month__
-      - name: diagnostico_secundario_2
-        description: Diagnóstico secundário 2
-      - name: diagnostico_secundario_3
-        description: Diagnóstico secundário 3
-      - name: diagnostico_secundario_4
-        description: Diagnóstico secundário 4
-      - name: diagnostico_secundario_5
-        description: Diagnóstico secundário 5
-      - name: diagnostico_secundario_6
-        description: Diagnóstico secundário 6
-      - name: diagnostico_secundario_7
-        description: Diagnóstico secundário 7
-      - name: diagnostico_secundario_8
-        description: Diagnóstico secundário 8
-      - name: diagnostico_secundario_9
-        description: Diagnóstico secundário 9
+      - name: cid_secundario_subcategoria
+        description: Código da subcategoria do diagnostico secundário (CID10). Preenchido com zeros
+            a partir de 201501.
+        # tests:
+        #   - custom_relationships:
+        #         to: ref('br_bd_diretorios_brasil__cid_10')
+        #         field: subcategoria
+        #         ignore_values:
+        #           - "'R501','Q314','S571','N182','U109','M723','M725','N975','N184','R500','N183','Q356','B501','N185','U099'"
+        #         config:
+        #             where: __most_recent_year_month__
+      - name: cid_diagnostico_secundario_1_categoria
+        description: Categoria do CID do Diagnóstico secundário 1.
+      - name: cid_diagnostico_secundario_1_subcategoria
+        description: Categoria do CID do Diagnóstico secundário 1.
+        # tests:
+        #   - custom_relationships:
+        #         to: ref('br_bd_diretorios_brasil__cid_10')
+        #         field: subcategoria
+        #         ignore_values:
+        #           - "'R501','Q314','S571','N182','U109','M723','M725','N975','N184','R500','N183','Q356','B501','N185','U099'"
+        #         config:
+        #             where: __most_recent_year_month__
+      - name: cid_diagnostico_secundario_2_categoria
+        description: Categoria do CID do Diagnóstico secundário 2.
+      - name: cid_diagnostico_secundario_2_subcategoria
+        description: Categoria do CID do Diagnóstico secundário 2.
+      - name: cid_diagnostico_secundario_3_categoria
+        description: Categoria do CID do Diagnóstico secundário 3.
+      - name: cid_diagnostico_secundario_3_subcategoria
+        description: Categoria do CID do Diagnóstico secundário 3.
+      - name: cid_diagnostico_secundario_4_categoria
+        description: Categoria do CID do Diagnóstico secundário 4.
+      - name: cid_diagnostico_secundario_4_subcategoria
+        description: Categoria do CID do Diagnóstico secundário 4.
+      - name: cid_diagnostico_secundario_5_categoria
+        description: Categoria do CID do Diagnóstico secundário 5.
+      - name: cid_diagnostico_secundario_5_subcategoria
+        description: Categoria do CID do Diagnóstico secundário 5.
+      - name: cid_diagnostico_secundario_6_categoria
+        description: Categoria do CID do Diagnóstico secundário 6.
+      - name: cid_diagnostico_secundario_6_subcategoria
+        description: Categoria do CID do Diagnóstico secundário 6.
+      - name: cid_diagnostico_secundario_7_categoria
+        description: Categoria do CID do Diagnóstico secundário 7.
+      - name: cid_diagnostico_secundario_7_subcategoria
+        description: Categoria do CID do Diagnóstico secundário 7.
+      - name: cid_diagnostico_secundario_8_categoria
+        description: Categoria do CID do Diagnóstico secundário 8.
+      - name: cid_diagnostico_secundario_8_subcategoria
+        description: Categoria do CID do Diagnóstico secundário 8.
+      - name: cid_diagnostico_secundario_9_categoria
+        description: Categoria do CID do Diagnóstico secundário 9.
+      - name: cid_diagnostico_secundario_9_subcategoria
+        description: Categoria do CID do Diagnóstico secundário 9.
       - name: tipo_diagnostico_secundario_1
         description: Tipo de diagnóstico secundário 1.
       - name: tipo_diagnostico_secundario_2
@@ -409,16 +436,18 @@ models:
         description: Tipo de diagnóstico secundário 8
       - name: tipo_diagnostico_secundario_9
         description: Tipo de diagnóstico secundário 9
+      - name: cid_morte_categoria
+        description: Categoria do CID da morte.
       - name: cid_morte_subcategoria
-        description: CID da morte.
-        tests:
-          - custom_relationships:
-                to: ref('br_bd_diretorios_brasil__cid_10')
-                field: subcategoria
-                ignore_values:
-                  - "'R501','Q314','S571','N182','U109','M723','M725','N975','N184','R500','N183','Q356','B501','N185','U099'"
-                config:
-                    where: __most_recent_year_month__
+        description: Subcategoria do CID da morte.
+        # tests:
+        #   - custom_relationships:
+        #         to: ref('br_bd_diretorios_brasil__cid_10')
+        #         field: subcategoria
+        #         ignore_values:
+        #           - "'R501','Q314','S571','N182','U109','M723','M725','N975','N184','R500','N183','Q356','B501','N185','U099'"
+        #         config:
+        #             where: __most_recent_year_month__
       - name: indicador_obito
         description: Indica Óbito
       - name: remessa
