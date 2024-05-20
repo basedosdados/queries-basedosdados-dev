@@ -9,10 +9,10 @@
             "range": {"start": 2000, "end": 2025, "interval": 1},
         },
         cluster_by=["sigla_uf_notificacao", "sigla_uf_residencia"],
-        labels={"project_id": "basedosdados-dev"},
+        labels={"tema": "saude"},
     )
 }}
-
+{%- set columns = adapter.get_columns_in_relation(this) -%}
 with
     sql as (
         select
@@ -21,15 +21,10 @@ with
             case
                 when id_agravo = 'A900'
                 then 'A90'
-                when id_agravo = 'A90 '
-                then 'A90'
                 when id_agravo = 'A90  '
                 then 'A90'
-                when id_agravo = ''
-                then null
-                else id_agravo
+                else trim(id_agravo)
             end id_agravo,
-
             case
                 when dt_notific = ''
                 then null
@@ -102,12 +97,6 @@ with
                 then 'DF'
                 when sigla_uf_notificacao = '"s'
                 then null
-                when sigla_uf_notificacao = ''
-                then null
-                when sigla_uf_notificacao = ' '
-                then null
-                when sigla_uf_notificacao = '  '
-                then null
                 else sigla_uf_notificacao
             end sigla_uf_notificacao,
             case
@@ -117,7 +106,6 @@ with
                 when id_municip = '' then null else id_municip
             end id_municipio_notificacao,
             case when id_unidade = '' then null else id_unidade end id_estabelecimento,
-
             case
                 when dt_sin_pri = ''
                 then null
@@ -207,8 +195,6 @@ with
                 then null
                 when sg_uf = 'MF'
                 then null
-                when sg_uf = '  '
-                then null
                 else sg_uf
             end sigla_uf_residencia,
             safe_cast(id_rg_resi as string) id_regional_saude_residencia,
@@ -231,8 +217,14 @@ with
 
             safe_cast(nu_idade_n as int64) idade_paciente,
             safe_cast(cs_sexo as string) sexo_paciente,
-            safe_cast(cs_raca as string) raca_cor_paciente,
-            safe_cast(cs_escol_n as string) escolaridade_paciente,
+            case
+                when cs_raca = '@' then null when cs_raca = '' then null else cs_raca
+            end raca_cor_paciente,
+            case
+                when cs_escol_n = '0'
+                then null
+                else trim(regexp_replace(cs_escol_n, r'^0+', ''))
+            end escolaridade_paciente,
             safe_cast(id_ocupa_n as string) ocupacao_paciente,
             safe_cast(cs_gestant as string) gestante_paciente,
             safe_cast(auto_imune as string) possui_doenca_autoimune,
@@ -317,7 +309,7 @@ with
             safe_cast(insuficien as string) apresenta_insuficiencia_orgao,
             safe_cast(outros as string) apresenta_sintoma_outro,
             safe_cast(sin_out as string) apresenta_qual_sintoma,
-
+            safe_cast(laco_n as string) prova_laco,
             case
                 when dt_choque = ''
                 then null
@@ -331,10 +323,7 @@ with
                         ) as date
                     )
             end data_choque,
-
-            safe_cast(laco_n as string) prova_laco,
             safe_cast(hospitaliz as string) internacao,
-
             case
                 when dt_interna = ''
                 then null
@@ -348,7 +337,6 @@ with
                         ) as date
                     )
             end data_internacao,
-
             case
                 when uf = '11'
                 then 'RO'
@@ -408,20 +396,10 @@ with
                 then null
                 when uf = ' `'
                 then null
-                when uf = ' '
-                then null
-                when uf = ''
-                then null
-                when uf = '  '
-                then null
                 else uf
             end sigla_uf_internacao,
             case
-                when municipio = '       '
-                then null
-                when municipio = '280020'
-                then null
-                else municipio
+                when municipio = '280020' then null else municipio
             end id_municipio_internacao,
             safe_cast(alrm_hipot as string) alarme_hipotensao,
             safe_cast(alrm_plaq as string) alarme_plaqueta,
@@ -474,7 +452,6 @@ with
                         ) as date
                     )
             end data_sinais_gravidade,
-
             case
                 when dt_col_hem = ''
                 then null
@@ -566,26 +543,6 @@ with
                         ) as date
                     )
             end data_resultado_sorologia1_chikungunya,
-
-            safe_cast(res_chiks1 as string) resultado_sorologia1_chikungunya,
-            safe_cast(s1_igm as string) sorologia1_igm,
-            safe_cast(s1_igg as string) sorologia1_igg,
-            safe_cast(s1_tit1 as string) sorologia1_tit1,
-
-            case
-                when dt_chik_s2 = ''
-                then null
-                else
-                    safe_cast(
-                        format_date(
-                            '%Y-%m-%d',
-                            safe.parse_date(
-                                '%Y%m%d', regexp_replace(dt_chik_s2, r'[^0-9]', '')
-                            )
-                        ) as date
-                    )
-            end data_sorologia2_chikungunya,
-
             case
                 when dt_soror2 = ''
                 then null
@@ -599,12 +556,28 @@ with
                         ) as date
                     )
             end data_resultado_sorologia2_chikungunya,
-
+            safe_cast(res_chiks1 as string) resultado_sorologia1_chikungunya,
+            safe_cast(s1_igm as string) sorologia1_igm,
+            safe_cast(s1_igg as string) sorologia1_igg,
+            safe_cast(s1_tit1 as string) sorologia1_tit1,
+            case
+                when dt_chik_s2 = ''
+                then null
+                else
+                    safe_cast(
+                        format_date(
+                            '%Y-%m-%d',
+                            safe.parse_date(
+                                '%Y%m%d', regexp_replace(dt_chik_s2, r'[^0-9]', '')
+                            )
+                        ) as date
+                    )
+            end data_sorologia2_chikungunya,
             safe_cast(res_chiks2 as string) resultado_sorologia2_chikungunya,
             safe_cast(s2_igm as string) sorologia2_igm,
             safe_cast(s2_igg as string) sorologia2_igg,
             safe_cast(s2_tit1 as string) sorologia2_tit1,
-
+            safe_cast(resul_prnt as string) resultado_prnt,
             case
                 when dt_prnt = ''
                 then null
@@ -618,8 +591,6 @@ with
                         ) as date
                     )
             end data_prnt,
-            safe_cast(resul_prnt as string) resultado_prnt,
-
             case
                 when dt_ns1 = ''
                 then null
@@ -751,10 +722,6 @@ with
                 then 'GO'
                 when coufinf = '53'
                 then 'DF'
-                when coufinf = ''
-                then null
-                when coufinf = '  '
-                then null
                 else coufinf
             end sigla_uf_infeccao,
             case
@@ -762,8 +729,13 @@ with
             end id_municipio_infeccao,
             safe_cast(doenca_tra as string) doenca_trabalho,
             safe_cast(clinc_chik as string) apresentacao_clinica,
-            safe_cast(evolucao as string) evolucao_caso,
-
+            case
+                when evolucao = ']'
+                then null
+                when evolucao = '0'
+                then null
+                else evolucao
+            end evolucao_caso,
             case
                 when dt_obito = ''
                 then null
@@ -874,191 +846,260 @@ with
             `basedosdados.br_bd_diretorios_brasil.municipio` as mun_notificacao
             on t1.id_municipio_notificacao = mun_notificacao.id_municipio
         where ano <= 2006
+    ),
+    table_final as (
+        select
+            ano,
+            tipo_notificacao,
+            id_agravo,
+            data_notificacao,
+            semana_notificacao_certa as semana_notificacao,
+            sigla_uf_notificacao,
+            id_regional_saude_notificacao,
+            novo_id_municipio_notificacao as id_municipio_notificacao,
+            id_estabelecimento,
+            data_primeiros_sintomas,
+            semana_sintomas_certa as semana_sintomas,
+            pais_residencia,
+            sigla_uf_residencia,
+            id_regional_saude_residencia,
+            novo_id_municipio_residencia as id_municipio_residencia,
+            ano_nascimento_paciente,
+            data_nascimento_paciente,
+            concat(
+                left(cast(idade_paciente as string), 1),
+                "-",
+                right(cast(idade_paciente as string), 3)
+            ) as idade_paciente,
+            case
+                when sexo_paciente = 'O' then null else sexo_paciente
+            end sexo_paciente,
+            raca_cor_paciente,
+            escolaridade_paciente,
+            ocupacao_paciente,
+            gestante_paciente,
+            possui_doenca_autoimune,
+            possui_diabetes,
+            possui_doencas_hematologicas,
+            possui_hepatopatias,
+            possui_doenca_renal,
+            possui_hipertensao,
+            possui_doenca_acido_peptica,
+            paciente_vacinado,
+            data_vacina,
+            data_investigacao,
+            apresenta_febre,
+            data_febre,
+            duracao_febre,
+            apresenta_cefaleia,
+            apresenta_exantema,
+            apresenta_dor_costas,
+            case
+                when apresenta_prostacao = '6' then null else apresenta_prostacao
+            end as apresenta_prostacao,
+            apresenta_mialgia,
+            apresenta_vomito,
+            apresenta_nausea,
+            apresenta_diarreia,
+            apresenta_conjutivite,
+            apresenta_dor_retroorbital,
+            apresenta_artralgia,
+            apresenta_artrite,
+            apresenta_leucopenia,
+            case
+                when apresenta_epistaxe = "!"
+                then null
+                when apresenta_epistaxe = '4'
+                then null
+                else apresenta_epistaxe
+            end apresenta_epistaxe,
+            case
+                when apresenta_petequias = '4' then null else apresenta_petequias
+            end as apresenta_petequias,
+            apresenta_gengivorragia,
+            case
+                when apresenta_metrorragia = '4'
+                then null
+                when apresenta_metrorragia = '3'
+                then null
+                else apresenta_metrorragia
+            end as apresenta_metrorragia,
+            apresenta_hematuria,
+            case
+                when apresenta_sangramento = '4' then null else apresenta_sangramento
+            end as apresenta_sangramento,
+            apresenta_complicacao,
+            apresenta_ascite,
+            apresenta_pleurite,
+            apresenta_pericardite,
+            apresenta_dor_abdominal,
+            apresenta_hepatomegalia,
+            apresenta_miocardite,
+            apresenta_hipotensao,
+            apresenta_choque,
+            apresenta_insuficiencia_orgao,
+            apresenta_sintoma_outro,
+            apresenta_qual_sintoma,
+            prova_laco,
+            case
+                when extract(year from data_choque) > extract(year from current_date)
+                then null
+                else data_choque
+            end data_choque,
+            internacao,
+            data_internacao,
+            sigla_uf_internacao,
+            novo_id_municipio_internacao as id_municipio_internacao,
+            alarme_hipotensao,
+            alarme_plaqueta,
+            alarme_vomito,
+            alarme_sangramento,
+            alarme_hematocrito,
+            alarme_dor_abdominal,
+            alarme_letargia,
+            alarme_hepatomegalia,
+            alarme_liquidos,
+            case
+                when extract(year from data_alarme) > extract(year from current_date)
+                then null
+                else data_alarme
+            end data_alarme,
+            grave_pulso,
+            grave_convulsao,
+            grave_enchimento_capilar,
+            grave_insuficiencia_respiratoria,
+            grave_taquicardia,
+            grave_extremidade_fria,
+            grave_hipotensao,
+            grave_hematemese,
+            grave_melena,
+            grave_metrorragia,
+            grave_sangramento,
+            grave_ast_alt,
+            grave_miocardite,
+            grave_consciencia,
+            grave_orgaos,
+            data_hematocrito,
+            case
+                when
+                    extract(year from data_sinais_gravidade)
+                    > extract(year from current_date)
+                then null
+                else data_sinais_gravidade
+            end data_sinais_gravidade,
+            hematocrito_maior,
+            case
+                when extract(year from data_plaquetas) > extract(year from current_date)
+                then null
+                else data_plaquetas
+            end data_plaquetas,
+            plaqueta_maior,
+            data_hematocrito_2,
+            hematocrito_menor,
+            data_plaquetas_2,
+            plaqueta_menor,
+            case
+                when
+                    extract(year from data_sorologia1_chikungunya)
+                    > extract(year from current_date)
+                then null
+                else data_sorologia1_chikungunya
+            end data_sorologia1_chikungunya,
+            data_resultado_sorologia1_chikungunya,
+            case
+                when resultado_sorologia1_chikungunya = "9"
+                then null
+                else resultado_sorologia1_chikungunya
+            end resultado_sorologia1_chikungunya,
+            sorologia1_igm,
+            sorologia1_igg,
+            sorologia1_tit1,
+            resultado_sorologia2_chikungunya,
+            case
+                when
+                    extract(year from data_sorologia2_chikungunya)
+                    > extract(year from current_date)
+                then null
+                else data_sorologia2_chikungunya
+            end data_sorologia2_chikungunya,
+            case
+                when
+                    extract(year from data_resultado_sorologia2_chikungunya)
+                    > extract(year from current_date)
+                then null
+                else data_resultado_sorologia2_chikungunya
+            end data_resultado_sorologia2_chikungunya,
+            sorologia2_igm,
+            sorologia2_igg,
+            sorologia2_tit1,
+            resultado_prnt,
+            case
+                when extract(year from data_prnt) > extract(year from current_date)
+                then null
+                else data_prnt
+            end data_prnt,
+            data_ns1,
+            resultado_ns1,
+            data_viral,
+            case
+                when resultado_viral = '5' then null else resultado_viral
+            end resultado_viral,
+            data_pcr,
+            resultado_pcr,
+            amostra_pcr,
+            amostra_outra,
+            tecnica,
+            resultado_amostra_outra,
+            data_sorologia_dengue,
+            case
+                when resultado_sorologia_dengue = '"'
+                then null
+                else resultado_sorologia_dengue
+            end resultado_sorologia_dengue,
+            sorotipo,
+            histopatologia,
+            imunohistoquimica,
+            manifestacao_hemorragica,
+            classificacao_final,
+            case
+                when criterio_confirmacao = 'r' then null else criterio_confirmacao
+            end criterio_confirmacao,
+            caso_fhd,
+            caso_autoctone,
+            pais_infeccao,
+            sigla_uf_infeccao,
+            novo_id_municipio_infeccao as id_municipio_infeccao,
+            doenca_trabalho,
+            apresentacao_clinica,
+            evolucao_caso,
+            case
+                when extract(year from data_obito) > extract(year from current_date)
+                then null
+                else data_obito
+            end data_obito,
+            case
+                when
+                    extract(year from data_encerramento)
+                    > extract(year from current_date)
+                then null
+                else data_encerramento
+            end data_encerramento,
+            tipo_sistema,
+            case
+                when extract(year from data_digitacao) > extract(year from current_date)
+                then null
+                else data_digitacao
+            end data_digitacao,
+        from tabelas_join
     )
 select
-    ano,
-    tipo_notificacao,
-    id_agravo,
-    data_notificacao,
-    semana_notificacao_certa as semana_notificacao,
-    sigla_uf_notificacao,
-    id_regional_saude_notificacao,
-    novo_id_municipio_notificacao as id_municipio_notificacao,
-    id_estabelecimento,
-    data_primeiros_sintomas,
-    semana_sintomas_certa as semana_sintomas,
-    pais_residencia,
-    sigla_uf_residencia,
-    id_regional_saude_residencia,
-    novo_id_municipio_residencia as id_municipio_residencia,
-    ano_nascimento_paciente,
-    data_nascimento_paciente,
-    idade_paciente,
-    sexo_paciente,
-    raca_cor_paciente,
-    escolaridade_paciente,
-    ocupacao_paciente,
-    gestante_paciente,
-    possui_doenca_autoimune,
-    possui_diabetes,
-    possui_doencas_hematologicas,
-    possui_hepatopatias,
-    possui_doenca_renal,
-    possui_hipertensao,
-    possui_doenca_acido_peptica,
-    paciente_vacinado,
-    data_vacina,
-    data_investigacao,
-    apresenta_febre,
-    data_febre,
-    duracao_febre,
-    apresenta_cefaleia,
-    apresenta_exantema,
-    apresenta_dor_costas,
-    apresenta_prostacao,
-    apresenta_mialgia,
-    apresenta_vomito,
-    apresenta_nausea,
-    apresenta_diarreia,
-    apresenta_conjutivite,
-    apresenta_dor_retroorbital,
-    apresenta_artralgia,
-    apresenta_artrite,
-    apresenta_leucopenia,
-    apresenta_epistaxe,
-    apresenta_petequias,
-    apresenta_gengivorragia,
-    apresenta_metrorragia,
-    apresenta_hematuria,
-    apresenta_sangramento,
-    apresenta_complicacao,
-    apresenta_ascite,
-    apresenta_pleurite,
-    apresenta_pericardite,
-    apresenta_dor_abdominal,
-    apresenta_hepatomegalia,
-    apresenta_miocardite,
-    apresenta_hipotensao,
-    apresenta_choque,
-    apresenta_insuficiencia_orgao,
-    apresenta_sintoma_outro,
-    apresenta_qual_sintoma,
-    data_choque,
-    prova_laco,
-    internacao,
-    data_internacao,
-    sigla_uf_internacao,
-    novo_id_municipio_internacao as id_municipio_internacao,
-    alarme_hipotensao,
-    alarme_plaqueta,
-    alarme_vomito,
-    alarme_sangramento,
-    alarme_hematocrito,
-    alarme_dor_abdominal,
-    alarme_letargia,
-    alarme_hepatomegalia,
-    alarme_liquidos,
-    case
-        when extract(year from data_alarme) > extract(year from current_date)
-        then null
-        else data_alarme
-    end data_alarme,
-    grave_pulso,
-    grave_convulsao,
-    grave_enchimento_capilar,
-    grave_insuficiencia_respiratoria,
-    grave_taquicardia,
-    grave_extremidade_fria,
-    grave_hipotensao,
-    grave_hematemese,
-    grave_melena,
-    grave_metrorragia,
-    grave_sangramento,
-    grave_ast_alt,
-    grave_miocardite,
-    grave_consciencia,
-    grave_orgaos,
-    case
-        when extract(year from data_sinais_gravidade) > extract(year from current_date)
-        then null
-        else data_sinais_gravidade
-    end data_sinais_gravidade,
-    data_hematocrito,
-    hematocrito_maior,
-    case
-        when extract(year from data_plaquetas) > extract(year from current_date)
-        then null
-        else data_plaquetas
-    end data_plaquetas,
-    plaqueta_maior,
-    data_hematocrito_2,
-    hematocrito_menor,
-    data_plaquetas_2,
-    plaqueta_menor,
-    case
-        when
-            extract(year from data_sorologia1_chikungunya)
-            > extract(year from current_date)
-        then null
-        else data_sorologia1_chikungunya
-    end data_sorologia1_chikungunya,
-    data_resultado_sorologia1_chikungunya,
-    resultado_sorologia1_chikungunya,
-    sorologia1_igm,
-    sorologia1_igg,
-    sorologia1_tit1,
-    data_sorologia2_chikungunya,
-    data_resultado_sorologia2_chikungunya,
-    resultado_sorologia2_chikungunya,
-    sorologia2_igm,
-    sorologia2_igg,
-    sorologia2_tit1,
-    case
-        when extract(year from data_prnt) > extract(year from current_date)
-        then null
-        else data_prnt
-    end data_prnt,
-    resultado_prnt,
-    data_ns1,
-    resultado_ns1,
-    data_viral,
-    resultado_viral,
-    data_pcr,
-    resultado_pcr,
-    amostra_pcr,
-    amostra_outra,
-    tecnica,
-    resultado_amostra_outra,
-    data_sorologia_dengue,
-    resultado_sorologia_dengue,
-    sorotipo,
-    histopatologia,
-    imunohistoquimica,
-    manifestacao_hemorragica,
-    classificacao_final,
-    criterio_confirmacao,
-    caso_fhd,
-    caso_autoctone,
-    pais_infeccao,
-    sigla_uf_infeccao,
-    novo_id_municipio_infeccao as id_municipio_infeccao,
-    doenca_trabalho,
-    apresentacao_clinica,
-    evolucao_caso,
-    case
-        when extract(year from data_obito) > extract(year from current_date)
-        then null
-        else data_obito
-    end data_obito,
-    case
-        when extract(year from data_encerramento) > extract(year from current_date)
-        then null
-        else data_encerramento
-    end data_encerramento,
-    tipo_sistema,
-    case
-        when extract(year from data_digitacao) > extract(year from current_date)
-        then null
-        else data_digitacao
-    end data_digitacao,
-from tabelas_join
+    {% for col in columns %}
+        {% if col.data_type == "STRING" %}
+            case
+                when trim({{ col.name }}) = '' then null else {{ col.name }}
+            end as {{ col.name }}
+        {% else %} {{ col.name }}
+        {% endif %}
+        {% if not loop.last %}, {% endif %}
+    {% endfor %}
+from table_final
