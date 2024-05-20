@@ -29,7 +29,7 @@ select
     safe_cast(
         format_date('%Y-%m-%d', safe.parse_date('%Y%m%d', gestor_dt)) as date
     ) data_autorizacao_gestor,
-    safe_cast(cnpj_mant as string) cnpj_mantenedora,
+    safe_cast(regexp_replace(cnpj_mant, r'^0', '') as string) cnpj_mantenedora,
     safe_cast(munic_res as string) id_municipio_paciente,
     safe_cast(cep as string) cep_paciente,
     safe_cast(
@@ -88,31 +88,117 @@ select
     safe_cast(financ as string) tipo_financiamento,
     safe_cast(faec_tp as string) subtipo_financiamento,
     safe_cast(regct as string) regra_contratual,
-    safe_cast(cid_notif as string) cid_notificacao_subcategoria,
-    safe_cast(cid_asso as string) cid_causa_subcategoria,
-    safe_cast(diag_princ as string) cid_principal_subcategoria,
-    safe_cast(diag_secun as string) cid_secundario_subcategoria,
-    safe_cast(diagsec1 as string) diagnostico_secundario_1,
-    safe_cast(diagsec2 as string) diagnostico_secundario_2,
-    safe_cast(diagsec3 as string) diagnostico_secundario_3,
-    safe_cast(diagsec4 as string) diagnostico_secundario_4,
-    safe_cast(diagsec5 as string) diagnostico_secundario_5,
-    safe_cast(diagsec6 as string) diagnostico_secundario_6,
-    safe_cast(diagsec7 as string) diagnostico_secundario_7,
-    safe_cast(diagsec8 as string) diagnostico_secundario_8,
-    safe_cast(diagsec9 as string) diagnostico_secundario_9,
-    safe_cast(tpdisec1 as string) tipo_diagnostico_secundario_1,
-    safe_cast(tpdisec2 as string) tipo_diagnostico_secundario_2,
-    safe_cast(tpdisec3 as string) tipo_diagnostico_secundario_3,
-    safe_cast(tpdisec4 as string) tipo_diagnostico_secundario_4,
-    safe_cast(tpdisec5 as string) tipo_diagnostico_secundario_5,
-    safe_cast(tpdisec6 as string) tipo_diagnostico_secundario_6,
-    safe_cast(tpdisec7 as string) tipo_diagnostico_secundario_7,
-    safe_cast(tpdisec8 as string) tipo_diagnostico_secundario_8,
-    safe_cast(tpdisec9 as string) tipo_diagnostico_secundario_9,
-    safe_cast(cid_morte as string) cid_morte_subcategoria,
+    safe_cast(
+        trim(
+            case when length(trim(cid_notif)) = 3 then cid_notif else null end
+        ) as string
+    ) as cid_notificacao_categoria,
+    safe_cast(
+        trim(
+            case when length(trim(cid_notif)) = 4 then cid_notif else null end
+        ) as string
+    ) cid_notificacao_subcategoria,
+    safe_cast(
+        trim(case when length(trim(cid_asso)) = 3 then cid_asso else null end) as string
+    ) as cid_causa_categoria,
+    safe_cast(
+        trim(case when length(trim(cid_asso)) = 4 then cid_asso else null end) as string
+    ) as cid_causa_subcategoria,
+    safe_cast(
+        trim(
+            case when length(trim(diag_princ)) = 3 then diag_princ else null end
+        ) as string
+    ) as cid_principal_categoria,
+    safe_cast(
+        trim(
+            case when length(trim(diag_princ)) = 4 then diag_princ else null end
+        ) as string
+    ) as cid_principal_subcategoria,
+    safe_cast(
+        trim(
+            case when length(trim(diag_secun)) = 3 then diag_secun else null end
+        ) as string
+    ) as cid_secundario_categoria,
+    safe_cast(
+        trim(
+            case when length(trim(diag_secun)) = 4 then diag_secun else null end
+        ) as string
+    ) as cid_secundario_subcategoria,
+    safe_cast(
+        trim(case when length(trim(diagsec1)) = 3 then diagsec1 else null end) as string
+    ) as cid_diagnostico_secundario_1_categoria,
+    safe_cast(
+        trim(case when length(trim(diagsec1)) = 4 then diagsec1 else null end) as string
+    ) as cid_diagnostico_secundario_1_subcategoria,
+    safe_cast(
+        trim(case when length(trim(diagsec2)) = 3 then diagsec2 else null end) as string
+    ) as cid_diagnostico_secundario_2_categoria,
+    safe_cast(
+        trim(case when length(trim(diagsec2)) = 4 then diagsec2 else null end) as string
+    ) as cid_diagnostico_secundario_2_subcategoria,
+    safe_cast(
+        trim(case when length(trim(diagsec3)) = 3 then diagsec3 else null end) as string
+    ) as cid_diagnostico_secundario_3_categoria,
+    safe_cast(
+        trim(case when length(trim(diagsec3)) = 4 then diagsec3 else null end) as string
+    ) as cid_diagnostico_secundario_3_subcategoria,
+    safe_cast(
+        trim(case when length(trim(diagsec4)) = 3 then diagsec4 else null end) as string
+    ) as cid_diagnostico_secundario_4_categoria,
+    safe_cast(
+        trim(case when length(trim(diagsec4)) = 4 then diagsec4 else null end) as string
+    ) as cid_diagnostico_secundario_4_subcategoria,
+    safe_cast(
+        trim(case when length(trim(diagsec5)) = 3 then diagsec5 else null end) as string
+    ) as cid_diagnostico_secundario_5_categoria,
+    safe_cast(
+        trim(case when length(trim(diagsec5)) = 4 then diagsec5 else null end) as string
+    ) as cid_diagnostico_secundario_5_subcategoria,
+    safe_cast(
+        trim(case when length(trim(diagsec6)) = 3 then diagsec6 else null end) as string
+    ) as cid_diagnostico_secundario_6_categoria,
+    safe_cast(
+        trim(case when length(trim(diagsec6)) = 4 then diagsec6 else null end) as string
+    ) as cid_diagnostico_secundario_6_subcategoria,
+    safe_cast(
+        trim(case when length(trim(diagsec7)) = 3 then diagsec7 else null end) as string
+    ) as cid_diagnostico_secundario_7_categoria,
+    safe_cast(
+        trim(case when length(trim(diagsec7)) = 4 then diagsec7 else null end) as string
+    ) as cid_diagnostico_secundario_7_subcategoria,
+    safe_cast(
+        trim(case when length(trim(diagsec8)) = 3 then diagsec8 else null end) as string
+    ) as cid_diagnostico_secundario_8_categoria,
+    safe_cast(
+        trim(case when length(trim(diagsec8)) = 4 then diagsec8 else null end) as string
+    ) as cid_diagnostico_secundario_8_subcategoria,
+    safe_cast(
+        trim(case when length(trim(diagsec9)) = 3 then diagsec9 else null end) as string
+    ) as cid_diagnostico_secundario_9_categoria,
+    safe_cast(
+        trim(case when length(trim(diagsec9)) = 4 then diagsec9 else null end) as string
+    ) as cid_diagnostico_secundario_9_subcategoria,
+    safe_cast(tpdisec1 as int64) tipo_diagnostico_secundario_1,
+    safe_cast(tpdisec2 as int64) tipo_diagnostico_secundario_2,
+    safe_cast(tpdisec3 as int64) tipo_diagnostico_secundario_3,
+    safe_cast(tpdisec4 as int64) tipo_diagnostico_secundario_4,
+    safe_cast(tpdisec5 as int64) tipo_diagnostico_secundario_5,
+    safe_cast(tpdisec6 as int64) tipo_diagnostico_secundario_6,
+    safe_cast(tpdisec7 as int64) tipo_diagnostico_secundario_7,
+    safe_cast(tpdisec8 as int64) tipo_diagnostico_secundario_8,
+    safe_cast(tpdisec9 as int64) tipo_diagnostico_secundario_9,
+    safe_cast(
+        trim(
+            case when length(trim(cid_morte)) = 3 then cid_morte else null end
+        ) as string
+    ) as cid_morte_categoria,
+    safe_cast(
+        trim(
+            case when length(trim(cid_morte)) = 4 then cid_morte else null end
+        ) as string
+    ) as cid_morte_subcategoria,
     safe_cast(morte as int64) indicador_obito,
-    safe_cast(remessa as int64) remessa,
+    safe_cast(remessa as string) remessa,
     safe_cast(aud_just as string) justificativa_auditor,
     safe_cast(sis_just as string) justificativa_estabelecimento,
     safe_cast(uti_mes_to as int64) quantidade_dias_uti_mes,
