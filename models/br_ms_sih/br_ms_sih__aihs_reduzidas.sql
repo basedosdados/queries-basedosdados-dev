@@ -1,7 +1,20 @@
-{{ config(alias="aihs_reduzidas", schema="br_ms_sih") }}
+{{
+    config(
+        alias="aihs_reduzidas",
+        schema="br_ms_sih",
+        materialized="incremental",
+        partition_by={
+            "field": "ano",
+            "data_type": "int64",
+            "range": {"start": 2008, "end": 2024, "interval": 1},
+        },
+        cluster_by=["mes", "sigla_uf"],
+    )
+}}
 select
     safe_cast(ano as int64) ano,
     safe_cast(mes as int64) mes,
+    safe_cast(sigla_uf as int64) sigla_uf,
     safe_cast(n_aih as int64) id_aih,
     safe_cast(ident as string) tipo_aih,
     safe_cast(gestor_cod as int64) motivo_autorizacao_aih,
@@ -81,7 +94,7 @@ select
     safe_cast(contracep2 as int64) tipo_contraceptivo_secundario,
     safe_cast(seq_aih5 as string) sequencial_longa_permanencia,
     safe_cast(regexp_replace(proc_solic, r'^0', '') as string) procedimento_solicitado,
-    safe_cast(regexp_replace(proc_rea, r'^0', '') as string) procedimento_solicitado,
+    safe_cast(regexp_replace(proc_rea, r'^0', '') as string) procedimento_realizado,
     safe_cast(infehosp as int64) indicador_infeccao_hospitalar,
     safe_cast(complex as int64) complexidade,
     safe_cast(ind_vdrl as string) indicador_exame_vdrl,
@@ -217,3 +230,9 @@ select
     safe_cast(us_tot as float64) valor_dolar,
     safe_cast(val_tot as float64) valor_aih,
 from `basedosdados-dev.br_ms_sih_staging.aihs_reduzidas` as t
+where ano = '2024' and mes = '3' and sigla_uf = 'AP'
+{% if is_incremental() %}
+    where
+        date(cast(ano as int64), cast(mes as int64), 1)
+        > (select max(date(cast(ano as int64), cast(mes as int64), 1)) from {{ this }})
+{% endif %}
