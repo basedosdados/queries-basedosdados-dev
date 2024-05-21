@@ -160,33 +160,29 @@ models:
         description: Valor
   - name: br_ms_sih__aihs_reduzidas
     description: Movimento de AIH - Arquivos Reduzidos
-    # tests:
-    #   - custom_dictionaries:
-    #         columns_covered_by_dictionary:
-    #           - tipo_aih
-    #           - motivo_autorizacao_aih
-    #           - especialidade_leito
-    #           - motivo_saida
-    #           - tipo_uti
-    #           - tipo_uci
-    #           - carater_internacao
-    #           - natureza_juridica_estabelecimento
-    #           - natureza_juridica_estabelecimento_ate_2012
-    #           - tipo_gestao_estabelecimento
-    #           - unidade_medida_idade_paciente
-    #           - sexo_paciente
-    #           - raca_cor_paciente
-    #           - etnia_paciente
-    #           - grau_instrucao_paciente
-    #           - indicador_vinculo_previdencia
-    #           - indicador_gestante_risco
-    #           - tipo_contraceptivo_principal
-    #           - tipo_contraceptivo_secundario
-    #           - procedimento_solicitado
-    #           - procedimento_realizado
-    #           - indicador_infeccao_hospitalar
-    #           - complexidade
-    #         dictionary_model: ref('br_ms_sih__dicionario')
+    tests:
+      - custom_dictionary_coverage:
+            columns_covered_by_dictionary:
+              - tipo_aih
+              - motivo_autorizacao_aih
+              - especialidade_leito
+              - motivo_saida
+              - tipo_uti
+              - tipo_uci
+              - carater_internacao
+              - natureza_juridica_estabelecimento
+              - natureza_juridica_estabelecimento_ate_2012
+              - etnia_paciente
+              - grau_instrucao_paciente
+              - indicador_vinculo_previdencia
+              - indicador_gestante_risco
+              - tipo_contraceptivo_principal
+              - tipo_contraceptivo_secundario
+              - procedimento_solicitado
+              - procedimento_realizado
+              - indicador_infeccao_hospitalar
+              - complexidade
+            dictionary_model: ref('br_ms_sih__dicionario')
     columns:
       - name: ano
         description: Ano de processamento da AIH, no formato aaaa
@@ -227,7 +223,7 @@ models:
         tests:
           - relationships:
                 to: ref('br_bd_diretorios_brasil__municipio')
-                field: id_municipio
+                field: id_municipio_6
                 config:
                     where: __most_recent_year_month__
       - name: id_estabelecimento_cnes
@@ -247,7 +243,7 @@ models:
         tests:
           - relationships:
                 to: ref('br_bd_diretorios_brasil__municipio')
-                field: id_municipio
+                field: id_municipio_6
       - name: tipo_gestor
         description: Tipo de gestor.
       - name: cpf_gestor
@@ -261,7 +257,7 @@ models:
         tests:
           - relationships:
                 to: ref('br_bd_diretorios_brasil__municipio')
-                field: id_municipio
+                field: id_municipio_6
       - name: cep_paciente
         description: CEP do paciente.
       - name: data_nascimento_paciente
