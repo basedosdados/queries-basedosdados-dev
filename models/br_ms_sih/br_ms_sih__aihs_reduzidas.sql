@@ -2,7 +2,7 @@
     config(
         alias="aihs_reduzidas",
         schema="br_ms_sih",
-        materialized="incremental",
+        materialized="table",
         partition_by={
             "field": "ano",
             "data_type": "int64",
@@ -16,7 +16,7 @@ select
     safe_cast(mes as int64) mes,
     safe_cast(sigla_uf as int64) sigla_uf,
     safe_cast(n_aih as int64) id_aih,
-    safe_cast(ident as string) tipo_aih,
+    safe_cast(ident as int64) tipo_aih,
     safe_cast(gestor_cod as int64) motivo_autorizacao_aih,
     safe_cast(ltrim(sequencia) as string) sequencial_aih,
     safe_cast(espec as int64) especialidade_leito,
@@ -36,7 +36,17 @@ select
     safe_cast(natureza as int64) natureza_juridica_estabelecimento_ate_2012,
     safe_cast(regexp_replace(cgc_hosp, r'^0', '') as string) cnpj_estabelecimento,
     safe_cast(gestao as string) tipo_gestao_estabelecimento,
-    safe_cast(uf_zi as string) id_municipio_gestor,
+    safe_cast(
+        trim(
+            case
+                when trim(uf_zi) like '%0000%'
+                then null
+                when trim(uf_zi) like '%9999%'
+                then null
+                else uf_zi
+            end
+        ) as string
+    ) id_municipio_gestor,
     safe_cast(gestor_tp as string) tipo_gestor,
     safe_cast(gestor_cpf as string) cpf_gestor,
     safe_cast(
@@ -82,7 +92,9 @@ select
     end as raca_cor_paciente,
     safe_cast(etnia as int64) etnia_paciente,
     safe_cast(nacional as int64) codigo_nacionalidade_paciente,
-    safe_cast(cbor as string) cbo_2002_paciente,
+    safe_cast(
+        trim(case when trim(cbor) = '000000' then null else cbor end) as string
+    ) cbo_2002_paciente,
     safe_cast(homonimo as int64) indicador_paciente_homonimo,
     safe_cast(instru as int64) grau_instrucao_paciente,
     safe_cast(num_filhos as int64) quantidade_filhos_paciente,
@@ -93,8 +105,8 @@ select
     safe_cast(contracep1 as int64) tipo_contraceptivo_principal,
     safe_cast(contracep2 as int64) tipo_contraceptivo_secundario,
     safe_cast(seq_aih5 as string) sequencial_longa_permanencia,
-    safe_cast(regexp_replace(proc_solic, r'^0', '') as string) procedimento_solicitado,
-    safe_cast(regexp_replace(proc_rea, r'^0', '') as string) procedimento_realizado,
+    safe_cast(regexp_replace(proc_solic, r'^0', '') as int64) procedimento_solicitado,
+    safe_cast(regexp_replace(proc_rea, r'^0', '') as int64) procedimento_realizado,
     safe_cast(infehosp as int64) indicador_infeccao_hospitalar,
     safe_cast(complex as int64) complexidade,
     safe_cast(ind_vdrl as string) indicador_exame_vdrl,
@@ -108,14 +120,24 @@ select
     ) as cid_notificacao_categoria,
     safe_cast(
         trim(
-            case when length(trim(cid_notif)) = 4 then cid_notif else null end
+            case
+                when length(trim(cid_notif)) = 4 and trim(cid_notif) not like '0000'
+                then cid_notif
+                else null
+            end
         ) as string
     ) cid_notificacao_subcategoria,
     safe_cast(
         trim(case when length(trim(cid_asso)) = 3 then cid_asso else null end) as string
     ) as cid_causa_categoria,
     safe_cast(
-        trim(case when length(trim(cid_asso)) = 4 then cid_asso else null end) as string
+        trim(
+            case
+                when length(trim(cid_asso)) = 4 and trim(cid_asso) not like '0000'
+                then cid_asso
+                else null
+            end
+        ) as string
     ) as cid_causa_subcategoria,
     safe_cast(
         trim(
@@ -124,7 +146,11 @@ select
     ) as cid_principal_categoria,
     safe_cast(
         trim(
-            case when length(trim(diag_princ)) = 4 then diag_princ else null end
+            case
+                when length(trim(diag_princ)) = 4 and trim(diag_princ) not like '0000'
+                then diag_princ
+                else null
+            end
         ) as string
     ) as cid_principal_subcategoria,
     safe_cast(
@@ -134,62 +160,120 @@ select
     ) as cid_secundario_categoria,
     safe_cast(
         trim(
-            case when length(trim(diag_secun)) = 4 then diag_secun else null end
+            case
+                when length(trim(diag_secun)) = 4 and trim(diag_secun) not like '0000'
+                then diag_secun
+                else null
+            end
         ) as string
     ) as cid_secundario_subcategoria,
     safe_cast(
         trim(case when length(trim(diagsec1)) = 3 then diagsec1 else null end) as string
     ) as cid_diagnostico_secundario_1_categoria,
     safe_cast(
-        trim(case when length(trim(diagsec1)) = 4 then diagsec1 else null end) as string
+        trim(
+            case
+                when length(trim(diagsec1)) = 4 and trim(diagsec1) not like '0000'
+                then diagsec1
+                else null
+            end
+        ) as string
     ) as cid_diagnostico_secundario_1_subcategoria,
     safe_cast(
         trim(case when length(trim(diagsec2)) = 3 then diagsec2 else null end) as string
     ) as cid_diagnostico_secundario_2_categoria,
     safe_cast(
-        trim(case when length(trim(diagsec2)) = 4 then diagsec2 else null end) as string
+        trim(
+            case
+                when length(trim(diagsec2)) = 4 and trim(diagsec2) not like '0000'
+                then diagsec2
+                else null
+            end
+        ) as string
     ) as cid_diagnostico_secundario_2_subcategoria,
     safe_cast(
         trim(case when length(trim(diagsec3)) = 3 then diagsec3 else null end) as string
     ) as cid_diagnostico_secundario_3_categoria,
     safe_cast(
-        trim(case when length(trim(diagsec3)) = 4 then diagsec3 else null end) as string
+        trim(
+            case
+                when length(trim(diagsec3)) = 4 and trim(diagsec3) not like '0000'
+                then diagsec3
+                else null
+            end
+        ) as string
     ) as cid_diagnostico_secundario_3_subcategoria,
     safe_cast(
         trim(case when length(trim(diagsec4)) = 3 then diagsec4 else null end) as string
     ) as cid_diagnostico_secundario_4_categoria,
     safe_cast(
-        trim(case when length(trim(diagsec4)) = 4 then diagsec4 else null end) as string
+        trim(
+            case
+                when length(trim(diagsec4)) = 4 and trim(diagsec4) not like '0000'
+                then diagsec4
+                else null
+            end
+        ) as string
     ) as cid_diagnostico_secundario_4_subcategoria,
     safe_cast(
         trim(case when length(trim(diagsec5)) = 3 then diagsec5 else null end) as string
     ) as cid_diagnostico_secundario_5_categoria,
     safe_cast(
-        trim(case when length(trim(diagsec5)) = 4 then diagsec5 else null end) as string
+        trim(
+            case
+                when length(trim(diagsec5)) = 4 and trim(diagsec5) not like '0000'
+                then diagsec5
+                else null
+            end
+        ) as string
     ) as cid_diagnostico_secundario_5_subcategoria,
     safe_cast(
         trim(case when length(trim(diagsec6)) = 3 then diagsec6 else null end) as string
     ) as cid_diagnostico_secundario_6_categoria,
     safe_cast(
-        trim(case when length(trim(diagsec6)) = 4 then diagsec6 else null end) as string
+        trim(
+            case
+                when length(trim(diagsec6)) = 4 and trim(diagsec6) not like '0000'
+                then diagsec6
+                else null
+            end
+        ) as string
     ) as cid_diagnostico_secundario_6_subcategoria,
     safe_cast(
         trim(case when length(trim(diagsec7)) = 3 then diagsec7 else null end) as string
     ) as cid_diagnostico_secundario_7_categoria,
     safe_cast(
-        trim(case when length(trim(diagsec7)) = 4 then diagsec7 else null end) as string
+        trim(
+            case
+                when length(trim(diagsec7)) = 4 and trim(diagsec7) not like '0000'
+                then diagsec7
+                else null
+            end
+        ) as string
     ) as cid_diagnostico_secundario_7_subcategoria,
     safe_cast(
         trim(case when length(trim(diagsec8)) = 3 then diagsec8 else null end) as string
     ) as cid_diagnostico_secundario_8_categoria,
     safe_cast(
-        trim(case when length(trim(diagsec8)) = 4 then diagsec8 else null end) as string
+        trim(
+            case
+                when length(trim(diagsec8)) = 4 and trim(diagsec8) not like '0000'
+                then diagsec8
+                else null
+            end
+        ) as string
     ) as cid_diagnostico_secundario_8_subcategoria,
     safe_cast(
         trim(case when length(trim(diagsec9)) = 3 then diagsec9 else null end) as string
     ) as cid_diagnostico_secundario_9_categoria,
     safe_cast(
-        trim(case when length(trim(diagsec9)) = 4 then diagsec9 else null end) as string
+        trim(
+            case
+                when length(trim(diagsec9)) = 4 and trim(diagsec9) not like '0000'
+                then diagsec9
+                else null
+            end
+        ) as string
     ) as cid_diagnostico_secundario_9_subcategoria,
     safe_cast(tpdisec1 as int64) tipo_diagnostico_secundario_1,
     safe_cast(tpdisec2 as int64) tipo_diagnostico_secundario_2,
@@ -207,7 +291,11 @@ select
     ) as cid_morte_categoria,
     safe_cast(
         trim(
-            case when length(trim(cid_morte)) = 4 then cid_morte else null end
+            case
+                when length(trim(cid_morte)) = 4 and trim(diagsec9) not like '0000'
+                then cid_morte
+                else null
+            end
         ) as string
     ) as cid_morte_subcategoria,
     safe_cast(morte as int64) indicador_obito,
@@ -229,10 +317,11 @@ select
     safe_cast(val_uti as float64) valor_uti,
     safe_cast(us_tot as float64) valor_dolar,
     safe_cast(val_tot as float64) valor_aih,
-from `basedosdados-dev.br_ms_sih_staging.aihs_reduzidas` as t
-where ano = '2024' and mes = '3' and sigla_uf = 'AP'
-{% if is_incremental() %}
-    where
-        date(cast(ano as int64), cast(mes as int64), 1)
-        > (select max(date(cast(ano as int64), cast(mes as int64), 1)) from {{ this }})
-{% endif %}
+from
+    `basedosdados-dev.br_ms_sih_staging.aihs_reduzidas` as t
+    -- {% if is_incremental() %}
+    -- where
+    -- date(cast(ano as int64), cast(mes as int64), 1)
+    -- > (select max(date(cast(ano as int64), cast(mes as int64), 1)) from {{ this }})
+    -- {% endif %}
+    
