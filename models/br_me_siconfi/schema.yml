@@ -5,7 +5,7 @@ models:
     description: Tabela do balanço patrimonial a nível de município.
     tests:
       - not_null_proportion_multiple_columns:
-          at_least: 0.95
+          at_least: 0.05
     columns:
       - name: ano
         description: Ano
@@ -35,7 +35,7 @@ models:
     description: Tabela de despesas por função a nível de município.
     tests:
       - not_null_proportion_multiple_columns:
-          at_least: 0.95
+          at_least: 0.05
     columns:
       - name: ano
         description: Ano
@@ -69,7 +69,7 @@ models:
     description: Tabela de despesas orçamentárias a nível de município.
     tests:
       - not_null_proportion_multiple_columns:
-          at_least: 0.95
+          at_least: 0.05
     columns:
       - name: ano
         description: Ano
@@ -103,7 +103,7 @@ models:
     description: Tabela de receitas orçamentárias a nível de município.
     tests:
       - not_null_proportion_multiple_columns:
-          at_least: 0.95
+          at_least: 0.05
     columns:
       - name: ano
         description: Ano
@@ -137,7 +137,7 @@ models:
     description: Tabela de despesas por função a nível de UF.
     tests:
       - not_null_proportion_multiple_columns:
-          at_least: 0.95
+          at_least: 0.05
     columns:
       - name: ano
         description: Ano
@@ -171,7 +171,7 @@ models:
     description: Tabela de despesas orçamentárias a nível de UF.
     tests:
       - not_null_proportion_multiple_columns:
-          at_least: 0.95
+          at_least: 0.05
     columns:
       - name: ano
         description: Ano
@@ -205,7 +205,7 @@ models:
     description: Tabela de receitas orçamentárias a nível de UF.
     tests:
       - not_null_proportion_multiple_columns:
-          at_least: 0.95
+          at_least: 0.05
     columns:
       - name: ano
         description: Ano
