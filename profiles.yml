@@ -25,5 +25,5 @@ elementary:
       project: basedosdados-dev
       dataset: elementary
       method: service-account
-      keyfile: tmp/bigquery_keyfile.json
+      keyfile: /tmp/bigquery_keyfile.json
       threads: 2
