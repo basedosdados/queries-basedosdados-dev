@@ -100,17 +100,19 @@ select
     safe_cast(num_filhos as int64) quantidade_filhos_paciente,
     safe_cast(
         trim(case when trim(cnaer) = '000' then null else cnaer end) as string
-    )  id_acidente_trabalho,
+    ) id_acidente_trabalho,
     safe_cast(vincprev as int64) indicador_vinculo_previdencia,
     safe_cast(
-        trim(case when trim(insc_pn) = '0000000000' then null else insc_pn end) as string
+        trim(
+            case when trim(insc_pn) = '0000000000' then null else insc_pn end
+        ) as string
     ) id_gestante_pre_natal,
     safe_cast(gestrisco as int64) indicador_gestante_risco,
     safe_cast(contracep1 as int64) tipo_contraceptivo_principal,
     safe_cast(contracep2 as int64) tipo_contraceptivo_secundario,
     safe_cast(
         trim(case when trim(seq_aih5) = '000' then null else seq_aih5 end) as string
-    )    sequencial_longa_permanencia,
+    ) sequencial_longa_permanencia,
     safe_cast(regexp_replace(proc_solic, r'^0', '') as int64) procedimento_solicitado,
     safe_cast(regexp_replace(proc_rea, r'^0', '') as int64) procedimento_realizado,
     safe_cast(infehosp as int64) indicador_infeccao_hospitalar,
@@ -269,6 +271,7 @@ select
             end
         ) as string
     ) as cid_diagnostico_secundario_8_subcategoria,
+
     safe_cast(
         trim(case when length(trim(diagsec9)) = 3 then diagsec9 else null end) as string
     ) as cid_diagnostico_secundario_9_categoria,
@@ -323,11 +326,4 @@ select
     safe_cast(val_uti as float64) valor_uti,
     safe_cast(us_tot as float64) valor_dolar,
     safe_cast(val_tot as float64) valor_aih,
-from
-    `basedosdados-dev.br_ms_sih_staging.aihs_reduzidas` as t
-    -- {% if is_incremental() %}
-    -- where
-    -- date(cast(ano as int64), cast(mes as int64), 1)
-    -- > (select max(date(cast(ano as int64), cast(mes as int64), 1)) from {{ this }})
-    -- {% endif %}
-    
+from `basedosdados-dev.br_ms_sih_staging.aihs_reduzidas` as t
