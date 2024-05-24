@@ -5,7 +5,11 @@ select
     safe_cast(lower(rede) as string) rede,
     safe_cast(lower(localizacao) as string) localizacao,
     safe_cast(disciplina as string) disciplina,
-    safe_cast(serie as int64) serie,
+    safe_cast(
+        case
+            when serie = "12" then "3" when serie = "13" then "4" else serie
+        end as int64
+    ) serie,
     safe_cast(media as float64) media,
     safe_cast(nivel_0 as float64) nivel_0,
     safe_cast(nivel_1 as float64) nivel_1,
@@ -19,3 +23,4 @@ select
     safe_cast(nivel_9 as float64) nivel_9,
     safe_cast(nivel_10 as float64) nivel_10
 from `basedosdados-dev.br_inep_saeb_staging.brasil` as t
+
