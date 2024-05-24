@@ -64,4 +64,3 @@ from
         from fixed_2021
     )
 order by ano desc
-

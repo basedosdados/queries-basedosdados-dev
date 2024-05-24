@@ -23,4 +23,3 @@ select
     safe_cast(nivel_9 as float64) nivel_9,
     safe_cast(nivel_10 as float64) nivel_10
 from `basedosdados-dev.br_inep_saeb_staging.brasil` as t
-
