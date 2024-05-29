@@ -39,6 +39,5 @@ select
     safe_cast(situacao_secao as string) situacao_secao,
     safe_cast(situacao_localidade as string) situacao_localidade,
     safe_cast(situacao_secao_acessibilidade as string) situacao_secao_acessibilidade,
-    safe_cast(quantidade_eleitores as int64) quantidade_eleitores,
-    safe_cast(quantidade_eleitores_eleicao as int64) quantidade_eleitores_eleicao,
+    safe_cast(eleitores_secao as int64) eleitores_secao,
 from `basedosdados-dev.br_tse_eleicoes_staging.perfil_eleitorado_local_votacao` as t
