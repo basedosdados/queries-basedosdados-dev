@@ -1170,9 +1170,6 @@ models:
         description: Razão de sexo da população indígena residente em terras indígenas
   - name: br_ibge_censo_2022__indigenas_populacao_alfabetizada_grupo_idade_municipio
     description: Insert table description here
-    tests:
-      - not_null_proportion_multiple_columns:
-            at_least: 0.95
     columns:
       - name: id_municipio
         description: ID Município IBGE 7 dígitos
@@ -1182,17 +1179,16 @@ models:
                 field: id_municipio
       - name: sexo
         description: Sexo
+        tests: [not_null]        
       - name: grupo_idade
         description: Grupo de Idade
+        tests: [not_null]        
       - name: alfabetizacao
         description: Alfabetização
       - name: populacao_indigena
         description: Pessoas indígenas de 15 anos ou mais de idade
   - name: br_ibge_censo_2022__populacao_alfabetizada_cor_raca_grupo_idade_municipio
     description: Insert table description here
-    tests:
-      - not_null_proportion_multiple_columns:
-            at_least: 0.95
     columns:
       - name: id_municipio
         description: ID Município IBGE 7 dígitos
@@ -1202,10 +1198,12 @@ models:
                 field: id_municipio
       - name: cor_raca
         description: Cor ou raça
+        tests: [not_null]
       - name: sexo
         description: Sexo
       - name: grupo_idade
         description: Grupo de Idade
+        tests: [not_null]        
       - name: alfabetizacao
         description: Alfabetização
       - name: populacao
@@ -1232,9 +1230,6 @@ models:
         description: Taxa de alfabetização das pessoas de 15 anos ou mais de idade
   - name: br_ibge_censo_2022__indigenas_taxa_alfabetizacao_grupo_idade_municipio
     description: Insert table description here
-    tests:
-      - not_null_proportion_multiple_columns:
-            at_least: 0.95
     columns:
       - name: id_municipio
         description: ID Município IBGE 7 dígitos
@@ -1244,8 +1239,10 @@ models:
                 field: id_municipio
       - name: sexo
         description: Sexo
+        tests: [not_null]          
       - name: grupo_idade
         description: Grupo de Idade
+        tests: [not_null]          
       - name: taxa_alfabetizacao
         description: Taxa de alfabetização das pessoas indígenas de 15 anos ou mais
             de idade
