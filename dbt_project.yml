@@ -234,6 +234,9 @@ models:
     br_me_sic:
       +materialized: table
       +schema: br_me_sic
+    br_me_siconfi:
+      +materialized: table
+      +schema: br_me_siconfi
     br_mec_prouni:
       +materialized: table
       +schema: br_mec_prouni
@@ -261,6 +264,9 @@ models:
     br_ms_cnes:
       +materialized: table
       +schema: br_ms_cnes
+    br_ms_pns:
+      +materialized: table
+      +schema: br_ms_pns
     br_ms_sia:
       +materialized: table
       +schema: br_ms_sia
@@ -335,3 +341,4 @@ models:
       +schema: world_wb_mides
   elementary:
     +schema: elementary
+    +enabled: "{{ env_var('DBT_ELEMENTARY_ENABLED') | as_bool }}"
