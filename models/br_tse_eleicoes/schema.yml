@@ -33,7 +33,14 @@ models:
     description: Dados de candidatos em eleições brasileiras.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, sigla_uf, id_municipio_tse, sequencial, numero, cpf, id_candidato_bd]
+          combination_of_columns:
+            - ano
+            - sigla_uf
+            - id_municipio_tse
+            - sequencial
+            - numero
+            - cpf
+            - id_candidato_bd
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -215,7 +222,12 @@ models:
       município.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, turno, tipo_eleicao, id_municipio_tse, cargo]
+          combination_of_columns:
+            - ano
+            - turno
+            - tipo_eleicao
+            - id_municipio_tse
+            - cargo
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -274,7 +286,13 @@ models:
       zona eleitoral.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, turno, tipo_eleicao, id_municipio_tse, zona, cargo]
+          combination_of_columns:
+            - ano
+            - turno
+            - tipo_eleicao
+            - id_municipio_tse
+            - zona
+            - cargo
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -335,7 +353,14 @@ models:
       eleitoral.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, turno, tipo_eleicao, id_municipio_tse, zona, secao, cargo]
+          combination_of_columns:
+            - ano
+            - turno
+            - tipo_eleicao
+            - id_municipio_tse
+            - zona
+            - secao
+            - cargo
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -395,7 +420,14 @@ models:
       por questões de erro do TSE.'
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, turno, tipo_eleicao, sigla_uf, id_municipio_tse, cargo, numero]
+          combination_of_columns:
+            - ano
+            - turno
+            - tipo_eleicao
+            - sigla_uf
+            - id_municipio_tse
+            - cargo
+            - numero
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -501,7 +533,14 @@ models:
     description: Dados de perfil do eleitorado a nível de zona eleitoral.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, id_municipio_tse, zona, estado_civil, genero, grupo_idade, instrucao]
+          combination_of_columns:
+            - ano
+            - id_municipio_tse
+            - zona
+            - estado_civil
+            - genero
+            - grupo_idade
+            - instrucao
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -539,7 +578,15 @@ models:
     description: Perfil eleitorado a nível de seção eleitoral.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, id_municipio_tse, zona, secao, estado_civil, genero, grupo_idade, instrucao]
+          combination_of_columns:
+            - ano
+            - id_municipio_tse
+            - zona
+            - secao
+            - estado_civil
+            - genero
+            - grupo_idade
+            - instrucao
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -895,7 +942,16 @@ models:
     description: Dados de resultados eleitorais a nível de candidato.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, turno, tipo_eleicao, sigla_uf, id_municipio_tse, cargo, sequencial_candidato, numero_candidato, nome_candidato]
+          combination_of_columns:
+            - ano
+            - turno
+            - tipo_eleicao
+            - sigla_uf
+            - id_municipio_tse
+            - cargo
+            - sequencial_candidato
+            - numero_candidato
+            - nome_candidato
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -937,7 +993,13 @@ models:
     description: Dados de votação em eleições brasileiras a nível candidato-município.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, turno, tipo_eleicao, id_municipio_tse, sequencial_candidato, numero_candidato]
+          combination_of_columns:
+            - ano
+            - turno
+            - tipo_eleicao
+            - id_municipio_tse
+            - sequencial_candidato
+            - numero_candidato
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -977,7 +1039,14 @@ models:
     description: Dados de votação em eleições brasileiras a nível candidato-município-zona.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, turno, tipo_eleicao, id_municipio_tse, zona, sequencial_candidato, numero_candidato]
+          combination_of_columns:
+            - ano
+            - turno
+            - tipo_eleicao
+            - id_municipio_tse
+            - zona
+            - sequencial_candidato
+            - numero_candidato
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -1019,7 +1088,15 @@ models:
     description: Dados de resultados eleitorais a nível de candidato-seção.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, turno, tipo_eleicao, id_municipio_tse, zona, secao, sequencial_candidato, numero_candidato]
+          combination_of_columns:
+            - ano
+            - turno
+            - tipo_eleicao
+            - id_municipio_tse
+            - zona
+            - secao
+            - sequencial_candidato
+            - numero_candidato
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -1061,7 +1138,13 @@ models:
     description: Dados de resultados em eleições brasileiras a nível de partido-município.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, turno, tipo_eleicao, id_municipio_tse, cargo, numero_partido]
+          combination_of_columns:
+            - ano
+            - turno
+            - tipo_eleicao
+            - id_municipio_tse
+            - cargo
+            - numero_partido
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -1095,7 +1178,14 @@ models:
     description: Dados de resultados em eleições brasileiras a nível de partido-zona.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, turno, tipo_eleicao, id_municipio_tse, zona, cargo, numero_partido]
+          combination_of_columns:
+            - ano
+            - turno
+            - tipo_eleicao
+            - id_municipio_tse
+            - zona
+            - cargo
+            - numero_partido
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -1131,7 +1221,15 @@ models:
     description: Dados de resultados em eleições brasileiras a nível de partido-seção.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, turno, tipo_eleicao, id_municipio_tse, zona, secao, cargo, numero_partido]
+          combination_of_columns:
+            - ano
+            - turno
+            - tipo_eleicao
+            - id_municipio_tse
+            - zona
+            - secao
+            - cargo
+            - numero_partido
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -1169,7 +1267,12 @@ models:
     description: Número de vagas em disputa na eleição por município-cargo.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, tipo_eleicao, sigla_uf, id_municipio_tse, cargo]
+          combination_of_columns:
+            - ano
+            - tipo_eleicao
+            - sigla_uf
+            - id_municipio_tse
+            - cargo
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
@@ -1203,7 +1306,11 @@ models:
     description: Dicionário
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_tabela, nome_coluna, chave, cobertura_temporal]
+          combination_of_columns:
+            - id_tabela
+            - nome_coluna
+            - chave
+            - cobertura_temporal
       - not_null_proportion_multiple_columns:
           at_least: 0.05
     columns:
