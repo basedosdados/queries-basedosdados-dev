@@ -7,7 +7,7 @@
             "field": "ano",
             "data_type": "int64",
             "range": {
-                "start": 1998,
+                "start": 1994,
                 "end": 2022,
                 "interval": 2
             }
@@ -34,6 +34,7 @@ select
     safe_cast(votos_validos as int64) votos_validos,
     safe_cast(votos_brancos as int64) votos_brancos,
     safe_cast(votos_nulos as int64) votos_nulos,
+    safe_cast(votos_nominais as int64) votos_nominais,
     safe_cast(votos_legenda as int64) votos_legenda,
     safe_cast(proporcao_comparecimento as float64) proporcao_comparecimento,
     safe_cast(proporcao_votos_validos as float64) proporcao_votos_validos,
