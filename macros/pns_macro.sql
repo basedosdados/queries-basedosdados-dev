@@ -12,27 +12,7 @@
                 ~ " = '2' THEN 'não' "
                 ~ "ELSE COALESCE(NULLIF(TRIM("
                 ~ column
-                ~ "), ''), 'Não informado') "
-                ~ "END AS "
-                ~ column
-            ) %}
-        {% elif table_id == "microdados_2019" %}
-            {% set new_column = (
-                "CASE WHEN "
-                ~ column
-                ~ " = '1' THEN 'sim' "
-                ~ "WHEN "
-                ~ column
-                ~ " = '2' THEN 'não' "
-                ~ "WHEN "
-                ~ column
-                ~ " = '9' THEN 'ignorado' "
-                ~ "WHEN "
-                ~ column
-                ~ " = '' THEN 'não aplicável' "
-                ~ "ELSE COALESCE(NULLIF(TRIM("
-                ~ column
-                ~ "), ''), 'Não informado') "
+                ~ "), ''), 'não informado') "
                 ~ "END AS "
                 ~ column
             ) %}
