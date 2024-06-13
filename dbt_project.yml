@@ -180,6 +180,9 @@ models:
     br_inep_ana:
       +materialized: table
       +schema: br_inep_ana
+    br_inep_censo_educacao_superior:
+      +materialized: table
+      +schema: br_inep_censo_educacao_superior
     br_inep_censo_escolar:
       +materialized: table
       +schema: br_inep_censo_escolar
@@ -231,6 +234,9 @@ models:
     br_me_sic:
       +materialized: table
       +schema: br_me_sic
+    br_me_siconfi:
+      +materialized: table
+      +schema: br_me_siconfi
     br_mec_prouni:
       +materialized: table
       +schema: br_mec_prouni
@@ -258,6 +264,9 @@ models:
     br_ms_cnes:
       +materialized: table
       +schema: br_ms_cnes
+    br_ms_pns:
+      +materialized: table
+      +schema: br_ms_pns
     br_ms_sia:
       +materialized: table
       +schema: br_ms_sia
@@ -318,6 +327,9 @@ models:
     mundo_transfermarkt_competicoes_internacionais:
       +materialized: table
       +schema: mundo_transfermarkt_competicoes_internacionais
+    test:
+      +materialized: table
+      +schema: test
     world_ampas_oscar:
       +materialized: table
       +schema: world_ampas_oscar
