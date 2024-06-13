@@ -1,6 +1,6 @@
 {{ config(alias="microdados_2019", schema="br_ms_pns") }}
 select
-    safe_cast(sigla_uf as string) sigla_uf,
+    safe_cast(v0001 as string) sigla_uf,
     safe_cast(v0024 as string) v0024,
     safe_cast(upa_pns as string) upa_pns,
     safe_cast(v0006_pns as string) v0006_pns,
@@ -1024,7 +1024,8 @@ select
     safe_cast(y005 as string) y005,
     safe_cast(y006 as string) y006,
     safe_cast(y007 as string) y007,
-    safe_cast(y008 as string) y008,
+    -- existe no dicionário mas não esta presente nos microdados
+    -- safe_cast(y008 as string) y008,
     safe_cast(h001 as string) h001,
     safe_cast(h002 as string) h002,
     safe_cast(h003 as string) h003,
