@@ -1508,7 +1508,7 @@ select
     safe_cast(microdados_2013.vde002 as string) vde002,
     safe_cast(microdados_2013.vdf002 as int64) vdf002,
     safe_cast(microdados_2013.vdf003 as int64) vdf003,
-    safe_cast(microdados_2013.vddata as string) vddata,
+    safe_cast(safe.parse_date('%Y%m%d', microdados_2013.vddata) as date) vddata
 from
     apply_macros,
     basedosdados - dev.br_ms_pns_staging.microdados_2013 as microdados_2013
