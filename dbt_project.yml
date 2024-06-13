@@ -324,6 +324,9 @@ models:
     mundo_transfermarkt_competicoes_internacionais:
       +materialized: table
       +schema: mundo_transfermarkt_competicoes_internacionais
+    test:
+      +materialized: table
+      +schema: test
     world_ampas_oscar:
       +materialized: table
       +schema: world_ampas_oscar
@@ -338,4 +341,3 @@ models:
       +schema: world_wb_mides
   elementary:
     +schema: elementary
-    +enabled: "{{ env_var('DBT_ELEMENTARY_ENABLED') | as_bool }}"
