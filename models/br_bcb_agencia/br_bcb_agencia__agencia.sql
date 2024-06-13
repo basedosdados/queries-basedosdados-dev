@@ -152,7 +152,7 @@ with
                 when sigla_uf = 'MT' and nome = 'poxoreu'
                 then '5107008'
                 when sigla_uf = 'GO' and nome = 'portolandia'
-                then '5218102 '
+                then '5218102'
                 when sigla_uf = 'TO' and nome = 'alianca do norte'
                 then '1700350'
                 when sigla_uf = 'MA' and nome = 'sao luiz gonzaga maranhao'
@@ -204,7 +204,7 @@ with
         -- os arquivos mensais possuem cabeçalhos e rodapés que variam de posição;
         -- Este filtro remove linhas com valores intereiramente
         -- nulos
-        where fone = '00000nan'
+        where fone != '00000nan'
     )
 
 select
