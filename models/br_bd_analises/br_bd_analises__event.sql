@@ -72,6 +72,26 @@ with
                 from unnest(event_params)
                 where key in ('search_term', 'search')
             ) as search_term,
+            (
+                select value.string_value
+                from unnest(event_params)
+                where key in ('user_register')
+            ) as user_register,
+            (
+                select value.string_value
+                from unnest(event_params)
+                where key in ('category_click')
+            ) as category_click,
+            case
+                when
+                    concat(user_pseudo_id, event_date) in (
+                        select distinct concat(user_pseudo_id, event_date)
+                        from `basedosdados.analytics_295884852.events_*`
+                        where event_name = 'user_login'
+                    )
+                then true
+                else false
+            end as logged_user
         from `basedosdados.analytics_295884852.events_*`
         where is_active_user = true
     )
@@ -111,6 +131,9 @@ select
         else page_referrer_type
     end as page_referrer_type,
     page_referrer,
-    search_term
+    search_term,
+    user_register,
+    logged_user,
+    category_click
 from flat_and_filtered_table
 where page_url like "https://basedosdados.org%"
