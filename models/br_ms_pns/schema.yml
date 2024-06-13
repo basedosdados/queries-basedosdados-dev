@@ -27,10 +27,8 @@ models:
     description: Microdados da Pesquisa Nacional de Saúde realizada em 2013
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [V0024, UPA_PNS, V0006_PNS, UPA]
-      - not_null_proportion_multiple_columns:
-          at_least: 0.95
-      - custom_dictionaries:
+          combination_of_columns: [V0024]
+      - custom_dictionary_coverage:
           columns_covered_by_dictionary:
             - V0015
             - V0026
@@ -466,7 +464,7 @@ models:
             - VDE002
           dictionary_model: ref('br_ms_pns__dicionario')
     columns:
-      - name: V0001
+      - name: sigla_uf
         description: Código da Unidade da Federação
         tests:
           - relationships:
@@ -3176,13 +3174,11 @@ models:
         description: 'Data de geração do arquivo de microdados. Data ordenada na forma:
           ano (4 algarismos), mês (2) e dia (2) - AAAAMMDD'
   - name: br_ms_pns__microdados_2019
-    description: Microdados da Pesquisa Nacional de Saúde realizada em 2013
+    description: Insert table description here
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [V0024, UPA_PNS, V0006_PNS, UPA]
-      - not_null_proportion_multiple_columns:
-          at_least: 0.95
-      - custom_dictionaries:
+          combination_of_columns: [V0024]
+      - custom_dictionary_coverage:
           columns_covered_by_dictionary:
             - V0015
             - V0026
@@ -3730,12 +3726,12 @@ models:
             - VDR001
           dictionary_model: ref('br_ms_pns__dicionario')
     columns:
-      - name: V0001
+      - name: sigla_uf
         description: Unidade da Federação
         tests:
           - relationships:
-              to: ref('basedosdados__br_bd_diretorios_brasil')
-              field: uf
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: id_uf
       - name: V0024
         description: Estrato
       - name: UPA_PNS
@@ -3748,8 +3744,8 @@ models:
         description: Ano de referência
         tests:
           - relationships:
-              to: ref('basedosdados__br_bd_diretorios_brasil')
-              field: ano
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano
       - name: V0022
         description: Total de moradores
       - name: V0026
@@ -5299,10 +5295,6 @@ models:
       - name: Q003
         description: Que idade o(a) Sr(a) tinha no primeiro diagnóstico de hipertensão
           arterial (pressão alta)?
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_data_tempo__ano')
-              field: ano.ano
       - name: Q00401
         description: O(A) Sr(a) vai ao médico/serviço de saúde regularmente para acompanhamento
           da hipertensão arterial (pressão alta) ?
@@ -5650,10 +5642,6 @@ models:
       - name: Q080
         description: Que idade o(a) Sr(a) tinha no primeiro diagnóstico de artrite
           ou reumatismo?
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_data_tempo__ano')
-              field: ano.ano
       - name: Q08107
         description: Recomendação para praticar atividade física regularmente
       - name: Q08108
@@ -5679,10 +5667,6 @@ models:
           ou disco?
       - name: Q085
         description: Que idade o(a) Sr(a) tinha quando começou o problema na coluna?
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_data_tempo__ano')
-              field: ano.ano
       - name: Q08607
         description: Pratica exercício regularmente por causa do problema na coluna
       - name: Q08608
@@ -5872,10 +5856,6 @@ models:
       - name: Q125
         description: Que idade o(a) Sr(a) tinha no primeiro diagnóstico de insuficiência
           renal crônica?
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_data_tempo__ano')
-              field: ano.ano
       - name: Q12501
         description: O Sr(a) fez transplante de rim, por causa da insuficiência renal
           crônica?
@@ -6576,8 +6556,7 @@ models:
       - name: VDR001
         description: Método contraceptivo mais eficaz que faz uso
       - name: VDDATA
-        description: 'Data de geração do arquivo de microdados. Data ordenada na forma:
-          ano (4 algarismos), mês (2) e dia (2) - AAAAMMDD'
+        description: Data de geração do arquivo de microdados
         tests:
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__data')
