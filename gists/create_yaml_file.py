@@ -126,7 +126,8 @@ def update_dbt_project_yaml(dataset_id: str,models_path: str) -> None:
     dbt_project_path = models_path.replace('models','dbt_project.yml')
 
     yaml_obj = yaml.YAML(typ='rt')
-    yaml_obj.indent(mapping=2, sequence=2, offset=1)
+    yaml_obj.explicit_start = True
+    yaml_obj.indent(mapping=2, sequence=2, offset=2)
 
     with open(dbt_project_path, 'r') as file:
         data = yaml_obj.load(file)
