@@ -5,6 +5,7 @@ select
     safe_cast(id_esfera_orcamentaria as string) id_esfera_orcamentaria,
     safe_cast(nome_esfera_orcamentaria as string) nome_esfera_orcamentaria,
     safe_cast(id_natureza_juridica as string) id_natureza_juridica,
+    safe_cast(nome_natureza_juridica as string) nome_natureza_juridica,
     safe_cast(id_resultado_primario as string) id_resultado_primario,
     safe_cast(nome_resultado_primario as string) nome_resultado_primario,
     safe_cast(
