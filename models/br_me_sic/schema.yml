@@ -1,30 +1,6 @@
 ---
 version: 2
 models:
-  - name: br_me_sic__dicionario
-    description: Dicionário para tradução dos códigos do conjunto br_me_sic. Para
-      taduzir códigos compartilhados entre instituições, como id_municipio, buscar
-      por diretórios
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - id_tabela
-            - nome_coluna
-            - chave
-            - cobertura_temporal
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
-    columns:
-      - name: id_tabela
-        description: ID Tabela
-      - name: nome_coluna
-        description: Nome da coluna
-      - name: chave
-        description: Chave
-      - name: cobertura_temporal
-        description: Cobertura Temporal
-      - name: valor
-        description: Valor
   - name: br_me_sic__transferencia
     description: A tabela contém dados sobre custos com transferências a estados e
       municípios do Governo Federal. Por meio desses dados é possível estudar, por
@@ -52,6 +28,8 @@ models:
         description: Nome da esfera orçamentária do custo
       - name: id_natureza_juridica
         description: Código da natureza jurídica do Órgão
+      - name: nome_natureza_juridica
+        description: Nome da natureza jurídica do Órgão
       - name: id_resultado_primario
         description: Código da classificação da despesa orçamentária por indicador
           de resultado primário
