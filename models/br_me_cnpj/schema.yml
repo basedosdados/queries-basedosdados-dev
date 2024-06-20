@@ -19,6 +19,9 @@ models:
         tests: [is_row_count_increasing]
       - name: cnpj_basico
         description: CNPJ Básico
+        tests: [not_null]
+        config:
+          where: __most_recent_date__
       - name: razao_social
         description: Razão Social
       - name: natureza_juridica
