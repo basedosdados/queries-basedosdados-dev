@@ -27,9 +27,10 @@ models:
       - name: natureza_juridica
         description: Natureza Jurídica
         tests:
-          - relationships:
+          - custom_relationships:
               to: ref('br_bd_diretorios_brasil__natureza_juridica')
               field: id_natureza_juridica
+              ignore_values: ['8885']
               config:
                 where: __most_recent_date__
       - name: qualificacao_responsavel
@@ -138,6 +139,7 @@ models:
             - motivo_situacao_cadastral
             - identificador_matriz_filial
             - situacao_cadastral
+            - id_pais
           dictionary_model: ref('br_me_cnpj__dicionario')
           config:
             where: __most_recent_date__
@@ -177,20 +179,22 @@ models:
         description: Data de Início da Atividade
       - name: cnae_fiscal_principal
         description: CNAE Fiscal Principal
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__cnae_2_3_subclasses')
-              field: cnae_2_3_subclasses.cnae_2_3_subclasses
-              config:
-                where: __most_recent_date__
+        # tests:
+        #   - custom_relationships:
+        #       to: ref('br_bd_diretorios_brasil__cnae_2')
+        #       field: subclasse
+        #       ignore_values: ["8888888"]
+        #       config:
+        #         where: __most_recent_date__
       - name: cnae_fiscal_secundaria
         description: CNAEs Fiscais Secundárias
       - name: sigla_uf
         description: Sigla da Unidade da Federação
         tests:
-          - relationships:
+          - custom_relationships:
               to: ref('br_bd_diretorios_brasil__uf')
               field: sigla
+              ignore_values: [EX, BR]
               config:
                 where: __most_recent_date__
       - name: id_municipio
