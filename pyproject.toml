@@ -23,10 +23,11 @@ pyyaml = "^6.0"
 gspread = "^5.3.0"
 requests = "^2.27.1"
 openpyxl = "^3.0.9"
-ruamel-yaml = "^0.17.21"
+ruamel-yaml = "^0.18.6"
 markdown = "^3.3.6"
-basedosdados = {version = "2.0.0b13", extras = ["upload"]}
+basedosdados = {version = "2.0.0-beta.16", extras = ["upload"]}
 pandas = "^2.2.2"
+databasers-utils = {git = "https://github.com/basedosdados/databasers-utils.git"}
 
 [tool.poetry.group.caged.dependencies]
 unidecode = "^1.3.8"
