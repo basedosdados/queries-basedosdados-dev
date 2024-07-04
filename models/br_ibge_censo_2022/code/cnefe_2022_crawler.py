@@ -49,7 +49,7 @@ def process_sp_file(file: BytesIO) -> None:
 
     with zipfile.ZipFile(file) as z:
         with z.open(z.namelist()[0]) as f:
-            for chunk in pd.read_csv(f, chunksize=1000000):
+            for chunk in pd.read_csv(f, chunksize=1000000, sep=';', dtype=str):
                 chunk_number += 1
                 chunk.to_parquet(os.path.join(output_dir, f"SP_chunk_{chunk_number}.parquet"), compression="gzip")
                 print(f"Chunk {chunk_number} de SP salvo com sucesso.")
@@ -67,7 +67,7 @@ def unzip_file_in_session(file: BytesIO) -> pd.DataFrame:
     """
     with zipfile.ZipFile(file) as z:
         with z.open(z.namelist()[0]) as f:
-            df = pd.read_csv(f)
+            df = pd.read_csv(f,sep=';', dtype=str)
     return df
 
 # Função para salvar o DataFrame em formato parquet com compressão gzip
