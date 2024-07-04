@@ -1254,12 +1254,10 @@ models:
       para o ano de 2022.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [insert unique keys here]
-      - not_null_proportion_multiple_columns:
-          at_least: 0.95
-      - custom_dictionaries:
+          combination_of_columns: [id_endereco, tipo_especie]
+      - custom_dictionary_coverage:
           columns_covered_by_dictionary:
-            - nivel_geocodificacao
+            - nivel_geocodificacao_coordenadas
             - tipo_especie
             - tipo_estabelecimento
             - tipo_construcao
@@ -1267,12 +1265,12 @@ models:
             - tipo_edificacao_domicilio
           dictionary_model: ref('br_ibge_censo_2022__dicionario')
     columns:
-      - name: id_uf
+      - name: sigla_uf
         description: ID da Unidade da Federação
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__uf')
-              field: id_uf
+              field: sigla
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
@@ -1285,12 +1283,13 @@ models:
         description: ID do Subdistrito
       - name: id_setor_censitario
         description: ID do Setor Censitário
+        tests: [not_null]
       - name: cep
         description: CEP
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__cep')
-              field: cep.cep
+        tests: [not_null]
+      - name: id_endereco
+        description: Identificador do endereço
+        tests: [not_null]
       - name: numero_quadra
         description: Número da quadra
       - name: numero_face
