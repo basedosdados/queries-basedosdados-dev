@@ -36,14 +36,14 @@ def download_files_from_ftp(url: str) -> BytesIO:
     return file_data
 
 # Função para descompactar e processar o arquivo de São Paulo (SP) em chunks
-def process_sp_file(file: BytesIO) -> None:
+def process_sp_file(file: BytesIO, uf:str) -> None:
     """
     Descompacta, processa e salva o arquivo de São Paulo (SP) em chunks.
 
     Parâmetros:
     file (BytesIO): Conteúdo do arquivo ZIP em memória.
     """
-    output_dir = f"/tmp/br_ibge_censo_2022/output/sigla_uf=SP"
+    output_dir = f"/tmp/br_ibge_censo_2022/output/sigla_uf={uf}"
     os.makedirs(output_dir, exist_ok=True)
     chunk_number = 0
 
@@ -51,8 +51,8 @@ def process_sp_file(file: BytesIO) -> None:
         with z.open(z.namelist()[0]) as f:
             for chunk in pd.read_csv(f, chunksize=1000000, sep=';', dtype=str):
                 chunk_number += 1
-                chunk.to_parquet(os.path.join(output_dir, f"SP_chunk_{chunk_number}.parquet"), compression="gzip")
-                print(f"Chunk {chunk_number} de SP salvo com sucesso.")
+                chunk.to_parquet(os.path.join(output_dir, f"{uf}_chunk_{chunk_number}.parquet"), compression="gzip")
+                print(f"Chunk {chunk_number} de {uf} salvo com sucesso.")
 
 # Função para descompactar o arquivo na sessão
 def unzip_file_in_session(file: BytesIO) -> pd.DataFrame:
@@ -92,8 +92,8 @@ for uf, filename in CNEFE_FILE_NAMES.items():
 
     try:
         zip_file = download_files_from_ftp(url)
-        if uf == 'SP':
-            process_sp_file(zip_file)
+        if uf in ['SP', 'RJ', 'MG', 'BA', 'RS']:
+            process_sp_file(zip_file, uf)
         else:
             df = unzip_file_in_session(zip_file)
             save_parquet(df, mkdir=True, table_id=uf)
