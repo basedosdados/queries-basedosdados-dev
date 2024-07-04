@@ -1,18 +1,23 @@
 {{
-    config(alias="cadastro_enderecos", schema="br_ibge_censo_2022")
-    partition_by={
-            "field": "id_uf",
+    config(
+        alias="cadastro_enderecos",
+        schema="br_ibge_censo_2022",
+        partition_by={
+            "field": "sigla_uf",
             "data_type": "string",
         },
-    cluster_by=["id_municipio"],
-    }}
+        cluster_by=["id_municipio"],
+    )
+}}
+
 select
-    safe_cast(cod_uf as string) id_uf,
+    safe_cast(sigla_uf as string) sigla_uf,
     safe_cast(cod_municipio as string) id_municipio,
     safe_cast(cod_distrito as string) id_distrito,
     safe_cast(cod_subdistrito as string) id_subdistrito,
     safe_cast(cod_setor as string) id_setor_censitario,
     safe_cast(cep as string) cep,
+    safe_cast(cod_unico_endereco as string) id_endereco,
     safe_cast(num_quadra as string) numero_quadra,
     safe_cast(num_face as string) numero_face,
     safe_cast(dsc_localidade as string) localidade,
@@ -33,12 +38,12 @@ select
     safe_cast(val_comp_elem5 as string) complemento_valor_5,
     safe_cast(latitude as string) latitude,
     safe_cast(longitude as string) longitude,
-    st_geogpoint(safe_cast(longitude as float64), safe_cast(latitude as float64)) ponto
+    st_geogpoint(safe_cast(longitude as float64), safe_cast(latitude as float64)) ponto,
     safe_cast(nv_geo_coord as string) nivel_geocodificacao_coordenadas,
     safe_cast(dsc_estabelecimento as string) descricao_estabelecimento,
     safe_cast(cod_especie as string) tipo_especie,
     safe_cast(cod_indicador_estab_endereco as string) tipo_estabelecimento,
     safe_cast(cod_indicador_const_endereco as string) tipo_construcao,
     safe_cast(cod_indicador_finalidade_const as string) tipo_finalidade_construcao,
-    safe_cast(cod_tipo_especie as string) tipo_edificacao_domicilio,
+    safe_cast(cod_tipo_especi as string) tipo_edificacao_domicilio,
 from `basedosdados-dev.br_ibge_censo_2022_staging.cadastro_enderecos` as t
