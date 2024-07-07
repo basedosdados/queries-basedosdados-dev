@@ -3,6 +3,10 @@ version: 2
 models:
   - name: br_bd_diretorios_data_tempo__ano
     description: Diretório de ano
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          tags: [diretorio_tempo]
+          combination_of_columns: [ano]
     columns:
       - name: ano
         description: Ano
@@ -10,6 +14,10 @@ models:
         description: Indica se é um ano bissexto
   - name: br_bd_diretorios_data_tempo__data
     description: Diretório de data no formato YYYY-MM-DD do ISO-8601.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          tags: [diretorio_tempo]
+          combination_of_columns: [data]
     columns:
       - name: data
         description: Data
