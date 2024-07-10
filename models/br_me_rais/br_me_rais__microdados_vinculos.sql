@@ -26,6 +26,7 @@ select
     safe_cast(causa_desligamento_2 as string) causa_desligamento_2,
     safe_cast(causa_desligamento_3 as string) causa_desligamento_3,
     safe_cast(faixa_tempo_emprego as string) faixa_tempo_emprego,
+    safe_cast(faixa_horas_contratadas as string) faixa_horas_contratadas,
     safe_cast(tempo_emprego as float64) tempo_emprego,
     safe_cast(quantidade_horas_contratadas as int64) quantidade_horas_contratadas,
     safe_cast(id_municipio_trabalho as string) id_municipio_trabalho,
@@ -35,7 +36,7 @@ select
     safe_cast(
         indicador_trabalho_intermitente as string
     ) indicador_trabalho_intermitente,
-    safe_cast(faixa_remuneracao_media_sm as string) faixa_remuneracao_media_sm
+    safe_cast(faixa_remuneracao_media_sm as string) faixa_remuneracao_media_sm,
     safe_cast(valor_remuneracao_media_sm as float64) valor_remuneracao_media_sm,
     safe_cast(valor_remuneracao_media as float64) valor_remuneracao_media,
     safe_cast(faixa_remuneracao_dezembro_sm as string) faixa_remuneracao_dezembro_sm,
@@ -94,4 +95,5 @@ select
     cast(
         cast(regexp_replace(regioes_administrativas_df, r'^0+', '') as int64) as string
     ) as regioes_administrativas_df,
-from basedosdados - dev.br_me_rais_staging.microdados_vinculos as t
+from basedosdados - dev.br_me_rais_staging.microdados_vinculos
+where ano in (2010, 2020)

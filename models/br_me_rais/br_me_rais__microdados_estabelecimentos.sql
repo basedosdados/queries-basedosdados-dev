@@ -46,7 +46,7 @@ select
     end as bairros_sp,
     cast(regexp_replace(distritos_sp, r'^0+', '') as string) as distritos_sp,
     cast(regexp_replace(bairros_fortaleza, r'^0+', '') as string) as bairros_fortaleza,
-    trim(cast(regexp_replace(bairros_rj, r'^0+', '') as string)) as bairros_rj,
+    nullif(cast(regexp_replace(bairros_rj, r'^0+', '') as string), '') as bairros_rj,
     cast(
         regexp_replace(regioes_administrativas_df, r'^0+', '') as string
     ) as regioes_administrativas_df
