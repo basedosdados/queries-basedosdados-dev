@@ -23,14 +23,14 @@ models:
         description: Ano
         tests:
           - relationships:
-              to: ref('br_bd_diretorios_data_tempo__data')
-              field: ano
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano
       - name: mes
         description: Mês
         tests:
           - relationships:
-              to: ref('br_bd_diretorios_data_tempo__data')
-              field: mes
+              to: ref('br_bd_diretorios_data_tempo__mes')
+              field: mes.mes
       - name: sigla_uf
         description: Sigla da Unidade da Federação
         tests:
