@@ -50,4 +50,4 @@ select
     cast(
         regexp_replace(regioes_administrativas_df, r'^0+', '') as string
     ) as regioes_administrativas_df
-from basedosdados - dev.br_me_rais_staging.microdados_estabelecimentos as t
+from `basedosdados-dev.br_me_rais_staging.microdados_estabelecimentos` as t

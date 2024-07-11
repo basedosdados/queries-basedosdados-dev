@@ -76,9 +76,10 @@ models:
       - name: sigla_uf
         description: Sigla da Unidade da Federação
         tests:
-          - relationships:
+          - custom_relationships:
               to: ref('br_bd_diretorios_brasil__uf')
               field: sigla
+              ignore_values: [IGNORADO]
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
         tests:
@@ -212,10 +213,6 @@ models:
               ignore_values: ['22292']
       - name: cnae_2
         description: Classificação Nacional de Atividades Econômicas (CNAE) 2.0
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__cnae_2')
-              field: cnae_2.cnae_2
       - name: cnae_2_subclasse
         description: Classificação Nacional de Atividades Econômicas (CNAE) 2.0 Subclasse
         tests:
@@ -242,9 +239,9 @@ models:
         description: Regiões Administrativas no Distrito Federal
   - name: br_me_rais__microdados_estabelecimentos
     description: Microdados de estabelecimentos da RAIS.
-    tests:
+    tests:  # A coluna natureza_estabelecimento é referente apenas ao ano de 1994, por isso, há poucas linhas preenchidas.
       - custom_dictionary_coverage:
-          columns_covered_by_dictionary:  # colunas que precisam ser testadas
+          columns_covered_by_dictionary:
             - bairros_rj
             - distritos_sp
             - subsetor_ibge
@@ -254,7 +251,7 @@ models:
             - tamanho_estabelecimento
             - tipo_estabelecimento
             - natureza_estabelecimento
-          dictionary_model: ref('br_me_rais__dicionario')  # dicionário que deve ser usado no teste
+          dictionary_model: ref('br_me_rais__dicionario')
     columns:
       - name: ano
         description: Ano
@@ -306,7 +303,7 @@ models:
           - custom_relationships:
               to: ref('br_bd_diretorios_brasil__cnae_1')
               field: cnae_1.cnae_1
-              ignore_values:
+              ignore_values:  # cnae desativada : http://pdet.mte.gov.br/o-programa/tabelas-de-classificacao/nivel-setorial/atualizacoes-realizadas-cnae-95-cnae-1-0
                 - '0000'
                 - '22292'
                 - '22128'
@@ -345,15 +342,23 @@ models:
                 - '80110'
                 - '40100'
                 - '80306'
-              proportion_allowed_failures: 0.2
       - name: cnae_2
         description: Código Nacional de Atividades Econômicas 2.
       - name: cnae_2_subclasse
         description: Subclasse do Código Nacional de Atividades Econômicas 2.0
+        tests:
+          - custom_relationships:
+              to: ref('br_bd_diretorios_brasil__cnae_2')
+              field: subclasse
+              ignore_values: ['9999997', 00000-1, '8630505', '3312101', '9999999']  # cnae excluídas: https://www.lefisc.com.br/dim/plantoes/22-07-2020/Decreto10410.htm
       - name: subsetor_ibge
         description: Subsetor IBGE
       - name: subatividade_ibge
         description: Subatividade IBGE
+        tests:
+          - custom_relationships:
+              to: ref('br_bd_diretorios_brasil__subatividade_ibge')
+              field: id_subatividade
       - name: cep
         description: Código de Endereçamento Postal
       - name: bairros_sp

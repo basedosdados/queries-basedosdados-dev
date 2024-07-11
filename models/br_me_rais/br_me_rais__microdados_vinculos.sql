@@ -53,7 +53,9 @@ select
     safe_cast(valor_remuneracao_outubro as float64) valor_remuneracao_outubro,
     safe_cast(valor_remuneracao_novembro as float64) valor_remuneracao_novembro,
     safe_cast(valor_remuneracao_dezembro as float64) valor_remuneracao_dezembro,
-    safe_cast(tipo_salario as string) tipo_salario,
+    cast(
+        cast(regexp_replace(tipo_salario, r'^0+', '') as int64) as string
+    ) as tipo_salario,
     safe_cast(valor_salario_contratual as float64) valor_salario_contratual,
     safe_cast(subatividade_ibge as string) subatividade_ibge,
     cast(
@@ -95,5 +97,4 @@ select
     cast(
         cast(regexp_replace(regioes_administrativas_df, r'^0+', '') as int64) as string
     ) as regioes_administrativas_df,
-from basedosdados - dev.br_me_rais_staging.microdados_vinculos
-where ano in (2010, 2020)
+from `basedosdados-dev.br_me_rais_staging.microdados_vinculos`
