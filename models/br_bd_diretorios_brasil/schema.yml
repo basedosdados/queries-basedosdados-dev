@@ -775,6 +775,10 @@ models:
       - not_null_proportion_multiple_columns:
           at_least: 0.95
     columns:
+      - name: subclasse
+        description: Subclasse da CNAE
+      - name: descricao_subclasse
+        description: Descrição da subclasse da CNAE
       - name: secao
         description: Seção da Classificação de Atividades Econômicas (CNAE)
       - name: descricao_secao
@@ -791,10 +795,6 @@ models:
         description: Classe da CNAE
       - name: descricao_classe
         description: Descrição da classe
-      - name: subclasse
-        description: Subclasse da CNAE
-      - name: descricao_subclasse
-        description: Descrição da subclasse da CNAE
       - name: indicador_cnae_2_0
         description: Indica se o código está presente na CNAE 2.0
       - name: indicador_cnae_2_1

@@ -1,11 +1,57 @@
 import pandas as pd
-#download files from #insert link
+#linka nome das versoes com nome dos arquivos baixados de :https://concla.ibge.gov.br/classificacoes/download-concla.html
 files = {
     'cnae_2_3' : 'CNAE_Subclasses_2_3_Estrutura_Detalhada.xlsx',
     'cnae_2_2' : 'subclasses-cnae-2-2-estrutura.xls',
     'cnae_2_1' : 'cnae21_estrutura_detalhada.xls',
     'cnae_2_0' : 'CNAE20_Subclasses_EstruturaDetalhada.xls',
 }
+
+#mapeia o range de subclasses que cada seção aceita para fazer uma verificação no resultado final
+mapping_secoes_range = {
+    'A': range(1, 4),
+    'B': range(5, 10),
+    'C': range(10, 40),
+    'D': range(35, 36),
+    'E': range(36, 40),
+    'F': range(41, 44),
+    'G': range(45, 48),
+    'H': range(49, 54),
+    'I': range(55, 57),
+    'J': range(58, 64),
+    'K': range(64, 67),
+    'L': range(68, 69),
+    'M': range(69, 76),
+    'N': range(77, 83),
+    'O': range(84, 85),
+    'P': range(85, 86),
+    'Q': range(86, 89),
+    'R': range(90, 94),
+    'S': range(94, 97),
+    'T': range(97, 98),
+    'U': range(99, 100)
+}
+
+#define funções
+def filtrar_por_secao(df):
+    """
+    Filtra o DataFrame removendo linhas que possuem subclasses que não pertencem à seção correta.
+
+    Args:
+        df (pd.DataFrame): DataFrame com as colunas 'secao' e 'subclasse'.
+
+    Returns:
+        pd.DataFrame: DataFrame filtrado.
+    """
+    def validar_linha(row):
+        secao = row['secao']
+        subclasse = int(row['subclasse'][:2])
+        if secao in mapping_secoes_range:
+            return subclasse in mapping_secoes_range[secao]
+        return False
+
+    return df[df.apply(validar_linha, axis=1)]
+
 
 def carregar_arquivo_excel(caminho_arquivo):
     """
@@ -99,7 +145,8 @@ def extrair_subclasse(df_input):
     return subclasse
 
 def limpar_e_preparar_df(df_input):
-    """Limpa e prepara o DataFrame."""
+    """Limpa e prepara o DataFrame.A partir das subclasses são criados as divisões, grupos e classes"""
+
     df = df_input[(df_input['Seção'].apply(lambda x: len(str(x)) == 1)) | (df_input['Seção'].isna())]
     df = df[['Seção', 'Subclasse']].rename(columns={'Seção': 'secao', 'Subclasse': 'subclasse'})
     df = df.fillna(method='ffill')
@@ -109,6 +156,10 @@ def limpar_e_preparar_df(df_input):
     df['divisao'] = df['subclasse'].str[:2]
     df['grupo'] = df['subclasse'].str[:3]
     df['classe'] = df['subclasse'].str[:5]
+
+    # Filtrar por seção
+    df = filtrar_por_secao(df)
+
     return df
 
 
@@ -148,15 +199,20 @@ def processar_cnae(files):
         xls = carregar_arquivo_excel(caminho)
         df_input = extrair_folha(xls, nome_folha=0)
         secao = extrair_secao(df_input)
+        print(secao.groupby('secao').filter(lambda x: len(x) > 1).count())
         divisao = extrair_divisao(df_input)
         grupo = extrair_grupo(df_input)
         classe = extrair_classe(df_input)
         subclasse = extrair_subclasse(df_input)
+        print(f'----- antes de preparar {subclasse.shape}')
         df = limpar_e_preparar_df(df_input)
+        print(df.shape)
         df = mesclar_dataframes(df, secao, divisao, grupo, classe, subclasse)
+        print(df.shape)
         df = adicionar_versao_cnae(df, versao)
+        print(df.shape)
         df_concatenado = pd.concat([df_concatenado, df], ignore_index=True)
-
+        print(df.shape)
     versoes = files.keys()
     df_indicadores = criar_dataframe_indicadores(df_concatenado, versoes)
     df_final = df_concatenado.merge(df_indicadores, on='subclasse', how='left')
@@ -166,14 +222,11 @@ def processar_cnae(files):
 def main(files, nome_arquivo_saida):
     """Função principal que orquestra o processo de extração e transformação dos dados."""
     df_final = processar_cnae(files)
+    df_final.drop('versao_cnae', axis=1, inplace=True)
+    df_final.drop_duplicates(subset=['subclasse'], inplace=True)
     salvar_para_csv(df_final, nome_arquivo_saida)
 
+#Gera arquivo único na estrutura final
 if __name__ == "__main__":
-    files = {
-        'cnae_2_3' : 'code/CNAE_Subclasses_2_3_Estrutura_Detalhada.xlsx',
-        'cnae_2_2' : 'code/subclasses-cnae-2-2-estrutura.xls',
-        'cnae_2_1' : 'code/cnae21_estrutura_detalhada.xls',
-        'cnae_2_0' : 'code/CNAE20_Subclasses_EstruturaDetalhada.xls',
-    }
     nome_arquivo_saida = 'cnae_2.csv'
     main(files, nome_arquivo_saida)
