@@ -77,6 +77,7 @@ models:
         description: Sigla da Unidade da Federação
         tests:
           - custom_relationships:
+              tags: [uf]
               to: ref('br_bd_diretorios_brasil__uf')
               field: sigla
               ignore_values: [IGNORADO]
@@ -175,6 +176,24 @@ models:
       - name: cbo_1994
         description: Classificação Brasileira de Ocupações (CBO) 1994
       - name: cbo_2002
+        tests:
+          - custom_relationships:
+              to: ref('br_bd_diretorios_brasil__cbo_2002')
+              field: cbo_2002.cbo_2002
+              ignore_values:  # Não constam aqui: extension://efaidnbmnnnibpcajpcglclefindmkaj/https://portalfat.mte.gov.br/wp-content/uploads/2016/04/CBO2002_Liv3.pdf
+                - '261725'
+                - '782721'
+                - '223162'
+                - '314605'
+                - '516140'
+                - '999999'
+                - '322310'
+                - '991416'
+                - '842305'
+                - '223610'
+                - '342525'
+                - '{ñ cla'
+                - '722225'
         description: Classificação Brasileira de Ocupações (CBO) 2002
       - name: faixa_etaria
         description: Faixa Etária
