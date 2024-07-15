@@ -80,6 +80,11 @@ with
             (
                 select value.string_value
                 from unnest(event_params)
+                where key = 'session_engaged'
+            ) as session_engaged,
+            (
+                select value.string_value
+                from unnest(event_params)
                 where key in ('category_click')
             ) as category_click,
             case
@@ -102,6 +107,7 @@ select
     parse_date("%Y%m%d", event_date) as event_date,
     event_timestamp,
     session_id,
+    session_engaged,
     case
         when regexp_contains(page_url, r'https:\/\/basedosdados.org\/(\w+)\?')
         then 'dataset_search'
