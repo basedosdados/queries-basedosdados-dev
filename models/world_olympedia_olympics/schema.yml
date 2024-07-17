@@ -137,8 +137,6 @@ models:
           game url
       - name: sport
         description: Sport for the event
-      - name: sport_url
-        description: Url for the sport (higher umbrella) to the actual event
       - name: result_date
         description: Start date of the event
       - name: result_location

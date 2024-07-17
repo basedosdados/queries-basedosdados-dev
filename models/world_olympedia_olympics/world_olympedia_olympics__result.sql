@@ -5,7 +5,6 @@ select
     safe_cast(edition as string) edition,
     safe_cast(edition_id as string) edition_id,
     safe_cast(sport as string) sport,
-    safe_cast(sport_url as string) sport_url,
     safe_cast(result_date as string) result_date,
     safe_cast(result_location as string) result_location,
     safe_cast(result_participants as string) result_participants,
