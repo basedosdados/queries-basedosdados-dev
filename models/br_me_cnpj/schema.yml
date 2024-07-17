@@ -179,13 +179,13 @@ models:
         description: Data de Início da Atividade
       - name: cnae_fiscal_principal
         description: CNAE Fiscal Principal
-        # tests:
-        #   - custom_relationships:
-        #       to: ref('br_bd_diretorios_brasil__cnae_2')
-        #       field: subclasse
-        #       ignore_values: ["8888888"]
-        #       config:
-        #         where: __most_recent_date__
+        tests:
+          - custom_relationships:
+              to: ref('br_bd_diretorios_brasil__cnae_2')
+              field: subclasse
+              ignore_values: ['8888888']
+              config:
+                where: __most_recent_date__
       - name: cnae_fiscal_secundaria
         description: CNAEs Fiscais Secundárias
       - name: sigla_uf
