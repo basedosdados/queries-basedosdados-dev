@@ -216,6 +216,9 @@ models:
     br_ipea_avs:
       +materialized: table
       +schema: br_ipea_avs
+    br_mdr_snis:
+      +materialized: table
+      +schema: br_mdr_snis
     br_me_caged:
       +materialized: table
       +schema: br_me_caged
@@ -282,6 +285,9 @@ models:
     br_ms_sinasc:
       +materialized: table
       +schema: br_ms_sinasc
+    br_ms_sisvan:
+      +materialized: table
+      +schema: br_ms_sisvan
     br_ms_vacinacao_covid19:
       +materialized: table
       +schema: br_ms_vacinacao_covid19

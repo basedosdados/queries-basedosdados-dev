@@ -4,6 +4,10 @@ models:
   - name: br_bd_diretorios_mundo__pais
     description: A tabela contém dados com identificadores dos países segundo instituições
       internacionais, além de siglas e os nomes
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          tags: [mundo]
+          combination_of_columns: [sigla_pais_iso3]
     columns:
       - name: id_pais_m49
         description: ID País - M49/PNUD
@@ -33,6 +37,7 @@ models:
       um sistema único mundial de designação e de codificação de mercadorias.
     tests:
       - dbt_utils.unique_combination_of_columns:
+          tags: [mundo]
           combination_of_columns: [id_sh6]
       - not_null_proportion_multiple_columns:
           at_least: 0.99
@@ -79,6 +84,7 @@ models:
       código numérico para uma dada mercadoria.
     tests:
       - dbt_utils.unique_combination_of_columns:
+          tags: [mundo]
           combination_of_columns: [id_ncm]
       - not_null_proportion_multiple_columns:
           at_least: 0.99
@@ -120,3 +126,19 @@ models:
         description: Descrição do id_ncm em espanhol
       - name: nome_ncm_ingles
         description: Descrição do id_ncm em inglês
+  - name: br_bd_diretorios_mundo__continente
+    description: Dados com identificadores dos continentes segundo instituições internacionais,
+      além de siglas e os nomes.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          tags: [mundo]
+          combination_of_columns: [sigla]
+      - not_null_proportion_multiple_columns:
+          at_least: 0.99
+    columns:
+      - name: sigla
+        description: Sigla
+      - name: nome_pt
+        description: Nome (português)
+      - name: nome_en
+        description: Nome (inglês)

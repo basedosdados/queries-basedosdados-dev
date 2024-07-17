@@ -1,18 +1,32 @@
 ---
 version: 2
 models:
-  - name: iptu
+  - name: br_sp_saopaulo_geosampa_iptu__iptu
     description: O Geosampa disponibiliza a base completa do cadastro imobiliário
       fiscal relativo ao IPTU (Imposto Predial e Territorial Urbano) da cidade. São
       mais de 3 milhões de registros e 120 Mb de informações sobre os imóveis de São
       Paulo.
+    tests:
+      - not_null_proportion_multiple_columns:
+          at_least: 0.35
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [ano, numero_contribuinte]
     columns:
       - name: ano
         description: Ano
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano
       - name: data_cadastramento
         description: Data do Cadastramento
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: numero_contribuinte
         description: Número do contribuinte do iptu
+        tests: [not_null]
       - name: numero_notificacao
         description: Número da notificação de lançamento (NL)
       - name: numero_condominio
@@ -21,7 +35,7 @@ models:
         description: Logradouro
       - name: numero_imovel
         description: Número do Imóvel
-      - name: cep
+      - name: cep  # Há muito valores de cep que não batem.
         description: Número do CEP
       - name: complemento
         description: Complemento do endereço
