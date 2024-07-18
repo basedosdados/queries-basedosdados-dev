@@ -7,8 +7,7 @@
 }}
 
 select
-    safe_cast(ano as int64) ano,
-    safe_cast(id_distrito as string) id_distrito,
+    safe_cast(as string) id_distrito,
     safe_cast(nome as string) nome,
     safe_cast(id_municipio as string) id_municipio,
     safe_cast(sigla_uf as string) sigla_uf
