@@ -26,6 +26,7 @@ select
     safe_cast(id_campus as string) as id_campus,
     safe_cast(campus as string) as campus,
     safe_cast(id_curso as string) as id_curso,
+    safe_cast(nome_curso as string) as nome_curso,
     safe_cast(turno as string) as turno,
     safe_cast(periodicidade as string) as periodicidade,
     safe_cast(tipo_cota as string) as tipo_cota,
