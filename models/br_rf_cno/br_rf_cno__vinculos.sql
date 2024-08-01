@@ -1,4 +1,4 @@
-{{ config(alias="vinculos", schema="br_rf_cno") }}
+{{ config(alias="vinculos", schema="br_rf_cno", materialized="table") }}
 
 
 select

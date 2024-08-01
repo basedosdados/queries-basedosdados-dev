@@ -1,4 +1,4 @@
-{{ config(alias="microdados", schema="br_rf_cno") }}
+{{ config(alias="microdados", schema="br_rf_cno", materialized="table") }}
 
 select
     safe_cast(data_situacao as date) data_situacao,

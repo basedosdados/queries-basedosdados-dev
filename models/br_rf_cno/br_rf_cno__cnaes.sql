@@ -1,4 +1,4 @@
-{{ config(alias="cnaes", schema="br_rf_cno") }}
+{{ config(alias="cnaes", schema="br_rf_cno", materialized="table") }}
 select
     safe_cast(data_registro as date) data_registro,
     safe_cast(id_cno as string) id_cno,
