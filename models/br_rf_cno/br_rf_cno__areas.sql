@@ -1,4 +1,10 @@
-{{ config(alias="areas", schema="br_rf_cno") }}
+{{
+    config(
+        alias="areas",
+        schema="br_rf_cno",
+        materialized="table",
+    )
+}}
 
 select
     safe_cast(id_cno as string) id_cno,
