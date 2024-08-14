@@ -32,6 +32,8 @@ models:
   - name: br_tse_eleicoes__candidatos
     description: Dados de candidatos em eleições brasileiras.
     tests:
+      - not_null_proportion_multiple_columns:
+          at_least: 0.05
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - ano
