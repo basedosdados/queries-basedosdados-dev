@@ -32,17 +32,18 @@ models:
   - name: br_tse_eleicoes__candidatos
     description: Dados de candidatos em eleições brasileiras.
     tests:
+      - not_null_proportion_multiple_columns:
+          at_least: 0.05
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - ano
+            - id_eleicao
             - sigla_uf
             - id_municipio_tse
             - sequencial
             - numero
             - cpf
             - id_candidato_bd
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
     columns:
       - name: ano
         description: Ano
@@ -54,8 +55,26 @@ models:
         description: Cargo
       - name: cpf
         description: CPF
+      - name: data_eleicao
+        description: Data da eleição
       - name: data_nascimento
         description: Data de nascimento
+        tests:
+          - custom_relationships:
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
+              ignore_values:
+                - '9564-06-17'
+                - '5195-06-20'
+                - '9555-01-15'
+                - '6196-10-02'
+                - '7194-10-30'
+                - '5454-10-09'
+                - '6197-10-02'
+                - '9158-09-24'
+                - '7197-04-17'
+                - '9161-11-09'
+                - '7953-09-05'
       - name: email
         description: Email
       - name: estado_civil
@@ -66,6 +85,8 @@ models:
         description: Idade
       - name: id_candidato_bd
         description: ID Candidato - Base dos Dados
+      - name: id_eleicao
+        description: ID Eleição
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
         tests:
