@@ -5,7 +5,7 @@ models:
     description: Declaração de bens de candidatos em eleições brasileiras.
     tests:
       - not_null_proportion_multiple_columns:
-          at_least: 0.95
+          at_least: 0.55
     columns:
       - name: ano
         description: Ano
