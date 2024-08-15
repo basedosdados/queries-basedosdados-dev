@@ -5,7 +5,7 @@ models:
     description: Declaração de bens de candidatos em eleições brasileiras.
     tests:
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: ano
         description: Ano
@@ -13,22 +13,30 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__ano')
               field: ano.ano
+      - name: data_eleicao
+        description: Data da eleição
       - name: descricao_item
-        description: Descrição do Item
+        description: Descrição do item
       - name: id_candidato_bd
         description: ID Candidato - Base dos Dados
+      - name: id_eleicao
+        description: ID Eleição
       - name: id_tipo_item
         description: ID Tipo Item
       - name: sequencial_candidato
         description: Sequencial do Candidato
       - name: sigla_uf
         description: Sigla da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
       - name: tipo_eleicao
-        description: Tipo da Eleição
+        description: Tipo da eleição
       - name: tipo_item
-        description: Tipo Item
+        description: Tipo do item
       - name: valor_item
-        description: Valor do Item
+        description: Valor do item
   - name: br_tse_eleicoes__candidatos
     description: Dados de candidatos em eleições brasileiras.
     tests:
