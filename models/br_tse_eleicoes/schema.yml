@@ -154,9 +154,6 @@ models:
         description: Título eleitoral
   - name: br_tse_eleicoes__despesas_candidato
     description: Dados de despesas em campanhas eleitorais a nível de despesa.
-    tests:
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
     columns:
       - name: ano
         description: Ano
@@ -170,6 +167,10 @@ models:
         description: Cargo do fornecedor
       - name: cnae_2_fornecedor
         description: Classificação Nacional de Atividades Econômicas 2.0 do fornecedor
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__cnae_2')
+              field: cnae_2.classe
       - name: cnpj_candidato
         description: CNPJ do candidato
       - name: cnpj_prestador_contas
@@ -182,8 +183,22 @@ models:
         description: CPF do vice ou suplente
       - name: data_despesa
         description: Data da despesa
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
+      - name: data_eleicao
+        description: Data da eleição
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: data_prestacao_contas
         description: Data de prestação de contas
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: descricao_cnae_2_fornecedor
         description: Descrição da Classificação Nacional de Atividades Econômicas
           2.0 do fornecedor
@@ -197,12 +212,28 @@ models:
         description: Fonte do recurso
       - name: id_candidato_bd
         description: ID Candidato - Base dos Dados
+      - name: id_eleicao
+        description: ID Eleição
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
       - name: id_municipio_tse
         description: ID Município - TSE
+        tests:
+          - custom_relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio_tse
+              ignore_values: ['73709']
       - name: id_municipio_tse_fornecedor
         description: ID Município do fornecedor - TSE
+        tests:
+          - custom_relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio_tse
+              ignore_values: ['73709']
       - name: nome_candidato
         description: Nome do candidato
       - name: nome_fornecedor
