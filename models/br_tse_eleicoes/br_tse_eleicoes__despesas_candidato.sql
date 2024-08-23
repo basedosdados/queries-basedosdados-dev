@@ -63,4 +63,3 @@ select
     safe_cast(nome_partido_fornecedor as string) nome_partido_fornecedor,
     safe_cast(cargo_fornecedor as string) cargo_fornecedor
 from `basedosdados-dev.br_tse_eleicoes_staging.despesas_candidato` as t
-where ano in ("2022", "2024")
