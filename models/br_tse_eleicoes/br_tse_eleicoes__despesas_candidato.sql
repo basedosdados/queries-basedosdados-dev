@@ -1,20 +1,22 @@
-select
-    {{
-        config(
-            schema="br_tse_eleicoes",
-            alias="despesas_candidato",
-            materialized="table",
-            partition_by={
-                "field": "ano",
-                "data_type": "int64",
-                "range": {"start": 2002, "end": 2022, "interval": 2},
-            },
-        )
-    }}
+{{
+    config(
+        schema="br_tse_eleicoes",
+        alias="despesas_candidato",
+        materialized="table",
+        partition_by={
+            "field": "ano",
+            "data_type": "int64",
+            "range": {"start": 2002, "end": 2024, "interval": 2},
+        },
+    )
+}}
 
+select
     safe_cast(ano as int64) ano,
     safe_cast(turno as int64) turno,
+    safe_cast(id_eleicao as string) id_eleicao,
     safe_cast(tipo_eleicao as string) tipo_eleicao,
+    safe_cast(data_eleicao as date) data_eleicao,
     safe_cast(sigla_uf as string) sigla_uf,
     safe_cast(id_municipio as string) id_municipio,
     safe_cast(id_municipio_tse as string) id_municipio_tse,
@@ -61,3 +63,4 @@ select
     safe_cast(nome_partido_fornecedor as string) nome_partido_fornecedor,
     safe_cast(cargo_fornecedor as string) cargo_fornecedor
 from `basedosdados-dev.br_tse_eleicoes_staging.despesas_candidato` as t
+where ano in ("2022", "2024")
