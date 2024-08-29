@@ -1,6 +1,8 @@
 {{
     config(
-        alias="microdados", schema="br_cgu_emenda_parlamentar", materialized="table"
+        alias="microdados",
+        schema="br_cgu_emendas_parlamentares",
+        materialized="table",
     )
 }}
 
@@ -11,9 +13,13 @@ with
             safe_cast(
                 replace(`Código da Emenda`, "Sem informaç", "Sem informação") as string
             ) codigo_emenda,
-            safe_cast(`Número da emenda` as string) numero_emenda,
+            safe_cast(
+                replace(`Número da emenda`, "S/I", "Sem informação") as string
+            ) numero_emenda,
             safe_cast(`Tipo de Emenda` as string) tipo_emenda,
-            safe_cast(`Código do Autor da Emenda` as string) codigo_autor_emenda,
+            safe_cast(
+                replace(`Código do Autor da Emenda`, "S/I", "Sem informação") as string
+            ) codigo_autor_emenda,
             safe_cast(`Nome do Autor da Emenda` as string) nome_autor_emenda,
             case
                 when `Localidade do gasto` = 'PRESIDENTE JUSCELINO - RN'
@@ -34,7 +40,7 @@ with
                 `Valor Restos A Pagar Cancelados` as float64
             ) valor_resto_pagar_cancelado,
             safe_cast(`Valor Restos A Pagar Pagos` as float64) valor_resto_pagar_pagos,
-        from `basedosdados-dev.br_cgu_emenda_parlamentar_staging.microdados`
+        from `basedosdados-dev.br_cgu_emendas_parlamentares_staging.microdados`
     ),
     tabela_1 as (
         select
