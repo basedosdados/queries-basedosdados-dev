@@ -1,20 +1,22 @@
-select
-    {{
-        config(
-            schema="br_tse_eleicoes",
-            alias="despesas_candidato",
-            materialized="table",
-            partition_by={
-                "field": "ano",
-                "data_type": "int64",
-                "range": {"start": 2002, "end": 2022, "interval": 2},
-            },
-        )
-    }}
+{{
+    config(
+        schema="br_tse_eleicoes",
+        alias="despesas_candidato",
+        materialized="table",
+        partition_by={
+            "field": "ano",
+            "data_type": "int64",
+            "range": {"start": 2002, "end": 2024, "interval": 2},
+        },
+    )
+}}
 
+select
     safe_cast(ano as int64) ano,
     safe_cast(turno as int64) turno,
+    safe_cast(id_eleicao as string) id_eleicao,
     safe_cast(tipo_eleicao as string) tipo_eleicao,
+    safe_cast(data_eleicao as date) data_eleicao,
     safe_cast(sigla_uf as string) sigla_uf,
     safe_cast(id_municipio as string) id_municipio,
     safe_cast(id_municipio_tse as string) id_municipio_tse,
@@ -47,6 +49,16 @@ select
     safe_cast(nome_fornecedor as string) nome_fornecedor,
     safe_cast(nome_fornecedor_rf as string) nome_fornecedor_rf,
     safe_cast(cnae_2_fornecedor as string) cnae_2_fornecedor,
+    case
+        when length(cnae_2_fornecedor) = 5
+        then safe_cast(cnae_2_fornecedor as string)
+        else null
+    end as cnae_2_fornecedor_classe,
+    case
+        when length(cnae_2_fornecedor) > 5
+        then safe_cast(cnae_2_fornecedor as string)
+        else null
+    end as cnae_2_fornecedor_subclasse,
     safe_cast(descricao_cnae_2_fornecedor as string) descricao_cnae_2_fornecedor,
     safe_cast(tipo_fornecedor as string) tipo_fornecedor,
     safe_cast(esfera_partidaria_fornecedor as string) esfera_partidaria_fornecedor,
