@@ -105,6 +105,9 @@ models:
     br_cgu_dados_abertos:
       +materialized: table
       +schema: br_cgu_dados_abertos
+    br_cgu_emenda_parlamentar:
+      +materialized: table
+      +schema: br_cgu_emendas_parlamentares
     br_cgu_pessoal_executivo_federal:
       +materialized: table
       +schema: br_cgu_pessoal_executivo_federal
@@ -222,9 +225,6 @@ models:
     br_me_caged:
       +materialized: table
       +schema: br_me_caged
-    br_me_cno:
-      +materialized: table
-      +schema: br_me_cno
     br_me_cnpj:
       +materialized: table
       +schema: br_me_cnpj
@@ -300,6 +300,9 @@ models:
     br_poder360_pesquisas:
       +materialized: table
       +schema: br_poder360_pesquisas
+    br_rf_cno:
+      +materialized: table
+      +schema: br_rf_cno
     br_rf_arrecadacao:
       +materialized: table
       +schema: br_rf_arrecadacao

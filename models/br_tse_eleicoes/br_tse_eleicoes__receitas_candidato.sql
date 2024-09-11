@@ -6,15 +6,16 @@
         partition_by={
             "field": "ano",
             "data_type": "int64",
-            "range": {"start": 2002, "end": 2022, "interval": 2},
+            "range": {"start": 2002, "end": 2024, "interval": 2},
         },
     )
 }}
-
 select
     safe_cast(ano as int64) ano,
     safe_cast(turno as int64) turno,
+    safe_cast(id_eleicao as string) id_eleicao,
     safe_cast(tipo_eleicao as string) tipo_eleicao,
+    safe_cast(data_eleicao as date) data_eleicao,
     safe_cast(sigla_uf as string) sigla_uf,
     safe_cast(id_municipio as string) id_municipio,
     safe_cast(id_municipio_tse as string) id_municipio_tse,
@@ -52,6 +53,12 @@ select
     safe_cast(esfera_partidaria_doador as string) esfera_partidaria_doador,
     safe_cast(numero_candidato_doador as string) numero_candidato_doador,
     safe_cast(cnae_2_doador as string) cnae_2_doador,
+    case
+        when length(cnae_2_doador) = 5 then safe_cast(cnae_2_doador as string) else null
+    end as cnae_2_doador_classe,
+    case
+        when length(cnae_2_doador) > 5 then safe_cast(cnae_2_doador as string) else null
+    end as cnae_2_doador_subclasse,
     safe_cast(descricao_cnae_2_doador as string) descricao_cnae_2_doador,
     safe_cast(cpf_cnpj_doador_orig as string) cpf_cnpj_doador_orig,
     safe_cast(nome_doador_orig as string) nome_doador_orig,
@@ -65,7 +72,7 @@ select
     safe_cast(numero_recibo_doacao as string) numero_recibo_doacao,
     safe_cast(numero_documento_doacao as string) numero_documento_doacao,
     safe_cast(tipo_prestacao_contas as string) tipo_prestacao_contas,
-    safe_cast(data_prestacao_contas as string) data_prestacao_contas,
+    safe_cast(data_prestacao_contas as date) data_prestacao_contas,
     safe_cast(sequencial_prestador_contas as string) sequencial_prestador_contas,
     safe_cast(cnpj_prestador_contas as string) cnpj_prestador_contas,
     safe_cast(entrega_conjunto as string) entrega_conjunto

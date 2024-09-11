@@ -160,6 +160,30 @@ models:
       - name: valor
         description: Valor
   - name: br_ms_sih__aihs_reduzidas
+    tests:
+      - custom_dictionary_coverage:
+          columns_covered_by_dictionary:
+            - tipo_aih
+            - tipo_uci
+            - tipo_uti
+            - complexidade
+            - motivo_saida
+            - etnia_paciente
+            - carater_internacao
+            - especialidade_leito
+            - motivo_autorizacao_aih
+            - procedimento_realizado
+            - grau_instrucao_paciente
+            - procedimento_solicitado
+            - tipo_gestao_estabelecimento
+            - tipo_contraceptivo_principal
+            - tipo_vinculo_previdencia
+            - tipo_contraceptivo_secundario
+            - natureza_juridica_estabelecimento
+            - natureza_juridica_estabelecimento_ate_2012
+          dictionary_model: ref('br_ms_sih__dicionario')
+          config:
+            where: __most_recent_year_month__
     description: Movimento de AIH - Arquivos Reduzidos
     columns:
       - name: ano
@@ -297,7 +321,7 @@ models:
         description: Número de filhos do paciente.
       - name: id_acidente_trabalho
         description: Código de acidente de trabalho.
-      - name: indicador_vinculo_previdencia
+      - name: tipo_vinculo_previdencia
         description: Vínculo com a previdência.
       - name: id_gestante_pre_natal
         description: Número da gestante no pré-natal.
