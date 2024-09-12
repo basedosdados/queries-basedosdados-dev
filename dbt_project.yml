@@ -219,6 +219,9 @@ models:
     br_ipea_avs:
       +materialized: table
       +schema: br_ipea_avs
+    br_jota:
+      +materialized: table
+      +schema: br_jota
     br_mdr_snis:
       +materialized: table
       +schema: br_mdr_snis
