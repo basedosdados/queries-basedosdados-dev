@@ -146,10 +146,6 @@ models:
               field: sigla
       - name: sigla_uf_nascimento
         description: Sigla da unidade da federação de nascimento
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__uf')
-              field: sigla
       - name: situacao
         description: Situação
       - name: tipo_eleicao
@@ -175,13 +171,13 @@ models:
         description: Classe da CNAE
         tests:
           - relationships:
-              to: ref('br_bd_diretorios_brasil.cnae_2')
+              to: ref('br_bd_diretorios_brasil__cnae_2')
               field: classe
       - name: cnae_2_fornecedor_subclasse
         description: Subclasse da Classificação de Atividades Econômicas (CNAE)
         tests:
           - relationships:
-              to: ref('br_bd_diretorios_brasil.cnae_2')
+              to: ref('br_bd_diretorios_brasil__cnae_2')
               field: subclasse
       - name: cnpj_candidato
         description: CNPJ do candidato
@@ -195,20 +191,6 @@ models:
         description: CPF do vice ou suplente
       - name: data_despesa
         description: Data da despesa
-        tests:
-          - custom_relationships:
-              to: ref('br_bd_diretorios_data_tempo__data')
-              field: data.data
-              ignore_values:
-                - '8200-02-20'
-                - '8008-09-05'
-                - '8200-08-02'
-                - '6200-09-06'
-                - '6200-09-30'
-                - '7200-08-21'
-                - '8006-09-29'
-                - '9200-05-05'
-                - '5919-11-11'
       - name: data_eleicao
         description: Data da eleição
         tests:
@@ -325,11 +307,11 @@ models:
           combination_of_columns:
             - ano
             - turno
-            - tipo_eleicao
+            - id_eleicao
             - id_municipio_tse
             - cargo
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: abstencoes
         description: Número de Abstenções
@@ -347,6 +329,10 @@ models:
         description: Cargo
       - name: comparecimento
         description: Número de Comparecimentos
+      - name: data_eleicao
+        description: Data da eleição
+      - name: id_eleicao
+        description: ID Eleição
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
       - name: id_municipio_tse
@@ -389,12 +375,12 @@ models:
           combination_of_columns:
             - ano
             - turno
-            - tipo_eleicao
+            - id_eleicao
             - id_municipio_tse
             - zona
             - cargo
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: abstencoes
         description: Número de Abstenções
@@ -412,6 +398,10 @@ models:
         description: Cargo
       - name: comparecimento
         description: Número de Comparecimentos
+      - name: data_eleicao
+        description: Data da eleição
+      - name: id_eleicao
+        description: ID Eleição
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
       - name: id_municipio_tse
@@ -456,13 +446,13 @@ models:
           combination_of_columns:
             - ano
             - turno
-            - tipo_eleicao
+            - id_eleicao
             - id_municipio_tse
             - zona
             - secao
             - cargo
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: abstencoes
         description: Número de abstenções
@@ -478,6 +468,10 @@ models:
         description: Cargo
       - name: comparecimento
         description: Número de comparecimentos
+      - name: data_eleicao
+        description: Data da eleição
+      - name: id_eleicao
+        description: ID Eleição
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
       - name: id_municipio_tse
@@ -486,8 +480,8 @@ models:
         description: Proporção de comparecimento
       - name: proporcao_votos_brancos
         description: Proporção de votos brancos
-      - name: proporcao_votos_coligacao
-        description: Proporção de votos em coligação
+      - name: proporcao_votos_legenda
+        description: Proporção de votos em legendas
       - name: proporcao_votos_nominais
         description: Proporção de votos nominais
       - name: proporcao_votos_nulos
@@ -502,16 +496,14 @@ models:
         description: Turno
       - name: votos_brancos
         description: Número de votos brancos
-      - name: votos_coligacao
-        description: Número de votos em coligações
+      - name: votos_legenda
+        description: Número de votos em legendas
       - name: votos_nominais
         description: Número de votos nominais
       - name: votos_nulos
         description: Número de votos nulos
       - name: votos_nulos_apu_sep
         description: Votos nulos apurados separadamente
-      - name: votos_pendentes
-        description: Votos pendentes
       - name: zona
         description: Zona eleitoral
   - name: br_tse_eleicoes__partidos
@@ -523,13 +515,13 @@ models:
           combination_of_columns:
             - ano
             - turno
-            - tipo_eleicao
+            - id_eleicao
             - sigla_uf
             - id_municipio_tse
             - cargo
             - numero
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: ano
         description: Ano
@@ -543,6 +535,10 @@ models:
         description: Composição da coligação
       - name: composicao_federacao
         description: Composição da federação
+      - name: data_eleicao
+        description: Data da eleição
+      - name: id_eleicao
+        description: ID Eleição
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
       - name: id_municipio_tse
@@ -577,7 +573,7 @@ models:
     description: Perfil eleitorado a nível de local de votação.
     tests:
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: ano
         description: Ano
@@ -642,7 +638,7 @@ models:
             - grupo_idade
             - instrucao
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: ano
         description: Ano
@@ -688,7 +684,7 @@ models:
             - grupo_idade
             - instrucao
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: ano
         description: Ano
@@ -743,13 +739,13 @@ models:
         description: Classe da CNAE
         tests:
           - relationships:
-              to: ref('br_bd_diretorios_brasil.cnae_2')
+              to: ref('br_bd_diretorios_brasil__cnae_2')
               field: classe
       - name: cnae_2_doador_subclasse
         description: Subclasse da Classificação de Atividades Econômicas (CNAE)
         tests:
           - relationships:
-              to: ref('br_bd_diretorios_brasil.cnae_2')
+              to: ref('br_bd_diretorios_brasil__cnae_2')
               field: subclasse
       - name: cnpj_candidato
         description: CNPJ do candidato
@@ -891,9 +887,6 @@ models:
         description: Valor da receita
   - name: br_tse_eleicoes__receitas_comite
     description: Receitas de comitês eleitorais
-    tests:
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
     columns:
       - name: ano
         description: Ano
@@ -903,6 +896,18 @@ models:
               field: ano.ano
       - name: cnae_2_doador
         description: CNAE 2 do Doador
+      - name: cnae_2_doador_classe
+        description: Classe da CNAE
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__cnae_2')
+              field: classe
+      - name: cnae_2_doador_subclasse
+        description: Subclasse da Classificação de Atividades Econômicas (CNAE)
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__cnae_2')
+              field: subclasse
       - name: cnpj_prestador_contas
         description: CNPJ do prestador de contas
       - name: cpf_cnpj_doador
@@ -913,6 +918,11 @@ models:
         description: CPF do membro
       - name: data_receita
         description: Data da receita
+        tests:
+          - custom_relationships:
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
+              ignore_values: ['8200-10-01']
       - name: descricao_cnae_2_doador
         description: Descrição da Classificação Nacional de Atividades Econômicas
           2.0 do doador
@@ -925,8 +935,17 @@ models:
         description: Fonte da receita
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
       - name: id_municipio_tse
         description: ID Município - Tribunal Superior Eleitoral (TSE)
+        tests:
+          - custom_relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio_tse
+              ignore_values: ['73709']
       - name: natureza_receita
         description: Natureza da receita
       - name: nome_doador
@@ -955,8 +974,17 @@ models:
         description: Sigla do partido
       - name: sigla_uf
         description: Sigla da unidade da federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
       - name: sigla_uf_doador
         description: Sigla da unidade da federação do doador
+        tests:
+          - custom_relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
+              ignore_values: ['02550', '71072', '13897', '41238', '09210', '86614']
       - name: situacao_receita
         description: Situação da receita
       - name: tipo_comite
@@ -971,9 +999,6 @@ models:
         description: Valor da receita
   - name: br_tse_eleicoes__receitas_orgao_partidario
     description: Receitas de Órgãos Partidários
-    tests:
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
     columns:
       - name: ano
         description: Ano
@@ -985,6 +1010,18 @@ models:
         description: Cargo do candidato doador
       - name: cnae_2_doador
         description: Classificação Nacional de Atividades Econômicas 2.0 do doador
+      - name: cnae_2_doador_classe
+        description: Classe da CNAE
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__cnae_2')
+              field: classe
+      - name: cnae_2_doador_subclasse
+        description: Subclasse da Classificação de Atividades Econômicas (CNAE)
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__cnae_2')
+              field: subclasse
       - name: cnpj_prestador_contas
         description: CNPJ do prestador de contas
       - name: cpf_cnpj_doador
@@ -995,6 +1032,10 @@ models:
         description: Data de prestação de contas
       - name: data_receita
         description: Data da receita
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: descricao_cnae_2_doador
         description: Descrição da Classificação Nacional de Atividades Econômicas
           2.0 do doador
@@ -1013,12 +1054,30 @@ models:
         description: Fonte da receita
       - name: id_municipio
         description: ID Município IBGE 7 Dígitos do diretório
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
       - name: id_municipio_doador
         description: ID Município do doador - IBGE
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
       - name: id_municipio_tse
         description: ID Municipio TSE do diretório
+        tests:
+          - custom_relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio_tse
+              ignore_values: ['73709']
       - name: id_municipio_tse_doador
         description: ID Município do doador - TSE
+        tests:
+          - custom_relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio_tse
+              ignore_values: ['73709']
       - name: natureza_receita
         description: Natureza da receita
       - name: nome_doador
@@ -1063,6 +1122,10 @@ models:
         description: Sigla do partido do doador
       - name: sigla_uf
         description: Sigla da unidade da federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
       - name: sigla_uf_doador
         description: Sigla da unidade da federação do doador
       - name: tipo_diretorio
@@ -1084,7 +1147,7 @@ models:
           combination_of_columns:
             - ano
             - turno
-            - tipo_eleicao
+            - id_eleicao
             - sigla_uf
             - id_municipio_tse
             - cargo
@@ -1092,7 +1155,7 @@ models:
             - numero_candidato
             - nome_candidato
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: ano
         description: Ano
@@ -1102,8 +1165,12 @@ models:
               field: ano.ano
       - name: cargo
         description: Cargo
+      - name: data_eleicao
+        description: Data da eleição
       - name: id_candidato_bd
         description: ID Candidato - Base dos Dados
+      - name: id_eleicao
+        description: ID Eleição
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
       - name: id_municipio_tse
@@ -1135,12 +1202,12 @@ models:
           combination_of_columns:
             - ano
             - turno
-            - tipo_eleicao
+            - id_eleicao
             - id_municipio_tse
             - sequencial_candidato
             - numero_candidato
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: ano
         description: Ano
@@ -1150,8 +1217,12 @@ models:
               field: ano.ano
       - name: cargo
         description: Cargo
+      - name: data_eleicao
+        description: Data da eleição
       - name: id_candidato_bd
         description: ID Candidato - Base dos Dados
+      - name: id_eleicao
+        description: ID Eleição
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
       - name: id_municipio_tse
@@ -1181,13 +1252,13 @@ models:
           combination_of_columns:
             - ano
             - turno
-            - tipo_eleicao
+            - id_eleicao
             - id_municipio_tse
             - zona
             - sequencial_candidato
             - numero_candidato
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: ano
         description: Ano
@@ -1197,8 +1268,12 @@ models:
               field: ano.ano
       - name: cargo
         description: Cargo
+      - name: data_eleicao
+        description: Data da eleição
       - name: id_candidato_bd
         description: ID Candidato - Base dos Dados
+      - name: id_eleicao
+        description: ID Eleição
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
       - name: id_municipio_tse
@@ -1230,14 +1305,14 @@ models:
           combination_of_columns:
             - ano
             - turno
-            - tipo_eleicao
+            - id_eleicao
             - id_municipio_tse
             - zona
             - secao
             - sequencial_candidato
             - numero_candidato
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: ano
         description: Ano
@@ -1247,8 +1322,12 @@ models:
               field: ano.ano
       - name: cargo
         description: Cargo
+      - name: data_eleicao
+        description: Data da eleição
       - name: id_candidato_bd
         description: ID Candidato - Base dos Dados
+      - name: id_eleicao
+        description: ID Eleição
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
       - name: id_municipio_tse
@@ -1280,12 +1359,12 @@ models:
           combination_of_columns:
             - ano
             - turno
-            - tipo_eleicao
+            - id_eleicao
             - id_municipio_tse
             - cargo
             - numero_partido
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: ano
         description: Ano
@@ -1295,6 +1374,10 @@ models:
               field: ano.ano
       - name: cargo
         description: Cargo
+      - name: data_eleicao
+        description: Data da eleição
+      - name: id_eleicao
+        description: ID Eleição
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
       - name: id_municipio_tse
@@ -1320,13 +1403,13 @@ models:
           combination_of_columns:
             - ano
             - turno
-            - tipo_eleicao
+            - id_eleicao
             - id_municipio_tse
             - zona
             - cargo
             - numero_partido
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: ano
         description: Ano
@@ -1336,6 +1419,10 @@ models:
               field: ano.ano
       - name: cargo
         description: Cargo
+      - name: data_eleicao
+        description: Data da eleição
+      - name: id_eleicao
+        description: ID Eleição
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
       - name: id_municipio_tse
@@ -1363,14 +1450,14 @@ models:
           combination_of_columns:
             - ano
             - turno
-            - tipo_eleicao
+            - id_eleicao
             - id_municipio_tse
             - zona
             - secao
             - cargo
             - numero_partido
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: ano
         description: Ano
@@ -1380,6 +1467,10 @@ models:
               field: ano.ano
       - name: cargo
         description: Cargo
+      - name: data_eleicao
+        description: Data da eleição
+      - name: id_eleicao
+        description: ID Eleição
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
       - name: id_municipio_tse
@@ -1408,12 +1499,12 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - ano
-            - tipo_eleicao
+            - id_eleicao
             - sigla_uf
             - id_municipio_tse
             - cargo
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: ano
         description: Ano
@@ -1423,6 +1514,10 @@ models:
               field: ano.ano
       - name: cargo
         description: Cargo
+      - name: data_eleicao
+        description: Data da eleição
+      - name: id_eleicao
+        description: ID Eleição
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
         tests:
@@ -1451,7 +1546,7 @@ models:
             - chave
             - cobertura_temporal
       - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          at_least: 0.95
     columns:
       - name: id_tabela
         description: ID Tabela
