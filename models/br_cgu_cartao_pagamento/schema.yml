@@ -2,10 +2,15 @@
 version: 2
 models:
   - name: br_cgu_cartao_pagamento__microdados_governo_federal
-    description: Microdados de Cartão de Pagamento do Governo Federal
+    description: O Cartão de Pagamento do Governo Federal (CPGF) é um meio de pagamento
+      utilizado pelo governo que funciona de forma similar ao cartão de crédito que
+      utilizamos em nosso dia a dia, porém dentro de limites e regras específicas.
     tests:
       - not_null_proportion_multiple_columns:
           at_least: 0.80
+      - custom_dictionary_coverage:
+          columns_covered_by_dictionary: [transacao]
+          dictionary_model: ref('br_cgu_cartao_pagamento__dicionario')
     columns:
       - name: ano_extrato
         description: Ano do extrato de transações
@@ -56,11 +61,15 @@ models:
       - name: valor_transacao
         description: Valor da transação realizada com o cartão
   - name: br_cgu_cartao_pagamento__microdados_compras_centralizadas
-    description: Dados referentes a transações realizadas com cartões de pagamento
-      do Governo Federal em compras centralizadas.
+    description: Refere-se aos pagamentos realizados através de compras centralizadas,
+      ou seja, aquisições feitas de forma coordenada por um único órgão ou entidade
+      para beneficiar diversas áreas da administração pública.
     tests:
       - not_null_proportion_multiple_columns:
           at_least: 0.80
+      - custom_dictionary_coverage:
+          columns_covered_by_dictionary: [transacao]
+          dictionary_model: ref('br_cgu_cartao_pagamento__dicionario')
     columns:
       - name: ano_extrato
         description: Ano do extrato de transações
@@ -109,10 +118,15 @@ models:
       - name: valor_transacao
         description: Valor da transação realizada com o cartão
   - name: br_cgu_cartao_pagamento__microdados_desfesa_civil
-    description: Microdados de Cartão de Pagamento do Governo Federal - Defesa Civil
+    description: O Cartão de Pagamento de Defesa Civil (CPDC) é a forma exclusiva
+      para o pagamento de despesas com ações de resposta promovidas por governos estaduais,
+      do Distrito Federal e municipais com recursos transferidos pela União.
     tests:
       - not_null_proportion_multiple_columns:
           at_least: 0.95
+      - custom_dictionary_coverage:
+          columns_covered_by_dictionary: [transacao]
+          dictionary_model: ref('br_cgu_cartao_pagamento__dicionario')
     columns:
       - name: ano_extrato
         description: Ano do extrato de transações
@@ -172,3 +186,27 @@ models:
               field: data.data
       - name: valor_transacao
         description: Valor da transação realizada com o cartão
+  - name: br_cgu_cartao_pagamento__dicionario
+    description: Dicionário para tradução dos códigos do conjunto br_cgu_cartao_pagamento.
+      Para taduzir códigos compartilhados entre instituições, como id_municipio, buscar
+      por diretórios
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - id_tabela
+            - nome_coluna
+            - chave
+            - cobertura_temporal
+      - not_null_proportion_multiple_columns:
+          at_least: 0.05
+    columns:
+      - name: id_tabela
+        description: ID Tabela
+      - name: nome_coluna
+        description: Nome da coluna
+      - name: chave
+        description: Chave
+      - name: cobertura_temporal
+        description: Cobertura Temporal
+      - name: valor
+        description: Valor
