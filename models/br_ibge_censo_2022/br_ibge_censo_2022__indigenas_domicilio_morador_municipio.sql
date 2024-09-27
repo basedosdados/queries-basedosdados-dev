@@ -25,6 +25,8 @@ with
                 moradores_indigenas_em_domicilios_particulares_permanentes_ocupados_pessoas_
                 as int64
             ) moradores_indigenas,
+        # SAFE_CAST(REPLACE(media_de_moradores_em_domicilios_particulares_permanentes_ocupados_pessoas_, ",", ".") AS FLOAT64) media_moradores_domicilios,
+        # SAFE_CAST(REPLACE(media_de_moradores_indigenas_em_domicilios_particulares_permanentes_ocupados_com_pelo_menos_um_morador_indigena_pessoas_, ",", ".") AS FLOAT64) media_moradores_indigenas_domicilios,
         from
             `basedosdados-dev.br_ibge_censo_2022_staging.indigenas_domicilio_morador_municipio`
             as t

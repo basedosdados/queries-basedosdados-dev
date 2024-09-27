@@ -16,9 +16,7 @@ with
                 moradores_em_domicilios_particulares_permanentes_ocupados_pessoas_
                 as int64
             ) moradores,
-        from
-            `basedosdados-dev.br_ibge_censo_2022_staging.domicilio_morador_municipio`
-            as t
+        from `basedosdados-dev.br_ibge_censo_2022_staging.domicilio_morador_municipio` t
     )
 select t2.cod as id_municipio, ibge.* except (municipio, nome_municipio, sigla_uf)
 from ibge

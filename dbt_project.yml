@@ -306,15 +306,15 @@ models:
     br_poder360_pesquisas:
       +materialized: table
       +schema: br_poder360_pesquisas
-    br_rf_cno:
-      +materialized: table
-      +schema: br_rf_cno
     br_rf_arrecadacao:
       +materialized: table
       +schema: br_rf_arrecadacao
     br_rf_cafir:
       +materialized: table
       +schema: br_rf_cafir
+    br_rf_cno:
+      +materialized: table
+      +schema: br_rf_cno
     br_rj_isp_estatisticas_seguranca:
       +materialized: table
       +schema: br_rj_isp_estatisticas_seguranca
