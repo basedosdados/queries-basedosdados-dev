@@ -1,6 +1,6 @@
 {{
     config(
-        alias="caracteristica_domicilio_esgotamento_sanitário",
+        alias="caracteristica_domicilio_destino_lixo",
         schema="br_ibge_censo_2022",
     )
 }}

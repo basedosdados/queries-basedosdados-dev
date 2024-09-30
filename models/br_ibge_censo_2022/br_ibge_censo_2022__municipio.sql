@@ -38,11 +38,11 @@ with
 
 select
     t2.cod as id_municipio,
-    domicilio_morador.sigla_uf
+    domicilio_morador.sigla_uf,
     domicilio_morador.* except (municipio, nome_municipio, sigla_uf),
     area.area_unidade_territorial
 from domicilio_morador
+left join area on domicilio_morador.municipio = area.municipio
 left join
-    area on domicilio_morador.municipio = area.municipio
     `basedosdados-dev.br_ibge_censo_2022_staging.auxiliary_table` t2
-    on ibge.municipio = t2.municipio
+    on domicilio_morador.municipio = t2.municipio
