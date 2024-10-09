@@ -56,13 +56,13 @@ models:
         description: Sexo
       - name: situacao_registro
         description: Situação do registro
-      - name: id_motivo_desfiliacao
+      - name: motivo_desfiliacao
         description: Código do motivo da desfiliação. Não foi encontrada na documentação
           a tradução deste código
-      - name: id_motivo_cancelamento
+      - name: motivo_cancelamento
         description: Código do motivo de cancelamento. Não foi encontrada na documentação
           a tradução deste código
-      - name: ind_origem
+      - name: indicador_origem
         description: Não foi encontrado uma definição na documentação para este campo
       - name: data_filiacao
         description: Data da filiação
