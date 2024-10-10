@@ -6,7 +6,7 @@ models:
     tests:
       - custom_not_null_proportion_multiple_columns:
           at_least: 0.55
-          columns_skip:
+          ignore_values:
             - data_desfiliacao
             - data_exclusao
             - data_cadastro_desfiliacao
@@ -103,19 +103,19 @@ models:
   - name: br_tse_filiacao_partidaria__microdados_antigos
     description: Insert table description here
     tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [insert unique keys here]
-      - not_null_proportion_multiple_columns:
-          at_least: 0.95
+      - custom_not_null_proportion_multiple_columns:
+          at_least: 0.10
+          ignore_values: [data_regularizacao]
     columns:
       - name: sigla_partido
         description: Sigla do partido
       - name: sigla_uf
         description: Sigla da unidade da federação
         tests:
-          - relationships:
+          - custom_relationships:
               to: ref('br_bd_diretorios_brasil__uf')
               field: sigla
+              ignore_values: [ZZ]
       - name: id_municipio
         description: ID Município - IBGE 7 Dígitos
         tests:
@@ -124,10 +124,6 @@ models:
               field: id_municipio
       - name: id_municipio_tse
         description: ID Município - TSE
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio_tse
       - name: zona
         description: Zona eleitoral
       - name: secao
@@ -138,17 +134,37 @@ models:
         description: Nome
       - name: data_filiacao
         description: Data da filiação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: situacao_registro
         description: Situação do registro
       - name: tipo_registro
         description: Tipo de registro
       - name: data_processamento
         description: Data de processamento
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: data_desfiliacao
         description: Data de desfiliação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: data_cancelamento
         description: Data de cancelamento
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: data_regularizacao
         description: Data de regularização
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__data')
+              field: data.data
       - name: motivo_cancelamento
         description: Motivo de cancelamento

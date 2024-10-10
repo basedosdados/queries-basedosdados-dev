@@ -1,5 +1,5 @@
 {% test custom_not_null_proportion_multiple_columns(
-    model, columns_skip, at_least=0.05
+    model, ignore_values, at_least=0.05
 ) %}
 
     {%- set columns = adapter.get_columns_in_relation(model) -%}
@@ -10,7 +10,7 @@
 
             select
                 {% for column in columns -%}
-                {% if column.name not in columns_skip %}
+                {% if column.name not in ignore_values %}
                 SUM(CASE WHEN {{ column.name }} IS NULL THEN 1 ELSE 0 END) AS {{ column.name }}{{ suffix }},
                 {% endif %}
                 {%- endfor %}
@@ -21,7 +21,7 @@
         pivot_columns as (
 
             {% for column in columns -%}
-            {% if column.name not in columns_skip %}
+            {% if column.name not in ignore_values %}
             select '{{ column.name }}' as column_name, {{ column.name }}{{ suffix }} as quantity, total_records
             from null_counts
             {% if not loop.last %}union all {% endif %}
