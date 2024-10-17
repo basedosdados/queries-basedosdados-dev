@@ -10,8 +10,8 @@ models:
             - data_desfiliacao
             - data_exclusao
             - data_cadastro_desfiliacao
-            - id_motivo_desfiliacao
-            - id_motivo_cancelamento
+            - motivo_desfiliacao
+            - motivo_cancelamento
             - data_cancelamento
             - nome_social
       - dbt_utils.unique_combination_of_columns:
