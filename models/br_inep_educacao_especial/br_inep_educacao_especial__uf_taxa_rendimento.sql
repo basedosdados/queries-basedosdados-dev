@@ -1,6 +1,6 @@
 {{
     config(
-        alias="taxa_rendimento",
+        alias="uf_taxa_rendimento",
         schema="br_inep_educacao_especial",
         materialized="table",
     )
