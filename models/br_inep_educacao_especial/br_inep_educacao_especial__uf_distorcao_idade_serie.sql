@@ -11,4 +11,4 @@ select
     safe_cast(sigla_uf as string) sigla_uf,
     safe_cast(etapa_ensino as string) etapa_ensino,
     safe_cast(tdi as float64) tdi,
-from `basedosdados-dev.br_inep_educacao_especial_staging.distorcao_idade_serie` as t
+from `basedosdados-dev.br_inep_educacao_especial_staging.uf_distorcao_idade_serie` as t
