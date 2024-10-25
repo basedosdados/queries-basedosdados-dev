@@ -1,6 +1,6 @@
 {{
     config(
-        alias="distorcao_idade_serie",
+        alias="uf_distorcao_idade_serie",
         schema="br_inep_educacao_especial",
         materialized="table",
     )
