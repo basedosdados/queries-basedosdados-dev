@@ -1,6 +1,6 @@
 {{
     config(
-        alias="populacao_terra_indigena",
+        alias="terra_indigena",
         schema="br_ibge_censo_2022",
     )
 }}
@@ -40,11 +40,10 @@ select
     safe_cast(
         moradores_em_domicilios_particulares_permanentes_ocupados_localizados_em_terras_indigenas_pessoas_
         as int64
-    ) moradores,
+    ) populacao,
     safe_cast(
         moradores_indigenas_em_domicilios_particulares_permanentes_ocupados_localizados_em_terras_indigenas_pessoas_
         as int64
-    ) moradores_indigenas,
+    ) populacao_indigena,
 # SAFE_CAST(REPLACE(media_de_moradores_indigenas_em_domicilios_particulares_permanentes_ocupados_com_pelo_menos_um_morador_indigena_localizados_em_terras_indigenas_pessoas_, ",", ".") AS FLOAT64) media_moradores_indigenas_domicilios_terras_indigenas,
-from
-    `basedosdados-dev.br_ibge_censo_2022_staging.indigenas_domicilio_morador_terra_indigena` t
+from `basedosdados-dev.br_ibge_censo_2022_staging.terra_indigena` t

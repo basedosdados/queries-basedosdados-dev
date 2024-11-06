@@ -21,5 +21,5 @@ select
     safe_cast(v0006 as float64) porcentagem_domicilios_imputados,
     safe_cast(v0007 as int64) domicilios_particulares_ocupados,
 from
-    `basedosdados-dev.br_ibge_censo_2022_staging.domicilio_morador_setor_censitario`
+    `basedosdados-staging.br_ibge_censo_2022_staging.domicilio_morador_setor_censitario`
     as t

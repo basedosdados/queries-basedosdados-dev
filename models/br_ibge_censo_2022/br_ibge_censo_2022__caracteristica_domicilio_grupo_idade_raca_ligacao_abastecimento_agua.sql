@@ -1,6 +1,6 @@
 {{
     config(
-        alias="caracteristica_domicilio_ligacao_abastecimento_agua_populacao",
+        alias="caracteristica_domicilio_grupo_idade_raca_ligacao_abastecimento_agua",
         schema="br_ibge_censo_2022",
     )
 }}
@@ -15,7 +15,7 @@ select
     safe_cast(cor_ou_raca as string) cor_raca,
     safe_cast(
         moradores_em_domicilios_particulares_permanentes_ocupados_pessoas_ as int64
-    ) moradores,
+    ) populacao,
 from
-    `basedosdados-dev.br_ibge_censo_2022_staging.morador_cor_raca_ligacao_abastecimento_agua_municipio`
+    `basedosdados-dev.br_ibge_censo_2022_staging.caracteristica_domicilio_grupo_idade_raca_ligacao_abastecimento_agua`
     as t

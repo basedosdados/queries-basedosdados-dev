@@ -1,4 +1,4 @@
-{{ config(alias="indice_envelhecimento_cor_raca", schema="br_ibge_censo_2022") }}
+{{ config(alias="indice_envelhecimento_raca", schema="br_ibge_censo_2022") }}
 select
     safe_cast(ano as int64) ano,
     safe_cast(cod_ as string) id_municipio,
@@ -10,5 +10,4 @@ select
     ) indice_envelhecimento,
     safe_cast(idade_mediana_anos_ as int64) idade_mediana,
     safe_cast(replace(razao_de_sexo_razao_, ",", ".") as float64) razao_sexo,
-from
-    `basedosdados-dev.br_ibge_censo_2022_staging.indice_envelhecimento_cor_raca_municipio` t
+from `basedosdados-dev.br_ibge_censo_2022_staging.indice_envelhecimento_raca` t

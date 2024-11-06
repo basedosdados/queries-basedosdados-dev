@@ -55,6 +55,8 @@ with
                 then cast(regexp_extract(idade, r'([0-9]+) anos') as int64)
                 when regexp_contains(idade, r'[0-9]+ ano')
                 then cast(regexp_extract(idade, r'([0-9]+) ano') as int64)
+                when idade = '100 anos ou mais'
+                then 100
             end as idade_num,
             safe_cast(
                 pessoas_indigenas_residentes_em_terras_indigenas_pessoas_ as int64
@@ -63,10 +65,10 @@ with
                 pessoas_residentes_em_terras_indigenas_pessoas_ as int64
             ) populacao_residente,
         from
-            `basedosdados-dev.br_ibge_censo_2022_staging.indigenas_populacao_residente_grupo_idade_terras_indigenas`
+            `basedosdados-dev.br_ibge_censo_2022_staging.populacao_idade_sexo_terra_indigena`
     )
 select
-    ibge.* except (idade, idade_num, pessoas_indigenas, populacao_residente),
+    ibge.* except (idade_num, pessoas_indigenas, populacao_residente),
     idade_num as idade_anos,
     case
         when idade_num between 0 and 4
@@ -111,12 +113,7 @@ select
         then '95 a 99 anos'
         else '100 anos ou mais'
     end as grupo_idade,
-    pessoas_indigenas,
-    populacao_residente,
+    pessoas_indigenas as populacao_indigena,
+    populacao_residente as populacao,
 from ibge
-where
-    not (
-        idade like '% a %'
-        or idade like '100 anos ou mais'
-        or idade like 'Menos de 1 ano'
-    )
+where not (idade like '% a %' or idade like 'Menos de 1 ano')

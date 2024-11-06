@@ -1,6 +1,6 @@
 {{
     config(
-        alias="populacao_territorio_quilombola",
+        alias="territorio_quilombola",
         schema="br_ibge_censo_2022",
     )
 }}
@@ -43,14 +43,12 @@ select
     safe_cast(
         moradores_em_domicilios_particulares_permanentes_ocupados_localizados_em_territorios_quilombolas_pessoas_
         as int64
-    ) moradores,
+    ) populacao,
     safe_cast(
         moradores_quilombolas_em_domicilios_particulares_permanentes_ocupados_localizados_em_territorios_quilombolas_pessoas_
         as int64
-    ) moradores_quilombolas,
+    ) populacao_quilombola,
 # SAFE_CAST(media_moradores_domicilios_pelo_menos_um_territorios_quilombolas AS
 # FLOAT64) media_moradores_domicilios_pelo_menos_um_territorios_quilombolas,
 # SAFE_CAST(media_moradores_quilombolas_domicilios_pelo_menos_um_territorios_quilombolas AS FLOAT64) media_moradores_quilombolas_domicilios_pelo_menos_um_territorios_quilombolas,
-from
-    `basedosdados-dev.br_ibge_censo_2022_staging.quilombolas_domicilio_morador_territorio_quilombola`
-    as t
+from `basedosdados-dev.br_ibge_censo_2022_staging.territorio_quilombola` as t

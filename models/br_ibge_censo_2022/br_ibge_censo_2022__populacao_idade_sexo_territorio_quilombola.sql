@@ -54,6 +54,8 @@ with
                 then cast(regexp_extract(idade, r'([0-9]+) anos') as int64)
                 when regexp_contains(idade, r'[0-9]+ ano')
                 then cast(regexp_extract(idade, r'([0-9]+) ano') as int64)
+                when idade = '100 anos ou mais'
+                then 100
             end as idade_num,
             safe_cast(
                 pessoas_quilombolas_residentes_em_territorios_quilombolas_pessoas_
@@ -63,10 +65,14 @@ with
                 pessoas_residentes_em_territorios_quilombolas_pessoas_ as int64
             ) populacao_residente,
         from
-            `basedosdados-dev.br_ibge_censo_2022_staging.quilombolas_populacao_residente_grupo_idade_territorio_quilombola`
+            `basedosdados-dev.br_ibge_censo_2022_staging.populacao_idade_sexo_territorio_quilombola`
     )
+
+-- por algum motivo o Território Alto da Serra está duplicado.
+-- Verifiquei cada linha e a duplicação veio com valores nulos, assim para corrigir
+-- vou aplicar um group by e sum
 select
-    ibge.* except (idade, idade_num, pessoas_quilombolas, populacao_residente),
+    ibge.* except (idade_num, pessoas_quilombolas, populacao_residente),
     idade_num as idade_anos,
     case
         when idade_num between 0 and 4
@@ -111,12 +117,8 @@ select
         then '95 a 99 anos'
         else '100 anos ou mais'
     end as grupo_idade,
-    pessoas_quilombolas,
-    populacao_residente
+    sum(pessoas_quilombolas) as populacao_quilombola,
+    sum(populacao_residente) as populacao
 from ibge
-where
-    not (
-        idade like '% a %'
-        or idade like '100 anos ou mais'
-        or idade like 'Menos de 1 ano'
-    )
+where not (idade like '% a %' or idade like 'Menos de 1 ano')
+group by 1, 2, 3, 4, 5, 6

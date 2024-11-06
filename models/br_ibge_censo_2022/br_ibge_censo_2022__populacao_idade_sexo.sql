@@ -23,14 +23,15 @@ with
                 then cast(regexp_extract(idade, r'([0-9]+) anos') as int64)
                 when regexp_contains(idade, r'[0-9]+ ano')
                 then cast(regexp_extract(idade, r'([0-9]+) ano') as int64)
+                when idade = '100 anos ou mais'
+                then 100
             end as idade_num,
-            safe_cast(populacao_residente_pessoas_ as int64) populacao_residente,
-        from
-            `basedosdados-dev.br_ibge_censo_2022_staging.populacao_residente_municipio` t
+            safe_cast(populacao_residente_pessoas_ as int64) populacao,
+        from `basedosdados-dev.br_ibge_censo_2022_staging.populacao_idade_sexo` t
     )
 select
     t2.cod as id_municipio,
-    ibge.* except (municipio, nome_municipio, sigla_uf, idade_num, populacao_residente),
+    ibge.* except (municipio, nome_municipio, sigla_uf, idade_num, populacao),
     idade_num as idade_anos,
     case
         when idade_num between 0 and 4
@@ -75,14 +76,9 @@ select
         then '95 a 99 anos'
         else '100 anos ou mais'
     end as grupo_idade,
-    populacao_residente
+    populacao
 from ibge
 left join
     `basedosdados-dev.br_ibge_censo_2022_staging.auxiliary_table` t2
     on ibge.municipio = t2.municipio
-where
-    not (
-        idade like '% a %'
-        or idade like '100 anos ou mais'
-        or idade like 'Menos de 1 ano'
-    )
+where not (idade like '% a %' or idade like 'Menos de 1 ano')

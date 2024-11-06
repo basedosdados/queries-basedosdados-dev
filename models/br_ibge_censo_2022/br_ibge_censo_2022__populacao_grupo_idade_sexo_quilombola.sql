@@ -1,11 +1,11 @@
 {{
     config(
-        alias="populacao_idade_sexo_quilombola",
+        alias="populacao_grupo_idade_sexo_quilombola",
         schema="br_ibge_censo_2022",
     )
 }}
 with
-    ibge as (
+    idade_2_idade_numerica as (
         select
             safe_cast(ano as int64) ano,
             safe_cast(cod_ as string) id_municipio,
@@ -26,12 +26,13 @@ with
             safe_cast(sexo as string) sexo,
             safe_cast(pessoas_quilombolas_pessoas_ as int64) pessoas,
         from
-            `basedosdados-dev.br_ibge_censo_2022_staging.quilombolas_localizacao_domicilio_grupo_idade_municipio`
+            `basedosdados-dev.br_ibge_censo_2022_staging.populacao_grupo_idade_sexo_quilombola`
             as t
     )
 select
-    ibge.* except (idade, idade_num, pessoas),
-    idade_num as idade_anos,
+    ano,
+    id_municipio,
+    localizacao_domicilio,
     case
         when idade_num between 0 and 4
         then '0 a 4 anos'
@@ -75,11 +76,8 @@ select
         then '95 a 99 anos'
         else '100 anos ou mais'
     end as grupo_idade,
-    pessoas,
-from ibge
-where
-    not (
-        idade like '% a %'
-        or idade like '100 anos ou mais'
-        or idade like 'Menos de 1 ano'
-    )
+    sexo,
+    sum(pessoas) as populacao_quilombola,
+from idade_2_idade_numerica
+where not (idade like '% a %' or idade like 'Menos de 1 ano')
+group by 1, 2, 3, 4, 5
