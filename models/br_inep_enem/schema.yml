@@ -266,92 +266,92 @@ models:
           combination_of_columns: [id_inscricao]
       - custom_dictionary_coverage:
           columns_covered_by_dictionary:
-            - Q001
-            - Q002
-            - Q003
-            - Q004
-            - Q005
-            - Q006
-            - Q007
-            - Q008
-            - Q009
-            - Q010
-            - Q011
-            - Q012
-            - Q013
-            - Q014
-            - Q015
-            - Q016
-            - Q017
-            - Q018
-            - Q019
-            - Q020
-            - Q021
-            - Q022
-            - Q023
-            - Q024
-            - Q025
+            - q001
+            - q002
+            - q003
+            - q004
+            - q005
+            - q006
+            - q007
+            - q008
+            - q009
+            - q010
+            - q011
+            - q012
+            - q013
+            - q014
+            - q015
+            - q016
+            - q017
+            - q018
+            - q019
+            - q020
+            - q021
+            - q022
+            - q023
+            - q024
+            - q025
           dictionary_model: ref('br_inep_enem__dicionario')
     columns:
       - name: id_inscricao
         description: Número de inscrição no ENEM
-      - name: Q001
+      - name: q001
         description: Até que série seu pai, ou o homem responsável por você, estudou?
-      - name: Q002
+      - name: q002
         description: Até que série sua mãe, ou a mulher responsável por você, estudou?
-      - name: Q003
+      - name: q003
         description: A partir da apresentação de algumas ocupações divididas em grupos
           ordenados, indique o grupo que contempla a ocupação mais próxima da ocupação
           do seu pai ou do homem responsável por você. (Se ele não estiver trabalhando,
           escolha uma ocupação pensando no último trabalho dele).
-      - name: Q004
+      - name: q004
         description: A partir da apresentação de algumas ocupações divididas em grupos
           ordenados, indique o grupo que contempla a ocupação mais próxima da ocupação
           da sua mãe ou da mulher responsável por você. (Se ela não estiver trabalhando,
           escolha uma ocupação pensando no último trabalho dela).
-      - name: Q005
+      - name: q005
         description: Incluindo você, quantas pessoas moram atualmente em sua residência?
-      - name: Q006
+      - name: q006
         description: Qual é a renda mensal de sua família? (Some a sua renda com a
           dos seus familiares.)
-      - name: Q007
+      - name: q007
         description: Em sua residência trabalha empregado(a) doméstico(a)?
-      - name: Q008
+      - name: q008
         description: Na sua residência tem banheiro?
-      - name: Q009
+      - name: q009
         description: Na sua residência tem quartos para dormir?
-      - name: Q010
+      - name: q010
         description: Na sua residência tem carro?
-      - name: Q011
+      - name: q011
         description: Na sua residência tem motocicleta?
-      - name: Q012
+      - name: q012
         description: Na sua residência tem geladeira?
-      - name: Q013
+      - name: q013
         description: Na sua residência tem freezer (independente ou segunda porta
           da geladeira)?
-      - name: Q014
+      - name: q014
         description: Na sua residência tem máquina de lavar roupa? (o tanquinho NÃO
           deve ser considerado)
-      - name: Q015
+      - name: q015
         description: Na sua residência tem máquina de secar roupa (independente ou
           em conjunto com a máquina de lavar roupa)?
-      - name: Q016
+      - name: q016
         description: Na sua residência tem forno micro-ondas?
-      - name: Q017
+      - name: q017
         description: Na sua residência tem máquina de lavar louça?
-      - name: Q018
+      - name: q018
         description: Na sua residência tem aspirador de pó?
-      - name: Q019
+      - name: q019
         description: Na sua residência tem televisão em cores?
-      - name: Q020
+      - name: q020
         description: Na sua residência tem aparelho de DVD?
-      - name: Q021
+      - name: q021
         description: Na sua residência tem TV por assinatura?
-      - name: Q022
+      - name: q022
         description: Na sua residência tem telefone celular?
-      - name: Q023
+      - name: q023
         description: Na sua residência tem telefone fixo?
-      - name: Q024
+      - name: q024
         description: Na sua residência tem computador?
-      - name: Q025
+      - name: q025
         description: Na sua residência tem acesso à Internet?
