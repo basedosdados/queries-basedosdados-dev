@@ -1,816 +1,6 @@
 ---
 version: 2
 models:
-  - name: br_ibge_censo_2022__quilombolas_domicilio_morador_municipio
-    description: Domicílios particulares permanentes ocupados e Moradores, total e
-      quilombolas, em domicílios particulares permanentes, segundo localização do
-      domicílio.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_municipio, localizacao_domicilio]
-    columns:
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: domicilios
-        description: Domicílios particulares permanentes ocupados
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores
-        description: Moradores em domicílios particulares permanentes ocupados
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores_quilombolas
-        description: Moradores quilombolas em domicílios particulares permanentes
-          ocupados
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: localizacao_domicilio
-        description: Localização do Domicílio
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__quilombolas_populacao_residente_territorio_quilombola
-    description: População residente em territórios quilombolas, total e quilombola,
-      segundo os Territórios Quilombolas.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [territorio_quilombola, sigla_uf]
-    columns:
-      - name: territorio_quilombola
-        description: Território Quilombola
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: sigla_uf
-        description: Sigla da Unidade da Federação
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: populacao_residente
-        description: Pessoas residentes em territórios quilombolas
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: pessoas_quilombolas
-        description: Pessoas quilombolas residentes em territórios quilombolas
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__quilombolas_domicilio_pelo_menos_um_morador_quilombola_territorio_quilombola
-    description: Domicílios particulares permanentes ocupados com pelo menos um morador
-      quilombola e Moradores, total e quilombolas, em domicílios particulares permanentes
-      ocupados com pelo menos um morador quilombola, segundo os Territórios Quilombolas.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_territorio_quilombola]
-    columns:
-      - name: id_territorio_quilombola
-        description: ID Território Quilombola IBGE 5 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: territorio_quilombola
-        description: Território Quilombola
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: sigla_uf
-        description: Sigla da Unidade da Federação
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: domicilios
-        description: Domicílios particulares permanentes ocupados localizados em territórios
-          quilombolas
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores
-        description: Moradores em domicílios particulares permanentes ocupados localizados
-          em territórios quilombolas
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores_quilombolas
-        description: Moradores quilombolas em domicílios particulares permanentes
-          ocupados localizados em territórios quilombolas
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__quilombolas_populacao_residente_municipio
-    description: População residente por municipio.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_municipio, territorios_quilombolas]
-    columns:
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: pessoas_quilombolas
-        description: População residente, total e quilombola, Em territórios quilombolas
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: populacao_residente
-        description: População residente, total e quilombola, fora de territórios
-          quilombolas
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__quilombolas_domicilio_morador_territorio_quilombola
-    description: Domicílios particulares permanentes ocupados e Moradores, total e
-      quilombolas, em domicílios particulares permanentes, por território quilombola.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_territorio_quilombola]
-    columns:
-      - name: id_territorio_quilombola
-        description: ID Território Quilombola 5 dígitos IBGE
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: territorio_quilombola
-        description: Território Quilombola
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: sigla_uf
-        description: Sigla da Unidade da Federação
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: domicilios
-        description: Domicílios particulares permanentes ocupados com pelo menos um
-          morador quilombola
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores
-        description: Moradores em domicílios particulares permanentes ocupados com
-          pelo menos um morador quilombola
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores_quilombolas
-        description: Moradores quilombolas em domicílios particulares permanentes
-          ocupados com pelo menos um morador quilombola
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__indigenas_domicilio_pelo_menos_um_morador_indigena_terra_indigena
-    description: Domicílios particulares permanentes ocupados com pelo menos um morador
-      indígena e Moradores, total e indígenas, em domicílios particulares permanentes
-      ocupados com pelo menos um morador indígena, segundo as Terras Indígenas.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_terra_indigena]
-    columns:
-      - name: id_terra_indigena
-        description: ID Terra Indígena IBGE 7 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: terra_indigena
-        description: Terra Indígena
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: domicilios
-        description: Domicílios particulares permanentes ocupados com pelo menos um
-          morador indígena
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores
-        description: Moradores em domicílios particulares permanentes ocupados com
-          pelo menos um morador indígena
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores_indigenas
-        description: Moradores indígenas em domicílios particulares permanentes ocupados
-          com pelo menos um morador indígena
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__populacao_residente_municipio
-    description: População residente, por sexo, idade e forma de declaração da idade
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - id_municipio
-            - forma_declaracao_idade
-            - sexo
-            - idade
-    columns:
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: forma_declaracao_idade
-        description: Forma de declaração da idade
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: sexo
-        description: Sexo
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: idade
-        description: Idade
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: populacao_residente
-        description: População residente
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__area_territorial_densidade_demografica_municipio
-    description: População Residente, Área territorial e Densidade demográfica
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_municipio]
-    columns:
-      - name: id_municipio
-        description: ID Município 7 dígitos IBGE
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: populacao_residente
-        description: População residente
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: area_unidade_territorial
-        description: Área da unidade territorial
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__domicilio_morador_municipio
-    description: Domicílios particulares permanentes ocupados e Moradores em domicílios
-      particulares permanentes ocupados.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_municipio]
-    columns:
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: domicilios
-        description: Domicílios particulares permanentes ocupados
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores
-        description: Moradores em domicílios particulares permanentes ocupados
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__indice_envelhecimento_municipio
-    description: Índice de envelhecimento, idade mediana e razão de sexo da população
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_municipio]
-    columns:
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: indice_envelhecimento
-        description: Índice de envelhecimento
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: idade_mediana
-        description: Idade mediana
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: razao_sexo
-        description: Razão de sexo
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__domicilio_recenseado_especie_municipio
-    description: Domicílios recenseados, por espécie
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_municipio, especie]
-    columns:
-      - name: id_municipio
-        description: ID Município IBGE 7 Dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: especie
-        description: Espécie
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: domicilios
-        description: Domicílios Recenseados
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__indigenas_domicilio_morador_municipio
-    description: Domicílios particulares permanentes ocupados e Moradores, total e
-      indígenas, em domicílios particulares permanentes ocupados, por localização
-      do domicílio, nos Censos Demográficos.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_municipio, localizacao_domicilio]
-    columns:
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: localizacao_domicilio
-        description: Localização Domicílio
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: domicilios
-        description: Domicílios particulares permanentes ocupados
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores
-        description: Moradores em domicílios particulares permanentes ocupados
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores_indigenas
-        description: Moradores indígenas em domicílios particulares permanentes ocupados
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__quilombolas_domicilio_pelo_menos_um_morador_quilombola_municipio
-    description: Domicílios particulares permanentes ocupados com pelo menos um morador
-      quilombola e Moradores, total e moradores quilombolas, em domicílios particulares
-      permanentes ocupados com pelo menos um morador quilombola, por localização do
-      domicílio.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_municipio, localizacao_domicilio]
-    columns:
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: domicilios
-        description: Domicílios particulares permanentes ocupados com pelo menos um
-          morador quilombola
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores
-        description: Moradores em domicílios particulares permanentes ocupados com
-          pelo menos um morador quilombola
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores_quilombolas
-        description: Moradores quilombolas em domicílios particulares permanentes
-          ocupados com pelo menos um morador quilombola
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: localizacao_domicilio
-        description: Localização do Domicílio
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__indigenas_populacao_residente_terra_indigena
-    description: População residente em terras indígenas, total e indígenas, por quesito
-      de declaração indígena, segundo as Terras Indígenas.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_terra_indigena, quesito_declaracao_indigena]
-    columns:
-      - name: id_terra_indigena
-        description: ID Terra Indígena IBGE 7 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: terra_indigena
-        description: Terra Indígena
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: sigla_uf
-        description: Sigla da Unidade da Federação
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__uf')
-              field: sigla
-      - name: populacao_residente
-        description: Pessoas residentes em terras indígenas
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: pessoas_indigenas
-        description: Pessoas indígenas residentes em terras indígenas
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: quesito_declaracao_indigena
-        description: Quesito de declaração indígena
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__indigenas_domicilio_morador_terra_indigena
-    description: Domicílios particulares permanentes ocupados localizados em terras
-      indígenas e Moradores, total e indígenas, em domicílios particulares permanentes
-      ocupados localizados em terras indígenas, segundo as Terras Indígenas, nos Censos
-      Demográficos.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_terra_indigena]
-    columns:
-      - name: id_terra_indigena
-        description: ID Terra Indígena IBGE 7 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: sigla_uf
-        description: Sigla da Unidade da Federação
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__uf')
-              field: sigla
-      - name: terra_indigena
-        description: Terra Indígena
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: domicilios
-        description: Domicílios particulares permanentes ocupados localizados em terras
-          indígenas
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores
-        description: Moradores em domicílios particulares permanentes ocupados localizados
-          em terras indígenas
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores_indigenas
-        description: Moradores indígenas em domicílios particulares permanentes ocupados
-          localizados em terras indígenas
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__indigenas_domicilio_pelo_menos_um_morador_indigena_municipio
-    description: Domicílios particulares permanentes ocupados com pelo menos um morador
-      indígena e Moradores, total e indígenas, em domicílios particulares permanentes
-      ocupados com pelo menos um morador indígena, por localização do domicílio, nos
-      Censos Demográficos.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_municipio, localizacao_domicilio]
-    columns:
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: localizacao_domicilio
-        description: Localização Domicílio
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: domicilios
-        description: Domicílios particulares permanentes ocupados com pelo menos um
-          morador indígena
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores
-        description: Moradores em domicílios particulares permanentes ocupados com
-          pelo menos um morador indígena
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: moradores_indigenas
-        description: Moradores indígenas em domicílios particulares permanentes ocupados
-          com pelo menos um morador indígena
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__indigenas_populacao_residente_municipio
-    description: População residente, total e indígena, por localização do domicílio
-      e quesito de declaração indígena nos Censos Demográficos.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - id_municipio
-            - quesito_declaracao_indigena
-            - localizacao_domicilio
-    columns:
-      - name: id_municipio
-        description: ID Município 7 dígitos IBGE
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: quesito_declaracao_indigena
-        description: Quesito de declaração Indígena
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: localizacao_domicilio
-        description: Localização Domicílio
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: pessoas_indigenas
-        description: Pessoas indígenas
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: populacao_residente
-        description: População Residente
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__populacao_grupo_idade_uf
-    description: População, por grupos de idade
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [sigla_uf, grupo_idade]
-    columns:
-      - name: sigla_uf
-        description: Sigla da Unidade da Federação
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__uf')
-              field: sigla
-      - name: grupo_idade
-        description: Grupo de idade
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: populacao
-        description: População
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__indigenas_indice_envelhecimento_grupo_idade_municipio
-    description: teste
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - ano
-            - id_municipio
-            - quesito_declaracao_indigena
-    columns:
-      - name: ano
-        description: Ano
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id
-      - name: quesito_declaracao_indigena
-        description: Quesito de declaração indígena
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: indice_envelhecimento
-        description: Índice de envelhecimento da população indígena
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: idade_mediana
-        description: Idade mediana da população indígena
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: razao_sexo
-        description: Razão de sexo da população indígena
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__indigenas_populacao_grupo_idade_municipio
-    description: teste
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, id_municipio, grupo_idade, sexo]
-    columns:
-      - name: ano
-        description: Ano
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id
-      - name: grupo_idade
-        description: Grupo de Idade
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: sexo
-        description: Sexo
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: populacao_residente
-        description: População Residentne
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__indice_envelhecimento_cor_raca_municipio
-    description: teste
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, id_municipio, cor_raca]
-    columns:
-      - name: ano
-        description: Ano
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id
-      - name: cor_raca
-        description: Cor ou Raça
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: indice_envelhecimento
-        description: 'Índice de envelhecimento (Idosos: 60 anos ou mais de idade)'
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: idade_mediana
-        description: Idade mediana
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: razao_sexo
-        description: Razão de sexo
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__populacao_residente_cor_raca_municipio
-    description: teste
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - ano
-            - id_municipio
-            - grupo_idade
-            - sexo
-            - cor_raca
-    columns:
-      - name: ano
-        description: Ano
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id
-      - name: grupo_idade
-        description: Grupo de Idade
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: sexo
-        description: Sexo
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: cor_raca
-        description: Cor ou Raça
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-      - name: populacao_residente
-        description: População
-        tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.05
-  - name: br_ibge_censo_2022__domicilio_morador_setor_censitario
-    description: description
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_uf, id_municipio, id_setor_censitario]
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
-    columns:
-      - name: id_uf
-        description: ID da Unidade da Federação
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__uf')
-              field: id_uf
-      - name: id_municipio
-        description: ID Município IBGE - 7 Dígitos
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: id_setor_censitario
-        description: Geocódigo de Setor Censitário
-      - name: area_setor
-        description: Área do Setor Censitário em quilômetros quadrados
-      - name: geometria
-        description: Polígono
-      - name: pessoas
-        description: Total de pessoas
-      - name: domicilios
-        description: Total de Domicílios (DPPO + DPPV + DPPUO + DPIO + DCCM + DCSM)
-      - name: domicilios_particulares
-        description: Total de Domicílios Particulares (DPPO + DPPV + DPPUO + DPIO)
-      - name: domicilios_coletivos
-        description: Total de Domicílios Coletivos (DCCM + DCSM)
-      - name: media_moradores_domicilios
-        description: Média de moradores em Domicílios Particulares Ocupados (Total
-          pessoas em Domicílios Particulares Ocupados / DPPO + DPIO)
-      - name: porcentagem_domicilios_imputados
-        description: Percentual de Domicílios Particulares Ocupados Imputados (Total
-          DPO imputados / Total DPO)
-      - name: domicilios_particulares_ocupados
-        description: Total de Domicílios Particulares Ocupados (DPPO + DPIO)
   - name: br_ibge_censo_2022__dicionario
     description: Dicionário para tradução dos códigos do conjunto br_ibge_censo_2022.
       Para taduzir códigos compartilhados entre instituições, como id_municipio, buscar
@@ -822,8 +12,6 @@ models:
             - nome_coluna
             - chave
             - cobertura_temporal
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
     columns:
       - name: id_tabela
         description: ID Tabela
@@ -835,309 +23,55 @@ models:
         description: Cobertura Temporal
       - name: valor
         description: Valor
-  - name: br_ibge_censo_2022__quilombolas_localizacao_domicilio_grupo_idade_municipio
-    description: Insert table description here
-    tests:
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
-    columns:
-      - name: ano
-        description: Ano
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: localizacao_domicilio
-        description: Localização do Domicílio
-      - name: idade_anos
-        description: Idade
-        tests:
-          - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 120
-              where: idade_anos is not null
-      - name: grupo_idade
-        description: Grupo de Idade
-      - name: sexo
-        description: Sexo
-      - name: pessoas
-        description: Pessoas Quilombolas
-  - name: br_ibge_censo_2022__quilombolas_indice_envelhecimento_localizacao_domicilio_municipio
-    description: Insert table description here
+  - name: br_ibge_censo_2022__indice_envelhecimento
+    description: Índice de envelhecimento, idade mediana e razão de sexo da população
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, id_municipio, localizacao_domicilio]
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          combination_of_columns: [id_municipio]
     columns:
-      - name: ano
-        description: Ano
       - name: id_municipio
         description: ID Município IBGE 7 dígitos
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio
-      - name: localizacao_domicilio
-        description: Localização do Domicílio
       - name: indice_envelhecimento
-        description: Índice de envelhecimento da população quilombola
+        description: Índice de envelhecimento
       - name: idade_mediana
-        description: Idade mediana da população quilombola
-        tests:
-          - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 120
-              where: idade_mediana is not null
+        description: Idade mediana
       - name: razao_sexo
-        description: Razão de sexo da população quilombola
-        tests:
-          - dbt_utils.expression_is_true:
-              expression: '>= 1'
-              where: razao_sexo is not null
-  - name: br_ibge_censo_2022__quilombolas_populacao_residente_grupo_idade_territorio_quilombola
-    description: Insert table description here
-    tests:
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
-    columns:
-      - name: ano
-        description: Ano
-      # - name: id_territorio_quilombola
-      #   description: ID do Território Quilombola
-      - name: territorio_quilombola
-        description: Nome Território Quilombola
-      - name: sigla_uf
-        description: Sigla da Unidade da Federação
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__uf')
-              field: sigla
-      - name: sexo
-        description: Sexo
-      - name: idade_anos
-        description: Idade
-        tests:
-          - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 120
-              where: idade_anos is not null
-      - name: grupo_idade
-        description: Grupo de Idade
-      - name: pessoas_quilombolas
-        description: Pessoas quilombolas residentes em territórios quilombolas
-      - name: populacao_residente
-        description: Pessoas residentes em territórios quilombolas
-  - name: br_ibge_censo_2022__quilombolas_indice_envelhecimento_territorio_quilombola
-    description: Insert table description here
+        description: Razão de sexo
+  - name: br_ibge_censo_2022__alfabetizacao_grupo_idade_indigena
+    description: Taxa de alfabetização das pessoas indígenas de 15 anos ou mais de
+      idade por sexo e grupos de idade
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ano, id_territorio_quilombola]
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
+          combination_of_columns: [id_municipio, sexo, grupo_idade]
     columns:
-      - name: ano
-        description: Ano
-      - name: id_territorio_quilombola
-        description: ID do Território Quilombola
-      - name: territorio_quilombola
-        description: Nome do Território Quilombola
-      - name: sigla_uf
-        description: Sigla da Unidade da Federação
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__uf')
-              field: sigla
-      - name: indice_envelhecimento
-        description: Índice de envelhecimento da população residente em territórios
-          quilombolas
-      - name: idade_mediana
-        description: Idade mediana da população residente em territórios quilombolas
-        tests:
-          - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 120
-              where: idade_mediana is not null
-      - name: razao_sexo
-        description: Razão de sexo da população residente em territórios quilombolas
-        tests:
-          - dbt_utils.expression_is_true:
-              expression: '>= 1'
-              where: razao_sexo is not null
-      - name: indice_envelhecimento_populacao_quilombola
-        description: Índice de envelhecimento da população quilombola residente em
-          territórios quilombolas
-      - name: idade_mediana_populacao_quilombola
-        description: Idade mediana da população quilombola residente em territórios
-          quilombolas
-      - name: razao_sexo_quilombola
-        description: Razão de sexo da população quilombola residente em territórios
-          quilombolas
-  - name: br_ibge_censo_2022__indigenas_localizacao_docimicilio_grupo_idade_municipio
-    description: Insert table description here
-    tests:
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
-    columns:
-      - name: ano
-        description: Ano
       - name: id_municipio
         description: ID Município IBGE 7 dígitos
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio
-      - name: localizacao_domicilio
-        description: Localização do Domicílio
-      - name: idade_anos
-        description: Idade
+      - name: sexo
+        description: Sexo
       - name: grupo_idade
         description: Grupo de Idade
-      - name: sexo
-        description: Sexo
-      - name: pessoas
-        description: Pessoas Indígenas
-  - name: br_ibge_censo_2022__indigenas_indice_envelhecimento_localizacao_domicilio_municipio
-    description: Insert table description here
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - ano
-            - id_municipio
-            - localizacao_domicilio
-            - quesito_declaracao_indigena
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
-    columns:
-      - name: ano
-        description: Ano
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: localizacao_domicilio
-        description: Localização do Domicílio
-      - name: quesito_declaracao_indigena
-        description: Quesito de declaração indígena
-      - name: indice_envelhecimento
-        description: Índice de envelhecimento da população indígena
-      - name: idade_mediana
-        description: Idade mediana da população indígena
-        tests:
-          - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 120
-              where: idade_mediana is not null
-      - name: razao_sexo
-        description: Razão de sexo da população indígena
-        tests:
-          - dbt_utils.expression_is_true:
-              expression: '>= 1'
-              where: razao_sexo is not null
-  - name: br_ibge_censo_2022__indigenas_populacao_residente_grupo_idade_terras_indigenas
-    description: Insert table description here
-    tests:
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
-    columns:
-      - name: ano
-        description: Ano
-      - name: id_terra_indigena
-        description: ID da Terra Indígena
-      - name: terra_indigena
-        description: Nome Terra Indígena
-      - name: sigla_uf
-        description: Sigla da Unidade da Federação
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__uf')
-              field: sigla
-      - name: quesito_declaracao_indigena
-        description: Quesito declaração indígena
-      - name: sexo
-        description: Sexo
-      - name: idade_anos
-        description: Idade
-      - name: grupo_idade
-        description: Grupo de idade
-      - name: pessoas_indigenas
-        description: Pessoas indígenas residentes em terras indígenas
-      - name: populacao_residente
-        description: Pessoas residentes em terras indígenas
-  - name: br_ibge_censo_2022__indigenas_indice_envelhecimento_terras_indigenas
-    description: Insert table description here
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - ano
-            - id_terra_indigena
-            - terra_indigena
-            - sigla_uf
-            - quesito_declaracao_indigena
-      - not_null_proportion_multiple_columns:
-          at_least: 0.05
-    columns:
-      - name: ano
-        description: Ano
-      - name: id_terra_indigena
-        description: ID da Terra Indígena
-      - name: terra_indigena
-        description: Nome da Terra Indígena
-      - name: sigla_uf
-        description: Sigla da Unidade da Federação
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__uf')
-              field: sigla
-      - name: quesito_declaracao_indigena
-        description: Quesito declaração indígena
-      - name: indice_envelhecimento
-        description: Índice de envelhecimento da população residente em terras indígenas
-      - name: idade_mediana
-        description: Idade mediana da população residente em terras indígenas
-        tests:
-          - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 120
-              where: idade_mediana is not null
-      - name: razao_sexo
-        description: Razão de sexo da população residente em terras indígenas
-        tests:
-          - dbt_utils.expression_is_true:
-              expression: '>= 1'
-              where: razao_sexo is not null
-      - name: indice_envelhecimento_populacao_indigena
-        description: Índice de envelhecimento da população indígena residente em terras
-          indígenas
-      - name: idade_mediana_populacao_indigena
-        description: Idade mediana da população indígena residente em terras indígenas
-      - name: razao_sexo_populacao_indigena
-        description: Razão de sexo da população indígena residente em terras indígenas
-  - name: br_ibge_censo_2022__indigenas_populacao_alfabetizada_grupo_idade_municipio
-    description: Insert table description here
-    columns:
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: sexo
-        description: Sexo
-        tests: [not_null]
-      - name: grupo_idade
-        description: Grupo de Idade
-        tests: [not_null]
       - name: alfabetizacao
         description: Alfabetização
       - name: populacao_indigena
         description: Pessoas indígenas de 15 anos ou mais de idade
-  - name: br_ibge_censo_2022__populacao_alfabetizada_cor_raca_grupo_idade_municipio
+  - name: br_ibge_censo_2022__alfabetizacao_grupo_idade_sexo_raca
     description: Insert table description here
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - id_municipio
+            - cor_raca
+            - sexo
+            - grupo_idade
+            - alfabetizacao
     columns:
       - name: id_municipio
         description: ID Município IBGE 7 dígitos
@@ -1147,54 +81,14 @@ models:
               field: id_municipio
       - name: cor_raca
         description: Cor ou raça
-        tests: [not_null]
       - name: sexo
         description: Sexo
       - name: grupo_idade
         description: Grupo de Idade
-        tests: [not_null]
       - name: alfabetizacao
         description: Alfabetização
       - name: populacao
-        description: 'Pessoas de 15 anos ou mais de idade '
-  - name: br_ibge_censo_2022__taxa_alfabetizacao_cor_raca_grupo_idade_municipio
-    description: Insert table description here
-    tests:
-      - not_null_proportion_multiple_columns:
-          at_least: 0.95
-    columns:
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: cor_raca
-        description: Cor ou raça
-      - name: sexo
-        description: Sexo
-      - name: grupo_idade
-        description: Grupo de Idade
-      - name: taxa_alfabetizacao
-        description: Taxa de alfabetização das pessoas de 15 anos ou mais de idade
-  - name: br_ibge_censo_2022__indigenas_taxa_alfabetizacao_grupo_idade_municipio
-    description: Insert table description here
-    columns:
-      - name: id_municipio
-        description: ID Município IBGE 7 dígitos
-        tests:
-          - relationships:
-              to: ref('br_bd_diretorios_brasil__municipio')
-              field: id_municipio
-      - name: sexo
-        description: Sexo
-        tests: [not_null]
-      - name: grupo_idade
-        description: Grupo de Idade
-        tests: [not_null]
-      - name: taxa_alfabetizacao
-        description: Taxa de alfabetização das pessoas indígenas de 15 anos ou mais
-          de idade
+        description: Pessoas de 15 anos ou mais de idade
   - name: br_ibge_censo_2022__cadastro_enderecos
     description: O Cadastro Nacional de Endereços para Fins Estatísticos - CNEFE é
       uma base de dados de abrangência nacional criada em 2005. Esse cadastro contempla
@@ -1202,19 +96,20 @@ models:
       para o ano de 2022.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [id_endereco, tipo_especie]
-      - custom_dictionary_coverage:
+          combination_of_columns: [id_endereco]
+      - custom_dictionaries:
           columns_covered_by_dictionary:
-            - nivel_geocodificacao_coordenadas
+            - descricao_estabelecimento
             - tipo_especie
             - tipo_estabelecimento
             - tipo_construcao
             - tipo_finalidade_construcao
             - tipo_edificacao_domicilio
+            - nivel_geocodificacao_coordenadas
           dictionary_model: ref('br_ibge_censo_2022__dicionario')
     columns:
       - name: sigla_uf
-        description: ID da Unidade da Federação
+        description: Sigla da Unidade da Federação
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__uf')
@@ -1231,13 +126,14 @@ models:
         description: ID do Subdistrito
       - name: id_setor_censitario
         description: ID do Setor Censitário
-        tests: [not_null]
       - name: cep
         description: CEP
-        tests: [not_null]
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__cep')
+              field: cep.cep
       - name: id_endereco
         description: Identificador do endereço
-        tests: [not_null]
       - name: numero_quadra
         description: Número da quadra
       - name: numero_face
@@ -1274,14 +170,6 @@ models:
         description: 'Complemento: Elemento 5'
       - name: complemento_valor_5
         description: 'Complemento: Valor 5'
-      - name: latitude
-        description: Latitude do Endereço
-      - name: longitude
-        description: Longitude do Endereço
-      - name: ponto
-        description: Ponto geográfico criado a partir das colunas longitude e latitude
-      - name: nivel_geocodificacao_coordenadas
-        description: Nível de geocodificação das coordenadas
       - name: descricao_estabelecimento
         description: Identificação do estabelecimento
       - name: tipo_especie
@@ -1294,3 +182,539 @@ models:
         description: Tipo de finalidade de construção
       - name: tipo_edificacao_domicilio
         description: Tipo da edificação dos domicílios
+      - name: nivel_geocodificacao_coordenadas
+        description: Nível de geocodificação das coordenadas
+      - name: latitude
+        description: Latitude do Endereço
+      - name: longitude
+        description: Longitude do Endereço
+      - name: ponto
+        description: Ponto geográfico criado a partir das colunas longitude e latitude
+  - name: br_ibge_censo_2022__caracteristica_domicilio_grupo_idade_raca_destino_lixo
+    description: Moradores em domicílios particulares permanentes ocupados, por destino
+      do lixo, segundo grupos de idade e cor ou raça
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - ano
+            - id_municipio
+            - tipo_destino_lixo
+            - grupo_idade
+            - cor_raca
+    columns:
+      - name: ano
+        description: Ano
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano
+      - name: id_municipio
+        description: ID Município IBGE 7 dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
+      - name: tipo_destino_lixo
+        description: Destino do lixo
+      - name: grupo_idade
+        description: Grupo de Idade
+      - name: cor_raca
+        description: Cor ou Raça
+      - name: populacao
+        description: Moradores em domicílios particulares permanentes ocupados
+  - name: br_ibge_censo_2022__caracteristica_domicilio_grupo_idade_raca_esgotamento_sanitario
+    description: Moradores em domicílios particulares permanentes ocupados, por tipo
+      de esgotamento sanitário, segundo grupos de idade e cor ou raça
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - ano
+            - id_municipio
+            - tipo_esgotamento_sanitario
+            - grupo_idade
+            - cor_raca
+    columns:
+      - name: ano
+        description: Ano
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano
+      - name: id_municipio
+        description: ID Município IBGE 7 dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
+      - name: tipo_esgotamento_sanitario
+        description: Tipo de esgotamento sanitário
+      - name: grupo_idade
+        description: Grupo de Idade
+      - name: cor_raca
+        description: Cor ou Raça
+      - name: populacao
+        description: Moradores em domicílios particulares permanentes ocupados
+  - name: br_ibge_censo_2022__caracteristica_domicilio_grupo_idade_raca_ligacao_abastecimento_agua
+    description: Moradores em domicílios particulares permanentes ocupados, por existência
+      de ligação à rede geral de distribuição de água e principal forma de abastecimento
+      de água, segundo grupos de idade e cor ou raça
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - ano
+            - id_municipio
+            - tipo_ligacao_rede_geral
+            - grupo_idade
+            - cor_raca
+    columns:
+      - name: ano
+        description: Ano
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano
+      - name: id_municipio
+        description: ID Município IBGE 7 dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
+      - name: tipo_ligacao_rede_geral
+        description: Existência de ligação à rede geral de distribuição de água e
+          principal forma de abastecimento de água
+      - name: grupo_idade
+        description: Grupo de Idade
+      - name: cor_raca
+        description: Cor ou Raça
+      - name: populacao
+        description: Moradores em domicílios particulares permanentes ocupados
+  - name: br_ibge_censo_2022__domicilio_recenseado
+    description: Domicílios recenseados, por espécie
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [id_municipio, especie]
+    columns:
+      - name: id_municipio
+        description: ID Município IBGE 7 Dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
+      - name: especie
+        description: Classificação do domicílio
+      - name: domicilios
+        description: Total de domicílios recenseados
+  - name: br_ibge_censo_2022__indice_envelhecimento_raca
+    description: Índice de envelhecimento, idade mediana e razão de sexo, por cor
+      ou raça
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [ano, id_municipio, cor_raca]
+    columns:
+      - name: ano
+        description: Ano
+      - name: id_municipio
+        description: ID Município IBGE 7 dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
+      - name: cor_raca
+        description: Cor ou Raça
+      - name: indice_envelhecimento
+        description: 'Índice de envelhecimento (Idosos: 60 anos ou mais de idade)'
+      - name: idade_mediana
+        description: Idade mediana
+      - name: razao_sexo
+        description: Razão de sexo
+  - name: br_ibge_censo_2022__municipio
+    description: Tabela de indicadores no nível de município
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [id_municipio]
+    columns:
+      - name: id_municipio
+        description: ID Município IBGE 7 dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
+      - name: sigla_uf
+        description: Sigla UF
+      - name: domicilios
+        description: Domicílios particulares permanentes ocupados
+      - name: populacao
+        description: Moradores em domicílios particulares permanentes ocupados
+      - name: area
+        description: Área do município
+      - name: taxa_alfabetizacao
+        description: Taxa de alfabetização das pessoas de 15 anos ou mais de idade
+      - name: indice_envelhecimento
+        description: Índice de envelhecimento
+      - name: idade_mediana
+        description: Idade mediana
+      - name: razao_sexo
+        description: Razão de sexo
+      - name: populacao_indigena
+        description: Moradores indígenas
+      - name: populacao_indigena_terra_indigena
+        description: Moradores indígenas em terras indígenas
+      - name: populacao_quilombola
+        description: Moradores quilombolas
+      - name: populacao_quilombola_territorio_quilombola
+        description: Moradores quilombolas em territórios quilombolas
+  - name: br_ibge_censo_2022__populacao_grupo_idade_sexo_quilombola
+    description: População quilombola, por localização do domicílio, grupos de idade
+      e sexo
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - ano
+            - id_municipio
+            - localizacao_domicilio
+            - grupo_idade
+            - sexo
+    columns:
+      - name: ano
+        description: Ano
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano
+      - name: id_municipio
+        description: ID Município IBGE 7 dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
+      - name: localizacao_domicilio
+        description: Localização do Domicílio
+      - name: grupo_idade
+        description: Grupo de Idade
+      - name: sexo
+        description: Sexo
+      - name: populacao_quilombola
+        description: Pessoas Quilombolas
+  - name: br_ibge_censo_2022__populacao_grupo_idade_sexo_raca
+    description: População indígena, por localização do domicílio, grupos de idade
+      e sexo
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - ano
+            - id_municipio
+            - grupo_idade
+            - sexo
+            - cor_raca
+    columns:
+      - name: ano
+        description: Ano
+      - name: id_municipio
+        description: ID Município IBGE 7 dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
+      - name: grupo_idade
+        description: Grupo de Idade
+      - name: sexo
+        description: Sexo
+      - name: cor_raca
+        description: Cor ou Raça
+      - name: populacao
+        description: População
+  - name: br_ibge_censo_2022__populacao_idade_sexo_terra_indigena
+    description: População residente em terras indígenas, total e indígenas, por idade,
+      sexo e quesito de declaração indígena, segundo as Terras Indígenas
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - ano
+            - id_terra_indigena
+            - quesito_declaracao_indigena
+            - sexo
+            - idade
+    columns:
+      - name: ano
+        description: Ano
+      - name: id_terra_indigena
+        description: ID da Terra Indígena
+      - name: terra_indigena
+        description: Terra Indígena
+      - name: sigla_uf
+        description: Sigla da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
+      - name: quesito_declaracao_indigena
+        description: Quesito declaração indígena
+      - name: sexo
+        description: Sexo
+      - name: idade
+        description: Idade
+      - name: idade_anos
+        description: Idade em anos
+      - name: grupo_idade
+        description: Grupo de Idade
+      - name: populacao_indigena
+        description: Pessoas indígenas residentes em terras indígenas
+      - name: populacao
+        description: Pessoas residentes em terras indígenas
+  - name: br_ibge_censo_2022__populacao_idade_sexo_territorio_quilombola
+    description: População residente em territórios quilombolas, total e quilombola,
+      por idade e sexo, segundo os Territórios Quilombolas
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - ano
+            - territorio_quilombola
+            - sigla_uf
+            - sexo
+            - idade
+    columns:
+      - name: ano
+        description: Ano
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano
+      - name: territorio_quilombola
+        description: Território Quilombola
+      - name: sigla_uf
+        description: Sigla da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
+      - name: sexo
+        description: Sexo
+      - name: idade_anos
+        description: Idade
+      - name: grupo_idade
+        description: Grupo de idade
+      - name: pessoas_quilombolas
+        description: Pessoas quilombolas residentes em territórios quilombolas
+      - name: populacao_residente
+        description: Pessoas residentes em territórios quilombolas
+  - name: br_ibge_censo_2022__populacao_grupo_idade_uf
+    description: População, por grupos de idade
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [sigla_uf, grupo_idade]
+    columns:
+      - name: sigla_uf
+        description: Sigla da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
+      - name: grupo_idade
+        description: Grupo de idade
+      - name: populacao
+        description: População
+  - name: br_ibge_censo_2022__setor_censitario
+    description: Informações tabulares sobre os totais de pessoas e de domicílios
+      por espécie, bem como sobre a média de moradores em domicílios particulares
+      ocupados, por Setores Censitários preliminares.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [id_setor_censitario]
+      - custom_dictionaries:
+          columns_covered_by_dictionary:
+            - id_setor
+            - id_distrito
+            - id_subdistrito
+            - id_microrregiao
+            - id_mesorregiao
+            - id_regiao_imediata
+            - id_regiao_intermediaria
+            - id_concentracao_urbana
+          dictionary_model: ref('br_ibge_censo_2022__dicionario')
+    columns:
+      - name: id_uf
+        description: ID da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: id_uf
+      - name: id_municipio
+        description: ID Município IBGE - 7 Dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
+      - name: id_setor
+        description: Geocódigo de Setor Censitário
+      - name: area_setor
+        description: Área do Setor Censitário em quilômetros quadrados
+      - name: id_distrito
+        description: Código do distrito
+      - name: id_subdistrito
+        description: Código do subdistrito
+      - name: id_microrregiao
+        description: Código da microrregião
+      - name: id_mesorregiao
+        description: Código da mesorregião
+      - name: id_regiao_imediata
+        description: Código da região geográfica imediata
+      - name: id_regiao_intermediaria
+        description: Código da região geográfica intermediária
+      - name: id_concentracao_urbana
+        description: Código da Concentração Urbana
+      - name: geometria
+        description: Polígono
+      - name: pessoas
+        description: Total de pessoas
+      - name: domicilios
+        description: Total de Domicílios (DPPO + DPPV + DPPUO + DPIO + DCCM + DCSM)
+      - name: domicilios_particulares
+        description: Total de Domicílios Particulares (DPPO + DPPV + DPPUO + DPIO)
+      - name: domicilios_coletivos
+        description: Total de Domicílios Coletivos (DCCM + DCSM)
+      - name: media_moradores_domicilios
+        description: Média de moradores em Domicílios Particulares Ocupados (Total
+          pessoas em Domicílios Particulares Ocupados / DPPO + DPIO)
+      - name: porcentagem_domicilios_imputados
+        description: Percentual de Domicílios Particulares Ocupados Imputados (Total
+          DPO imputados / Total DPO)
+      - name: domcilios_particulares_ocupados
+        description: Total de Domicílios Particulares Ocupados (DPPO + DPIO)
+  - name: br_ibge_censo_2022__caracteristica_domicilio_grupo_idade_raca_tipo_domicilio
+    description: Moradores em domicílios particulares permanentes ocupados, por tipo
+      do domicílio, segundo grupos de idade e cor ou raça.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - ano
+            - id_municipio
+            - tipo_domicilio
+            - grupo_idade
+            - cor_raca
+    columns:
+      - name: ano
+        description: Ano
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano
+      - name: id_municipio
+        description: ID Município IBGE 7 dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
+      - name: tipo_domicilio
+        description: Tipo de domicílio
+      - name: grupo_idade
+        description: Grupo de Idade
+      - name: cor_raca
+        description: Cor ou Raça
+      - name: populacao
+        description: Moradores em domicílios particulares permanentes ocupados
+  - name: br_ibge_censo_2022__populacao_grupo_idade_sexo_indigena
+    description: Insert table description here
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [ano, id_municipio, grupo_idade, sexo]
+      - not_null_proportion_multiple_columns:
+          at_least: 0.05
+    columns:
+      - name: ano
+        description: Ano
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano
+      - name: id_municipio
+        description: ID Município IBGE 7 dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
+      - name: grupo_idade
+        description: Grupo de Idade
+      - name: sexo
+        description: Sexo
+      - name: populacao_indigena
+        description: Pessoas Indígenas
+  - name: br_ibge_censo_2022__populacao_idade_sexo
+    description: População por idade e sexo
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - id_municipio
+            - forma_declaracao_idade
+            - idade
+            - sexo
+    columns:
+      - name: id_municipio
+        description: ID Município IBGE 7 dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
+      - name: forma_declaracao_idade
+        description: Forma de declaração da idade
+      - name: sexo
+        description: Sexo
+      - name: idade
+        description: Idade
+      - name: idade_anos
+        description: Idade em anos
+      - name: grupo_idade
+        description: Idade agrupada em anos
+      - name: populacao
+        description: População residente
+  - name: br_ibge_censo_2022__territorio_quilombola
+    description: Domicílios particulares permanentes ocupados localizados em territórios
+      quilombolas e Moradores, total e quilombolas, em domicílios particulares permanentes
+      ocupados em territórios quilombolas, segundo os Territórios Quilombolas
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [id_territorio_quilombola]
+    columns:
+      - name: id_territorio_quilombola
+        description: ID do Território Quilombola
+      - name: territorio_quilombola
+        description: Nome do Território Quilombola
+      - name: sigla_uf
+        description: Sigla da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
+      - name: domicilios
+        description: Domicílios particulares permanentes ocupados localizados em territórios
+          quilombolas
+      - name: populacao
+        description: Moradores em domicílios particulares permanentes ocupados localizados
+          em territórios quilombolas
+      - name: populacao_quilombola
+        description: Moradores quilombolas em domicílios particulares permanentes
+          ocupados localizados em territórios quilombolas
+  - name: br_ibge_censo_2022__terra_indigena
+    description: População residente em terras indígenas, total e indígenas
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [id_terra_indigena]
+    columns:
+      - name: id_terra_indigena
+        description: Código da Terra Indígena
+      - name: terra_indigena
+        description: Terra Indígena
+      - name: sigla_uf
+        description: Sigla da Unidade da Federação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
+      - name: domicilios
+        description: Domicílios particulares permanentes ocupados localizados em terras
+          indígenas
+      - name: populacao
+        description: Moradores em domicílios particulares permanentes ocupados localizados
+          em terras indígenas
+      - name: populacao_indigena
+        description: Moradores indígenas em domicílios particulares permanentes ocupados
+          localizados em terras indígenas
