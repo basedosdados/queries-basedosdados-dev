@@ -3,6 +3,8 @@ import requests
 import os
 import basedosdados as bd
 import re
+
+from unidecode import unidecode
 from constants import constants
 import logging
 from tqdm import tqdm
@@ -35,6 +37,18 @@ def dataframe_to_parquet(df: pd.DataFrame, mkdir: bool, table_id: str) -> None:
     if mkdir:
         os.makedirs("/tmp/data/br_ibge_censo_2022/input", exist_ok=True)
     return df.to_parquet(path=f"/tmp/data/br_ibge_censo_2022/input/{table_id}.parquet", compression="gzip")
+
+
+def prepare_columns_for_bigquery(df):
+    df.columns = [
+        re.sub(r'\W+', '_', unidecode(col)).lower() for col in df.columns
+    ]
+
+    for col in df.columns:
+        print(col)
+
+
+    return df
 
 
 if __name__ == "__main__":
