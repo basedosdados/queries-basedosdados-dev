@@ -25,8 +25,6 @@ models:
         description: ID Candidato - Base dos Dados
       - name: id_eleicao
         description: ID Eleição
-      - name: id_tipo_item
-        description: ID Tipo Item
       - name: sequencial_candidato
         description: Sequencial do Candidato
       - name: sigla_uf
@@ -99,8 +97,6 @@ models:
         description: Gênero
       - name: idade
         description: Idade
-      - name: id_candidato_bd
-        description: ID Candidato - Base dos Dados
       - name: id_eleicao
         description: ID Eleição
       - name: id_municipio
@@ -187,12 +183,8 @@ models:
         description: CNPJ do candidato
       - name: cnpj_prestador_contas
         description: CNPJ do prestador de contas
-      - name: cpf_candidato
-        description: CPF do candidato
       - name: cpf_cnpj_fornecedor
         description: CPF ou CNPJ do fornecedor
-      - name: cpf_vice_suplente
-        description: CPF do vice ou suplente
       - name: data_despesa
         description: Data da despesa
         tests:
@@ -232,8 +224,6 @@ models:
         description: Espécie do recurso
       - name: fonte_recurso
         description: Fonte do recurso
-      - name: id_candidato_bd
-        description: ID Candidato - Base dos Dados
       - name: id_eleicao
         description: ID Eleição
       - name: id_municipio
@@ -256,16 +246,10 @@ models:
               to: ref('br_bd_diretorios_brasil__municipio')
               field: id_municipio_tse
               ignore_values: ['73709']
-      - name: nome_candidato
-        description: Nome do candidato
       - name: nome_fornecedor
         description: Nome do fornecedor
       - name: nome_fornecedor_rf
         description: Nome do fornecedor - Receita Federal
-      - name: nome_partido
-        description: Nome do partido
-      - name: nome_partido_fornecedor
-        description: Nome do partido do fornecedor
       - name: numero_candidato
         description: Número do candidato
       - name: numero_candidato_fornecedor
@@ -313,6 +297,8 @@ models:
         description: Tipo do fornecedor
       - name: tipo_prestacao_contas
         description: Tipo de prestação de contas
+      - name: titulo_eleitoral_candidato
+        description: Título eleitoral do candidato
       - name: turno
         description: Turno
       - name: valor_despesa
@@ -771,14 +757,10 @@ models:
         description: CNPJ do prestador de contas
       - name: cpf_administrador
         description: CPF do administrador
-      - name: cpf_candidato
-        description: CPF do candidato
       - name: cpf_cnpj_doador
         description: CPF ou CNPJ do doador
       - name: cpf_cnpj_doador_orig
         description: CPF ou CNPJ do doador originário
-      - name: cpf_vice_suplente
-        description: CPF do vice ou suplente
       - name: data_eleicao
         description: Data da eleição
         tests:
@@ -809,8 +791,6 @@ models:
         description: Espécie da receita
       - name: fonte_receita
         description: Fonte da receita
-      - name: id_candidato_bd
-        description: ID Candidato - Base dos Dados
       - name: id_eleicao
         description: ID Eleição
       - name: id_municipio
@@ -837,8 +817,6 @@ models:
         description: Natureza da receita
       - name: nome_administrador
         description: Nome do administrador
-      - name: nome_candidato
-        description: Nome do candidato
       - name: nome_doador
         description: Nome do doador
       - name: nome_doador_orig
@@ -847,10 +825,6 @@ models:
         description: Nome do doador originário - Receita Federal
       - name: nome_doador_rf
         description: Nome do doador - Receita Federal
-      - name: nome_partido
-        description: Nome do partido
-      - name: nome_partido_doador
-        description: Nome do partido do doador
       - name: numero_candidato
         description: Número do candidato
       - name: numero_candidato_doador
@@ -897,8 +871,8 @@ models:
         description: Tipo da eleição
       - name: tipo_prestacao_contas
         description: Tipo de prestação de contas
-      - name: titulo_eleitor_candidato
-        description: Título de eleitor do candidato
+      - name: titulo_eleitoral_candidato
+        description: Título eleitoral do candidato
       - name: turno
         description: Turno
       - name: valor_receita
@@ -1189,8 +1163,6 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__data')
               field: data.data
-      - name: id_candidato_bd
-        description: ID Candidato - Base dos Dados
       - name: id_eleicao
         description: ID Eleição
       - name: id_municipio
@@ -1227,6 +1199,8 @@ models:
               ignore_values: [GB, GP, RB]
       - name: tipo_eleicao
         description: Tipo da eleição
+      - name: titulo_eleitoral_candidato
+        description: Título eleitoral do candidato
       - name: turno
         description: Turno
       - name: votos
@@ -1261,8 +1235,6 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__data')
               field: data.data
-      - name: id_candidato_bd
-        description: ID Candidato - Base dos Dados
       - name: id_eleicao
         description: ID Eleição
       - name: id_municipio
@@ -1297,6 +1269,8 @@ models:
               ignore_values: [GB, GP, RB]
       - name: tipo_eleicao
         description: Tipo da eleição
+      - name: titulo_eleitoral_candidato
+        description: Título eleitoral do candidato
       - name: turno
         description: Turno
       - name: votos
@@ -1332,8 +1306,6 @@ models:
           - relationships:
               to: ref('br_bd_diretorios_data_tempo__data')
               field: data.data
-      - name: id_candidato_bd
-        description: ID Candidato - Base dos Dados
       - name: id_eleicao
         description: ID Eleição
       - name: id_municipio
@@ -1368,6 +1340,8 @@ models:
               ignore_values: [GB, GP, RB]
       - name: tipo_eleicao
         description: Tipo da eleição
+      - name: titulo_eleitoral_candidato
+        description: Título eleitoral do candidato
       - name: turno
         description: Turno
       - name: votos
@@ -1387,8 +1361,6 @@ models:
         description: Cargo
       - name: data_eleicao
         description: Data da eleição
-      - name: id_candidato_bd
-        description: ID Candidato - Base dos Dados
       - name: id_eleicao
         description: ID Eleição
       - name: id_municipio
@@ -1414,6 +1386,8 @@ models:
               ignore_values: [ZZ]
       - name: tipo_eleicao
         description: Tipo da eleição
+      - name: titulo_eleitoral_candidato
+        description: Título eleitoral do candidato
       - name: turno
         description: Turno
       - name: votos
