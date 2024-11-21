@@ -27,7 +27,8 @@ select
     safe_cast(sigla_partido as string) sigla_partido,
     safe_cast(cargo as string) cargo,
     safe_cast(sequencial_receita as string) sequencial_receita,
-    safe_cast(data_receita as date) data_receita,
+    {{ validate_date_range("data_receita", "1900-01-01", "2100-01-01") }}
+    as data_receita,
     safe_cast(fonte_receita as string) fonte_receita,
     safe_cast(origem_receita as string) origem_receita,
     safe_cast(natureza_receita as string) natureza_receita,
