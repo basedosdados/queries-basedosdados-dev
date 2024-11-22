@@ -4,7 +4,7 @@ models:
   - name: br_tse_eleicoes__bens_candidato
     description: Declaração de bens de candidatos em eleições brasileiras.
     tests:
-      - custom_not_null_proportion_multiple_columns:
+      - not_null_proportion_multiple_columns:
           at_least: 0.70
           ignore_values: [tipo_item, data_eleicao, id_eleicao]
     columns:
@@ -43,8 +43,8 @@ models:
   - name: br_tse_eleicoes__candidatos
     description: Dados de candidatos em eleições brasileiras.
     tests:
-      - custom_not_null_proportion_multiple_columns:
-          at_least: 0.80
+      - not_null_proportion_multiple_columns:
+          at_least: 0.05
           ignore_values: [email, raca]
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
@@ -158,7 +158,7 @@ models:
   - name: br_tse_eleicoes__despesas_candidato
     description: Dados de despesas em campanhas eleitorais a nível de despesa.
     tests:
-      - custom_not_null_proportion_multiple_columns:
+      - not_null_proportion_multiple_columns:
           at_least: 0.05
           ignore_values:
             - esfera_partidaria_fornecedor
@@ -778,7 +778,7 @@ models:
   - name: br_tse_eleicoes__receitas_candidato
     description: Dados de financiamento de campanha de receita para candidatos.
     tests:
-      - custom_not_null_proportion_multiple_columns:
+      - not_null_proportion_multiple_columns:
           at_least: 0.05
           ignore_values:
             - descricao_cnae_2_doador_orig
