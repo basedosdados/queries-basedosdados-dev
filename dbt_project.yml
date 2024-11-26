@@ -321,6 +321,9 @@ models:
     br_rj_isp_estatisticas_seguranca:
       +materialized: table
       +schema: br_rj_isp_estatisticas_seguranca
+    br_simet_educacao_conectada:
+      +materialized: table
+      +schema: br_simet_educacao_conectada
     br_sp_saopaulo_geosampa_iptu:
       +materialized: table
       +schema: br_sp_saopaulo_geosampa_iptu
