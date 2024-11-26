@@ -65,4 +65,5 @@ select
     safe_cast(tipo_download_por_aluno_kbit as string) tipo_download_por_aluno_kbit,
     safe_cast(latitude as float64) latitude,
     safe_cast(longitude as float64) longitude
+
 from `basedosdados-dev.br_simet_educacao_conectada_staging.escola` as t
