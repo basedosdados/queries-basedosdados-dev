@@ -23,7 +23,9 @@ select
     safe_cast(nome_empresa_provedora_1 as string) nome_empresa_provedora_1,
     safe_cast(nome_empresa_provedora_2 as string) nome_empresa_provedora_2,
     safe_cast(nome_simet_asn as string) nome_simet_asn,
-    safe_cast(indicador_laboratorio_informatica as bool) indicador_laboratorio_informatica,
+    safe_cast(
+        indicador_laboratorio_informatica as bool
+    ) indicador_laboratorio_informatica,
     safe_cast(indicador_internet as bool) indicador_internet,
     safe_cast(indicador_internet_alunos as bool) indicador_internet_alunos,
     safe_cast(indicador_internet_aprendizagem as bool) indicador_internet_aprendizagem,
@@ -32,7 +34,9 @@ select
     safe_cast(razao_comp_portatil_aluno as float64) razao_comp_portatil_aluno,
     safe_cast(razao_tablet_aluno as float64) razao_tablet_aluno,
     safe_cast(quantidade_matricula as int64) quantidade_matricula,
-    safe_cast(quantidade_matricula_maior_turno as int64) quantidade_matricula_maior_turno,
+    safe_cast(
+        quantidade_matricula_maior_turno as int64
+    ) quantidade_matricula_maior_turno,
     safe_cast(quantidade_turma as int64) quantidade_turma,
     safe_cast(quantidade_medicao as int64) quantidade_medicao,
     safe_cast(quantidade_medicoes_entorno as int64) quantidade_medicoes_entorno,
@@ -54,9 +58,11 @@ select
     safe_cast(comparativo_download_entorno as string) comparativo_download_entorno,
     safe_cast(comparativo_upload_entorno as string) comparativo_upload_entorno,
     safe_cast(comparativo_latencia_entorno as string) comparativo_latencia_entorno,
-    safe_cast(velelocidade_download_necessaria_mbit as float64) velelocidade_download_necessaria_mbit,
+    safe_cast(
+        velelocidade_download_necessaria_mbit as float64
+    ) velelocidade_download_necessaria_mbit,
     safe_cast(razao_download_por_aluno_kbps as float64) razao_download_por_aluno_kbps,
     safe_cast(tipo_download_por_aluno_kbit as string) tipo_download_por_aluno_kbit,
     safe_cast(latitude as float64) latitude,
     safe_cast(longitude as float64) longitude
-from `basedosdados-dev.br_simet_educacao_conectada_staging.escola` as t 
+from `basedosdados-dev.br_simet_educacao_conectada_staging.escola` as t
