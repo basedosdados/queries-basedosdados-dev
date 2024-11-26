@@ -111,6 +111,9 @@ models:
     br_cgu_emenda_parlamentar:
       +materialized: table
       +schema: br_cgu_emendas_parlamentares
+    br_cgu_licitacao_contrato:
+      +materialized: table
+      +schema: br_cgu_licitacao_contrato
     br_cgu_pessoal_executivo_federal:
       +materialized: table
       +schema: br_cgu_pessoal_executivo_federal
