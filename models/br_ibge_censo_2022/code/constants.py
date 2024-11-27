@@ -18,8 +18,14 @@ class constants(Enum):
         "populacao_residente_indigena_municipio": "https://apisidra.ibge.gov.br/values/t/9718/n6/all/v/93,350/p/all/c1714/allxt/c2661/allxt",
         "domicilios_moradores_indigenas_municipio": "https://apisidra.ibge.gov.br/values/t/9728/n6/all/v/381,382,5930,6554,8691/p/all/c2661/allxt/d/v5930%202,v6554%202",
         "domicilios_pelo_menos_um_morador_indigenas_municipio": "https://apisidra.ibge.gov.br/values/t/9720/n6/all/v/5938,6554,7088,7089,7090/p/all/c2661/allxt/d/v5938%202,v6554%202",
-        "alfabetizacao_grupo_idade_sexo_raca": "https://apisidra.ibge.gov.br/values/t/9542/n6/all/v/allxp/p/all/c59/93024/c2/allxt/c86/allxt/c287/3000,6572,6573,6574,6575,6576,6577,6578,6579,6580,6581,6582,6583,6584,6585,6586,6587,6588,6589,6590,6591,6592,6593,6594,6595,6596,6597,6598,6599,6600,6601,6602,6603,6604,6605,6606,6607,6608,6609,6610,6611,6612,6613,6614,6615,6616,6617,6656,6657,6658,6659,9486,113623"
-        }
+        "alfabetizacao_grupo_idade_sexo_raca": "https://apisidra.ibge.gov.br/values/t/9542/n6/all/v/allxp/p/all/c59/allxt/c2/allxt/c86/allxt/c287/2999,3000,9482,9483,9484,93086,93087",
+        "municipio_favela_comunidade_urbana":"https://apisidra.ibge.gov.br/values/t/9883/n6/all/v/all/p/all",
+        "favela_comunidade_urbana_indice_envelhecimento":"https://apisidra.ibge.gov.br/values/t/9885/n170/all/v/9614,9905/p/all/c86/95251/d/v9614%202",
+        "favela_comunidade_urbana_populacao_grupo_idade_sexo_raca":"https://apisidra.ibge.gov.br/values/t/9884/n170/all/v/allxp/p/all/c86/allxt/c2/allxt/c58/allxt",
+        "favela_comunidade_urbana_alfabetizacao":"https://apisidra.ibge.gov.br/values/t/9886/n1/all/n170/all/v/1009907/p/all/c59/93024/c86/95251/c2/6794/c58/95253/d/v1009907%202",
+        "favela_comunidade_urbana_populacao_indigena":"https://apisidra.ibge.gov.br/values/t/9900/n170/all/v/350,9612,13107/p/all/c2/6794/c58/95253",
+        "favela_comunidade_urbana":"https://apisidra.ibge.gov.br/values/t/9888/n170/all/v/9612,9911/p/all/d/v9911%203",
+        "favela_comunidade_urbana_estabelecimento_reforma":"https://apisidra.ibge.gov.br/values/t/9889/n170/all/v/13097/p/all/c3/59993"}
 
     #NOTE: CNEFE não será baixado do SIDRA
     CNEFE_FTP_URL = 'http://ftp.ibge.gov.br/Cadastro_Nacional_de_Enderecos_para_Fins_Estatisticos/Censo_Demografico_2022/Arquivos_CNEFE/UF'
