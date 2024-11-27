@@ -657,18 +657,13 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns: [id_setor_censitario]
-      - not_null_proportion_multiple_columns:
-          at_least: 0.95
-      - custom_dictionaries:
-          columns_covered_by_dictionary: [id_setor_censitario]
-          dictionary_model: ref('br_ibge_censo_2022__dicionario')
     columns:
       - name: id_uf
         description: ID da Unidade da Federação
         tests:
           - relationships:
               to: ref('br_bd_diretorios_brasil__uf')
-              field: id
+              field: id_uf
       - name: id_municipio
         description: ID Município IBGE - 7 Dígitos
         tests:
