@@ -7,9 +7,12 @@
         pre_hook="DROP ALL ROW ACCESS POLICIES ON {{ this }}",
     )
 }}
+
 select
     safe_cast(ano as int64) ano,
     safe_cast(mes as int64) mes,
+    safe_cast(SUBSTRING(competenciamov, 1, 4) as int64) ano_competencia_movimentacao,
+    safe_cast(SUBSTRING(competenciamov, 5, 6) as int64) mes_competencia_movimentacao,
     safe_cast(a.sigla_uf as string) sigla_uf,
     safe_cast(b.id_municipio as string) id_municipio,
     safe_cast(cnae_2_secao as string) cnae_2_secao,
@@ -44,5 +47,5 @@ select
     safe_cast(indicador_fora_prazo as int64) indicador_fora_prazo
 from `basedosdados-dev.br_me_caged_staging.microdados_movimentacao_excluida` a
 left join
-    `basedosdados-dev.br_bd_diretorios_brasil.municipio` b
+    `basedosdados.br_bd_diretorios_brasil.municipio` b
     on a.id_municipio = b.id_municipio_6
