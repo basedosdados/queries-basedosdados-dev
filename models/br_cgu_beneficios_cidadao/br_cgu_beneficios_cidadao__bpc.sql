@@ -6,7 +6,7 @@
         partition_by={
             "field": "ano_competencia",
             "data_type": "int64",
-            "range": {"start": 2019, "end": 2024, "interval": 1},
+            "range": {"start": 2019, "end": 2025, "interval": 1},
         },
         cluster_by=["mes_competencia", "sigla_uf"],
         pre_hook="DROP ALL ROW ACCESS POLICIES ON {{ this }}",
@@ -17,11 +17,11 @@
     )
 }}
 select
-    t2.id_municipio,
     safe_cast(substr(mes_competencia, 1, 4) as int64) ano_competencia,
     safe_cast(substr(mes_competencia, 5, 2) as int64) mes_competencia,
     safe_cast(substr(mes_referencia, 1, 4) as int64) ano_referencia,
     safe_cast(substr(mes_referencia, 5, 2) as int64) mes_referencia,
+    t2.id_municipio,
     safe_cast(t1.sigla_uf as string) sigla_uf,
     safe_cast(nis as string) nis_favorecido,
     safe_cast(cpf as string) cpf_favorecido,
@@ -40,7 +40,18 @@ left join
 {% if is_incremental() %}
     where
         safe_cast(parse_date('%Y%m', mes_referencia) as date) > (
-            select max(safe_cast(parse_date('%Y%m', mes_referencia) as date))
+            select
+                max(
+                    safe_cast(
+                        parse_date(
+                            '%Y%m',
+                            concat(
+                                cast(ano_referencia as string),
+                                lpad(cast(mes_referencia as string), 2, '0')
+                            )
+                        ) as date
+                    )
+                )
             from {{ this }}
         )
 {% endif %}
