@@ -6,7 +6,7 @@
         partition_by={
             "field": "ano_competencia",
             "data_type": "int64",
-            "range": {"start": 2023, "end": 2024, "interval": 1},
+            "range": {"start": 2023, "end": 2025, "interval": 1},
         },
         cluster_by=["mes_competencia", "sigla_uf"],
         pre_hook="DROP ALL ROW ACCESS POLICIES ON {{ this }}",
@@ -35,7 +35,18 @@ left join
 {% if is_incremental() %}
     where
         safe_cast(parse_date('%Y%m', mes_referencia) as date) > (
-            select max(safe_cast(parse_date('%Y%m', mes_referencia) as date))
+            select
+                max(
+                    safe_cast(
+                        parse_date(
+                            '%Y%m',
+                            concat(
+                                cast(ano_referencia as string),
+                                lpad(cast(mes_referencia as string), 2, '0')
+                            )
+                        ) as date
+                    )
+                )
             from {{ this }}
         )
 {% endif %}
