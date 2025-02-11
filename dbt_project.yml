@@ -363,9 +363,6 @@ models:
     mundo_transfermarkt_competicoes_internacionais:
       +materialized: table
       +schema: mundo_transfermarkt_competicoes_internacionais
-    sepep:
-      +materialized: table
-      +schema: sepep
     test:
       +materialized: table
       +schema: test
