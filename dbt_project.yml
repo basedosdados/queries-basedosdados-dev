@@ -363,6 +363,9 @@ models:
     mundo_transfermarkt_competicoes_internacionais:
       +materialized: table
       +schema: mundo_transfermarkt_competicoes_internacionais
+    sepep:
+      +materialized: table
+      +schema: sepep
     test:
       +materialized: table
       +schema: test
@@ -378,6 +381,9 @@ models:
     world_olympedia_olympics:
       +materialized: table
       +schema: world_olympedia_olympics
+    world_sofascore_competicoes_futebol:
+      +materialized: table
+      +schema: world_sofascore_competicoes_futebol
     world_wb_mides:
       +materialized: table
       +schema: world_wb_mides
