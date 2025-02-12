@@ -1,6 +1,7 @@
 {{
     config(
         alias="setor_censitario", schema="br_ibge_censo_2022", cluster_by=["id_uf"]
+        alias="setor_censitario", schema="br_ibge_censo_2022", cluster_by=["id_uf"]
     )
 }}
 select
@@ -8,7 +9,12 @@ select
     safe_cast(setores.cd_mun as string) id_municipio,
     safe_cast(left(setores.cd_setor, 15) as string) id_setor_censitario,
     safe_cast(setores.area_km2 as float64) area,
+    safe_cast(setores.cd_uf as string) id_uf,
+    safe_cast(setores.cd_mun as string) id_municipio,
+    safe_cast(left(setores.cd_setor, 15) as string) id_setor_censitario,
+    safe_cast(setores.area_km2 as float64) area,
     safe_cast(
+        safe.st_geogfromtext(setores.geometry, make_valid => true) as geography
         safe.st_geogfromtext(setores.geometry, make_valid => true) as geography
     ) geometria,
     safe_cast(v0001 as int64) pessoas,

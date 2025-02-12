@@ -62,3 +62,4 @@ class constants(Enum):
     'GO' : '52_GO.zip',
     'DF' : '53_DF.zip'
 }
+}
