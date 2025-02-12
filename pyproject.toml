@@ -25,7 +25,7 @@ requests = "^2.27.1"
 openpyxl = "^3.0.9"
 ruamel-yaml = "^0.18.6"
 markdown = "^3.3.6"
-basedosdados = {version = "2.0.0-beta.16", extras = ["upload"]}
+basedosdados = {version = "2.0.0-beta.26", extras = ["all"]}
 pandas = "^2.2.2"
 databasers-utils = {git = "https://github.com/basedosdados/databasers-utils.git#main"}
 

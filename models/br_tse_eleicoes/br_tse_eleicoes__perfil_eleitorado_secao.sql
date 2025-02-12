@@ -1,21 +1,16 @@
 {{
     config(
-        schema='br_tse_eleicoes',
-        alias = 'perfil_eleitorado_secao',
-        materialized='table',
+        schema="br_tse_eleicoes",
+        alias="perfil_eleitorado_secao",
+        materialized="table",
         partition_by={
             "field": "ano",
             "data_type": "int64",
-            "range": {
-                "start": 2008,
-                "end": 2024,
-                "interval": 2
-            }
+            "range": {"start": 2008, "end": 2024, "interval": 2},
         },
         cluster_by=["sigla_uf"],
     )
 }}
-
 select
     safe_cast(ano as int64) ano,
     safe_cast(sigla_uf as string) sigla_uf,

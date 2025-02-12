@@ -6,7 +6,7 @@
         partition_by={
             "field": "ano",
             "data_type": "int64",
-            "range": {"start": 2000, "end": 2023, "interval": 1},
+            "range": {"start": 2000, "end": 2025, "interval": 1},
         },
         labels={"tema": "direito"},
     )
@@ -27,7 +27,7 @@ select
     safe_cast(indicador_tramitacao as bool) indicador_tramitacao,
     initcap(assunto_processo) assunto_processo,
     initcap(ramo_direito) ramo_direito,
-    safe_cast(data_autuacao as date) data_autuacao,
+    safe_cast(date(data_autuacao) as date) data_autuacao,
     safe_cast(data_decisao as date) data_decisao,
     safe_cast(data_baixa_processo as date) data_baixa_processo
 from `basedosdados-dev.br_stf_corte_aberta_staging.decisoes` as t

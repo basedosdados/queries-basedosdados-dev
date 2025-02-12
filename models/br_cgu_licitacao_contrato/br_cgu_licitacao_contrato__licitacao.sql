@@ -29,3 +29,4 @@ from `basedosdados-dev.br_cgu_licitacao_contrato_staging.licitacao` as licitacao
 left join
     `basedosdados-dev.br_bd_diretorios_brasil.municipio` as dir_municipio
     on upper(dir_municipio.nome) = licitacao.municipio
+    and dir_municipio.sigla_uf = licitacao.uf

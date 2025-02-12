@@ -19,7 +19,7 @@ jobs:
           secrets: |
             secret/data/queries_credentials/basedosdados-dev    GCP_SA_KEY_BASE64 | GCP_SA_KEY_BASE64;
       - name: Set up poetry
-        run: pipx install poetry
+        run: pipx install poetry==1.8.5
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
