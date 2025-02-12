@@ -372,6 +372,9 @@ models:
     world_iea_pirls:
       +materialized: table
       +schema: world_iea_pirls
+    world_imdb_movies:
+      +materialized: table
+      +schema: world_imdb_movies
     world_oecd_public_finance:
       +materialized: table
       +schema: world_oecd_public_finance

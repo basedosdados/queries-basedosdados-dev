@@ -1,0 +1,60 @@
+---
+version: 2
+models:
+  - name: world_imdb_movies__top_movies_per_year
+    description: A List of Top 500-600 Movies of each year from 1960 to 2024 with
+      20 Features.
+    tests:
+      - not_null_proportion_multiple_columns:
+          at_least: 0.35
+    columns:
+      - name: id_movie
+        description: movie ID
+      - name: title
+        description: Title
+      - name: link_movie
+        description: Link to Movie
+      - name: year
+        description: Year
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_data_tempo__ano')
+              field: ano.ano
+      - name: duration
+        description: Duration
+      - name: rating_mpa
+        description: Motion Picture Association Rating
+      - name: rating_imdb
+        description: Movie Database Rating
+      - name: vote
+        description: Votes
+      - name: budget
+        description: Budget
+      - name: gross_world_wide
+        description: Global Gross
+      - name: eua_canada_gross
+        description: US/Canada gross
+      - name: opening_weekend_gross
+        description: Opening Weekend Earnings
+      - name: director
+        description: Directors
+      - name: writer
+        description: Writers
+      - name: star
+        description: Stars
+      - name: genre
+        description: Genres
+      - name: country_origin
+        description: Countries
+      - name: filming_location
+        description: Filming locations
+      - name: production_companie
+        description: Production Companies
+      - name: Language
+        description: Languages
+      - name: win
+        description: Wins
+      - name: nomination
+        description: Nominations
+      - name: oscars
+        description: Oscar nominations
