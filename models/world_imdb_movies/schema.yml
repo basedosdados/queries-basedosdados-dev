@@ -8,12 +8,12 @@ models:
       - not_null_proportion_multiple_columns:
           at_least: 0.35
     columns:
-      - name: id_movie
+      - name: id
         description: movie ID
       - name: title
         description: Title
-      - name: link_movie
-        description: Link to Movie
+      - name: link
+        description: Movie Link
       - name: year
         description: Year
         tests:
@@ -32,10 +32,10 @@ models:
         description: Budget
       - name: gross_world_wide
         description: Global Gross
-      - name: eua_canada_gross
+      - name: gross_us_canada
         description: US/Canada gross
-      - name: opening_weekend_gross
-        description: Opening Weekend Earnings
+      - name: gross_opening_weekend
+        description: Opening Weekend Gross
       - name: director
         description: Directors
       - name: writer
@@ -47,14 +47,14 @@ models:
       - name: country_origin
         description: Countries
       - name: filming_location
-        description: Filming locations
-      - name: production_companie
+        description: Filming Locations
+      - name: production_company
         description: Production Companies
-      - name: Language
+      - name: language
         description: Languages
       - name: win
         description: Wins
       - name: nomination
         description: Nominations
-      - name: oscars
-        description: Oscar nominations
+      - name: oscar
+        description: Oscar Nominations
