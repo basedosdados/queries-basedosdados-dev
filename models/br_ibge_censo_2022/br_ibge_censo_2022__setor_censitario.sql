@@ -1,7 +1,6 @@
 {{
     config(
         alias="setor_censitario", schema="br_ibge_censo_2022", cluster_by=["id_uf"]
-        alias="setor_censitario", schema="br_ibge_censo_2022", cluster_by=["id_uf"]
     )
 }}
 select
