@@ -46,7 +46,7 @@ if __name__ == "__main__":
     tables  = pd.read_csv("/home/laura/Documents/conjuntos/br_ibge_censo_2022/tabelas.csv", encoding='utf-16')
     dataset_id = "br_ibge_censo_2022"
 
-    selected_tables = tables[tables['Status']=='download']
+    selected_tables = tables[tables['Status']=='arquitetura']
 
     for _,table in selected_tables.iterrows():
         print(table)
@@ -57,7 +57,7 @@ if __name__ == "__main__":
         try:
             df = sidra_to_dataframe(table_url)
             df = prepare_columns_for_bigquery(df)
-            df.to_parquet(path=f"{table_id}.parquet", compression="gzip")
+            df.to_parquet(path=f"conjuntos/br_ibge_censo_2022/favela_comunidade_urbana/{table_id}.parquet", compression="gzip")
         except:
             output_list = municipalities_as_chunks()
             logging.info(f"Baixando dados em chunks da tabela: {table_id}")
