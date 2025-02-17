@@ -1,11 +1,12 @@
 {{
     config(
         schema="br_cvm_fi",
+        alias="documentos_balancete",
         materialized="table",
         partition_by={
             "field": "ano",
             "data_type": "int64",
-            "range": {"start": 2005, "end": 2023, "interval": 1},
+            "range": {"start": 2005, "end": 2025, "interval": 1},
         },
         cluster_by=["mes", "data_competencia"],
         labels={"project_id": "basedosdados-dev", "tema": "economia"},
@@ -21,3 +22,4 @@ select
     safe_cast(codigo_conta as string) codigo_conta,
     safe_cast(valor_saldo as float64) saldo_conta,
 from `basedosdados-dev.br_cvm_fi_staging.documentos_balancete` as t
+
