@@ -1,7 +1,7 @@
 {{
     config(
-        schema="br_cvm_fi",
         alias="documentos_balancete",
+        schema="br_cvm_fi",
         materialized="table",
         partition_by={
             "field": "ano",
@@ -12,7 +12,6 @@
         labels={"project_id": "basedosdados-dev", "tema": "economia"},
     )
 }}
-
 select
     safe_cast(ano as int64) ano,
     safe_cast(mes as int64) mes,
