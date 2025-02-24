@@ -9,11 +9,19 @@ default:
       dataset: dbt
       location: US
       threads: 2
-      keyfile: /credentials-dev/dev.json
+      keyfile: /credentials-prod/prod.json
     prod:
       type: bigquery
       method: service-account
       project: basedosdados-dev
+      dataset: dbt
+      location: US
+      threads: 2
+      keyfile: /credentials-prod/prod.json
+    data_api:
+      type: bigquery
+      method: service-account
+      project: basedosdados-data_api
       dataset: dbt
       location: US
       threads: 2
