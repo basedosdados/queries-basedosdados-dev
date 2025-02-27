@@ -63,6 +63,15 @@
                         ~ "%0.2f"
                         | format(recommended_at_least | float) ~ colors.reset
                     ) %}
+
+                    {% if recommended_at_least <= 0.0 %}
+                        {%- set recommended_message = (
+                            " - "
+                            ~ colors.vermelho
+                            ~ "Coluna totalmente vazia!"
+                        ) %}
+                    {% endif %}
+
                     {{
                         log(
                             "Coluna: "
