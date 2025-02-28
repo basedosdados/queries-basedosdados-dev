@@ -16,10 +16,6 @@ select distinct
     safe_cast(f.longitude as float64) longitude,
     safe_cast(f.ano as int64) ano,
     safe_cast(f.mes as int64) mes,
-    safe_cast(f.dia as int64) dia,
-    safe_cast(f.hora as int64) hora,
-    safe_cast(f.minuto as int64) minuto,
-    safe_cast(f.segundo as int64) segundo,
     datetime(
         safe_cast(ano as int64),
         safe_cast(mes as int64),
@@ -36,7 +32,7 @@ select distinct
     safe_cast(f.precipitacao as float64) precipitacao,
     safe_cast(f.risco_fogo as float64) risco_fogo,
     safe_cast(f.potencia_radiativa_fogo as float64) potencia_radiativa_fogo,
-from `basedosdados-dev.br_inpe_queimadas_staging.microdados` as f
+from `basedosdados-staging.br_inpe_queimadas_staging.microdados` as f
 left join
     `basedosdados.br_bd_diretorios_brasil.municipio` m
     on f.municipio_uf = m.nome || ' - ' || m.sigla_uf
