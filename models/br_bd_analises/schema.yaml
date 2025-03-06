@@ -1,0 +1,5 @@
+---
+version: 2
+models:
+  - name: br_bd_analises__event
+    description: Insert `event` table description here

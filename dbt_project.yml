@@ -72,6 +72,12 @@ models:
     br_bcb_taxa_selic:
       +materialized: table
       +schema: br_bcb_taxa_selic
+    br_bd_analises:
+      +materialized: table
+      +schema: br_bd_analises
+    br_bd_indicadores:
+      +materialized: table
+      +schema: br_bd_indicadores
     br_bd_diretorios_brasil:
       +materialized: table
       +schema: br_bd_diretorios_brasil
@@ -81,9 +87,6 @@ models:
     br_bd_diretorios_mundo:
       +materialized: table
       +schema: br_bd_diretorios_mundo
-    br_bd_indicadores:
-      +materialized: table
-      +schema: br_bd_indicadores
     br_bd_metadados:
       +materialized: table
       +schema: br_bd_metadados
