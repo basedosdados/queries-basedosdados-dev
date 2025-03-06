@@ -15,7 +15,7 @@ models:
           at_least: 0.70
     columns:
       - name: ano
-        description: Ano de referê_ncia da passagem do satélite segundo o fuso horário
+        description: Ano de referência da passagem do satélite segundo o fuso horário
           de Greenwich (GMT).
         tests:
           - relationships:
