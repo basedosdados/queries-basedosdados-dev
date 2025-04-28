@@ -125,56 +125,65 @@ def parse_ibge_json(data:json) -> pd.DataFrame:
     # Convert to a DataFrame
     df = pd.DataFrame(rows)
 
-    df.columns = [normalize('NFKD', col).encode('ASCII', 'ignore').decode('ASCII') for col in df.columns]
+    import unicodedata
+
+    df.columns = [
+        unicodedata.normalize('NFKD', col).encode('ASCII', 'ignore').decode('ASCII').lower().strip()
+        for col in df.columns
+    ]
+
     
     return df
 
 
+                
+
 def parse_files_save_parquet(nome_tabela: str, uf_id_sigla: dict) -> None:
-        """
-        Função para processar os arquivos JSON e salvar em formato Parquet particionado por UF.
+    """
+            Função para processar os arquivos JSON e salvar em formato Parquet particionado por UF.
         Esta função assume arquivos JSON extraídos do IBGE, onde cada arquivo contém dados de um município.
         O nome de cada arquivo JSON deve ser o ID_MUNICIPIO de 7 dígitos do IBGE.
         
         Parâmetros:
         nome_tabela (str): Nome da tabela a ser processada.
         uf_id_sigla (dict): Dicionário com IDs e siglas dos estados.
-        """
+    """
+    files = os.listdir(f'../tmp/{nome_tabela}')
     
-        files = os.listdir(f'../tmp/{nome_tabela}')
-        
-        for id_uf, sigla_uf in uf_id_sigla.items():
-            print(f'Processando {sigla_uf}')
-            files_uf = [f for f in files if f.startswith(str(id_uf))]
-            
-            dfs = [] 
+    for id_uf, sigla_uf in uf_id_sigla.items():
+        print(f'Processando {sigla_uf}')
+        files_uf = [f for f in files if f.startswith(str(id_uf))]
 
-            
-            for file in tqdm(files_uf, desc=f'Processando arquivos de {sigla_uf}'):
-                with open(f'../tmp/{nome_tabela}/{file}', 'r') as f:
-                    data_json = json.load(f)
-                    df = parse_ibge_json(data_json)
-                    dfs.append(df)
-            
-            if dfs:  
-                df_final = pd.concat(dfs, ignore_index=True)
+        path_dir = f'../tmp/output/{nome_tabela}/sigla_uf={sigla_uf}'
+        os.makedirs(path_dir, exist_ok=True)
+        path_file = os.path.join(path_dir, f'{nome_tabela}.parquet')
+
+        writer = None  # vai ser usado para escrever múltiplos chunks
+        
+        for file in tqdm(files_uf, desc=f'Processando arquivos de {sigla_uf}'):
+            with open(f'../tmp/{nome_tabela}/{file}', 'r') as f:
+                data_json = json.load(f)
+                df = parse_ibge_json(data_json)
+
+            if not df.empty:
+                df = df.astype(str)
+                table = pa.Table.from_pandas(df, preserve_index=False)
                 
-                df_final = df_final.astype(str)
-            
                 schema = pa.schema([
-                    (col, pa.string()) for col in df_final.columns
+                    (col, pa.string()) for col in df.columns
                 ])
                 
-                table = pa.Table.from_pandas(df_final, schema=schema, preserve_index=False)
-                del(df_final)
+                if writer is None:
+                    # Define o schema na primeira vez
+                    writer = pq.ParquetWriter(path_file, schema)
                 
-                path_dir = f'../tmp/output/{nome_tabela}/sigla_uf={sigla_uf}'
-                os.makedirs(path_dir, exist_ok=True)
+                writer.write_table(table)
                 
-                path_file = os.path.join(path_dir, f'{nome_tabela}.parquet')
-                
-                pq.write_table(table, path_file, compression='gzip')	
-                
+                del df 
+        if writer:
+            writer.close() 
+
+
                 
 uf_id_sigla = {
     11: 'RO',  # Rondônia
