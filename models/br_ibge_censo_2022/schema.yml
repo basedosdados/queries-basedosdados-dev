@@ -363,6 +363,36 @@ models:
         description: Moradores quilombolas
       - name: populacao_quilombola_territorio_quilombola
         description: Moradores quilombolas em territórios quilombolas
+  - name: br_ibge_censo_2022__populacao_condicao_domicilio_grupo_idade_sexo_raca_cor
+    description: Moradores em domicílios particulares , por condição
+      do domicílio, segundo grupos de idade e sexo
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - id_municipio
+            - nivel_instrucao
+            - grupo_idade
+            - sexo
+            - cor_raca
+            - pessoas
+    columns:
+      - name: ano
+        description: Ano
+      - name: id_municipio
+        description: ID Município IBGE 7 dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
+      - name: condicao_domicilio
+        description: Condição no domicílio
+      - name: grupo_idade_responsavel_domicilio
+        description: Grupo de Idade
+      - name: sexo_responsavel_domicilio
+        description: Sexo
+      - name: cor_raca_responsavel_domicilio
+        description: Cor ou raça
+      - name: pessoas
   - name: br_ibge_censo_2022__populacao_grupo_idade_sexo_quilombola
     description: População quilombola, por localização do domicílio, grupos de idade
       e sexo
@@ -599,6 +629,35 @@ models:
         description: Idade agrupada em anos
       - name: populacao
         description: População residente
+  - name: br_ibge_censo_2022__populacao_instrucao_grupo_idade_sexo_raca_cor
+    description: Instrução da população por grupo de idade, sexo e raça ou cor.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - id_municipio
+            - nivel_instrucao
+            - grupo_idade
+            - sexo
+            - cor_raca
+            - pessoas
+    columns:
+      - name: ano
+        description: Ano
+      - name: id_municipio
+        description: ID Município IBGE 7 dígitos
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
+      - name: nivel_instrucao
+        description: Nível de instrução
+      - name: grupo_idade
+        description: Grupo de Idade
+      - name: sexo
+        description: Sexo
+      - name: cor_raca
+        description: Cor ou raça
+      - name: pessoas
   - name: br_ibge_censo_2022__territorio_quilombola
     description: Domicílios particulares permanentes ocupados localizados em territórios
       quilombolas e Moradores, total e quilombolas, em domicílios particulares permanentes
