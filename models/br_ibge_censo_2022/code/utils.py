@@ -7,6 +7,11 @@ from tqdm import tqdm
 from typing import Dict, Any, List
 import asyncio
 import pandas as pd
+from unicodedata import normalize
+import pyarrow as pa
+import pyarrow.parquet as pq
+from tqdm import tqdm
+
 
 async def fetch(session: aiohttp.ClientSession, url: str) -> Dict[str, Any]:
     """
@@ -40,6 +45,7 @@ async def async_crawler_ibge_municipio(
     """
     
     all_municipios = localidades['id_municipio'].tolist()
+    
     
     batch_size = 30
     
@@ -80,4 +86,122 @@ async def async_crawler_ibge_municipio(
         await asyncio.sleep(1)
         
         
+
+def parse_ibge_json(data:json) -> pd.DataFrame:
+    
+    rows = []
+
+    for variavel in data:
+        variavel_nome = variavel.get('variavel', '')
+        unidade = variavel.get('unidade', '')
+        variavel_id = variavel.get('id', '')
+
+        for resultado in variavel.get('resultados', []):
+            row = {
+                'variavel_id': variavel_id,
+                'variavel_nome': variavel_nome,
+                'unidade': unidade
+            }
+            
+            # Parse classificações
+            for classificacao in resultado.get('classificacoes', []):
+                class_nome = classificacao.get('nome', '')
+                categoria_dict = classificacao.get('categoria', {})
+                categoria_id, categoria_nome = next(iter(categoria_dict.items()))
+                
+                # Add classification fields dynamically
+                row[f'{class_nome}_id'] = categoria_id
+                row[f'{class_nome}_categoria'] = categoria_nome
+            
+            # Parse series
+            for serie in resultado.get('series', []):
+                row['id_municipio'] = serie.get('localidade', {}).get('id', '')
+                row['nome_municipio'] = serie.get('localidade', {}).get('nome', '')
+                row['ano'] = next(iter(serie.get('serie', {}).keys()))
+                row['valor'] = next(iter(serie.get('serie', {}).values()))
+            
+            rows.append(row)
+
+    # Convert to a DataFrame
+    df = pd.DataFrame(rows)
+
+    df.columns = [normalize('NFKD', col).encode('ASCII', 'ignore').decode('ASCII') for col in df.columns]
+    
+    return df
+
+
+def parse_files_save_parquet(nome_tabela: str, uf_id_sigla: dict) -> None:
+        """
+        Função para processar os arquivos JSON e salvar em formato Parquet particionado por UF.
+        Esta função assume arquivos JSON extraídos do IBGE, onde cada arquivo contém dados de um município.
+        O nome de cada arquivo JSON deve ser o ID_MUNICIPIO de 7 dígitos do IBGE.
         
+        Parâmetros:
+        nome_tabela (str): Nome da tabela a ser processada.
+        uf_id_sigla (dict): Dicionário com IDs e siglas dos estados.
+        """
+    
+        files = os.listdir(f'../tmp/{nome_tabela}')
+        
+        for id_uf, sigla_uf in uf_id_sigla.items():
+            print(f'Processando {sigla_uf}')
+            files_uf = [f for f in files if f.startswith(str(id_uf))]
+            
+            dfs = [] 
+
+            
+            for file in tqdm(files_uf, desc=f'Processando arquivos de {sigla_uf}'):
+                with open(f'../tmp/{nome_tabela}/{file}', 'r') as f:
+                    data_json = json.load(f)
+                    df = parse_ibge_json(data_json)
+                    dfs.append(df)
+            
+            if dfs:  
+                df_final = pd.concat(dfs, ignore_index=True)
+                
+                df_final = df_final.astype(str)
+            
+                schema = pa.schema([
+                    (col, pa.string()) for col in df_final.columns
+                ])
+                
+                table = pa.Table.from_pandas(df_final, schema=schema, preserve_index=False)
+                del(df_final)
+                
+                path_dir = f'../tmp/output/{nome_tabela}/sigla_uf={sigla_uf}'
+                os.makedirs(path_dir, exist_ok=True)
+                
+                path_file = os.path.join(path_dir, f'{nome_tabela}.parquet')
+                
+                pq.write_table(table, path_file, compression='gzip')	
+                
+                
+uf_id_sigla = {
+    11: 'RO',  # Rondônia
+    12: 'AC',  # Acre
+    13: 'AM',  # Amazonas
+    14: 'RR',  # Roraima
+    15: 'PA',  # Pará
+    16: 'AP',  # Amapá
+    17: 'TO',  # Tocantins
+    21: 'MA',  # Maranhão
+    22: 'PI',  # Piauí
+    23: 'CE',  # Ceará
+    24: 'RN',  # Rio Grande do Norte
+    25: 'PB',  # Paraíba
+    26: 'PE',  # Pernambuco
+    27: 'AL',  # Alagoas
+    28: 'SE',  # Sergipe
+    29: 'BA',  # Bahia
+    31: 'MG',  # Minas Gerais
+    32: 'ES',  # Espírito Santo
+    33: 'RJ',  # Rio de Janeiro
+    35: 'SP',  # São Paulo
+    41: 'PR',  # Paraná
+    42: 'SC',  # Santa Catarina
+    43: 'RS',  # Rio Grande do Sul
+    50: 'MS',  # Mato Grosso do Sul
+    51: 'MT',  # Mato Grosso
+    52: 'GO',  # Goiás
+    53: 'DF'   # Distrito Federal
+}
