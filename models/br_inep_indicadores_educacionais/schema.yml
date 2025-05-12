@@ -2970,3 +2970,95 @@ models:
         description: Taxa de Migração para o EJA - Ensino Médio 2º Ano
       - name: taxa_migracao_eja_em_3_ano
         description: Taxa de Migração para o EJA - Ensino Médio 3º Ano
+  - name: br_inep_indicadores_educacionais__fluxo_educacao_superior
+    description: Insert table description here
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [insert unique keys here]
+      - not_null_proportion_multiple_columns:
+          at_least: 0.95
+    columns:
+      - name: id_ies
+        description: Código da Instituição
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__instituicao_ensino_superior')
+              field: id_ies
+      - name: nome_ies
+        description: Nome da Instituição
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__instituicao_ensino_superior')
+              field: nome
+      - name: tipo_categoria_administrativa
+        description: Categoria Administrativa
+      - name: tipo_organizacao_academica
+        description: Organização Acadêmica
+      - name: id_curso
+        description: Código do Curso de Graduação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__curso_superior')
+              field: id_curso
+      - name: nome_curso
+        description: Nome do Curso de Graduação
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__curso_superior')
+              field: nome_curso
+      - name: sigla_uf
+        description: Sigla da Unidade Federativa do curso
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__uf')
+              field: sigla
+      - name: id_municipio
+        description: Código do Município do curso
+        tests:
+          - relationships:
+              to: ref('br_bd_diretorios_brasil__municipio')
+              field: id_municipio
+      - name: tipo_grau_academico
+        description: Grau Acadêmico
+      - name: tipo_modalidade_ensino
+        description: Modalidade de ensino
+      - name: id_curso_cine
+        description: Código da área do curso segundo a classificação CINE BRASIL
+      - name: nome_curso_cine
+        description: Nome da área do curso segundo a classificação CINE BRASIL
+      - name: id_area_geral
+        description: Código da grande área do curso segundo a classificação CINE BRASIL
+      - name: nome_area_geral
+        description: Nome da grande área do curso segundo a classificação CINE BRASIL
+      - name: ano_ingresso
+        description: Ano de ingresso
+      - name: ano_referencia
+        description: Ano de referência
+      - name: prazo_integralizacao
+        description: Prazo de integralização em anos
+      - name: ano_integralizacao
+        description: Ano de integralização do curso
+      - name: prazo_acompanhamento_curso
+        description: Prazo de acompanhamento do curso em anos
+      - name: ano_maximo_acompanhamento_curso
+        description: Ano máximo de acompanhamento do curso
+      - name: quantidade_ingressante
+        description: Quantidade de ingressantes no curso
+      - name: quantidade_permanencia
+        description: Quantidade de permanência no curso no ano de referência
+      - name: quantidade_concluinte
+        description: Quantidade de concluintes no curso no ano de referência
+      - name: quantidade_desistencia
+        description: Quantidade de desistência no curso no ano de referência
+      - name: quantidade_falecimento
+        description: Quantidade de falecimentos no curso no ano de referência
+      - name: taxa_permanenia
+        description: Taxa de Permanência - TAP
+      - name: taxa_conclusao_acumulada
+        description: Taxa de Conclusão Acumulada - TCA
+      - name: taxa_desistencia_acumulada
+        description: Taxa de Desistência Acumulada - TDA
+      - name: taxa_conclusao_anual
+        description: Taxa de Conclusão Anual - TCAN
+      - name: taxa_desistencia_anual
+        description: Taxa de Desistência Anual - TADA
